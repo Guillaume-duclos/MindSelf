@@ -26,6 +26,7 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="settings" options={{ presentation: "modal" }} />
+        <Stack.Screen name="account" options={{ presentation: "card" }} />
         <Stack.Screen name="share" options={{ presentation: "modal" }} />
         <Stack.Screen name="themes" options={{ presentation: "modal" }} />
         <Stack.Screen name="paywall" options={{ presentation: "modal" }} />

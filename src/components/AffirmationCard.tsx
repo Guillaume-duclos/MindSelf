@@ -102,7 +102,7 @@ export function AffirmationCard({
                 className="-top-1"
                 name={{ ios: "square.and.arrow.up" }}
                 weight="medium"
-                tintColor="#BE674A"
+                tintColor="#F7A07C"
                 size={38}
               />
             </Pressable>
@@ -112,7 +112,7 @@ export function AffirmationCard({
             <SymbolView
               name={{ ios: liked ? "heart.fill" : "heart" }}
               weight="medium"
-              tintColor="#BE674A"
+              tintColor="#F7A07C"
               size={35}
             />
           </Pressable>

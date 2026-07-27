@@ -34,9 +34,9 @@ export function ActivitySummary() {
   ];
 
   return (
-    <View className="gap-4 bg-[#F7E6DF] mx-6 px-6 py-6 rounded-3xl">
-      <Text className="font-public-sans font-semibold text-4xl leading-none text-[#291C1A]">
-        1 série
+    <View className="gap-4 bg-[#F7E6DF] px-6 py-6 rounded-3xl">
+      <Text className="font-noto-serif font-semibold text-4xl leading-none text-[#291C1A]">
+        <Text className="font-noto-serif font-bold text-5xl">1</Text> série
       </Text>
 
       <View className="flex-row justify-between">
@@ -54,7 +54,7 @@ export function ActivitySummary() {
                 />
               )}
             </View>
-            <Text className="font-public-sans uppercase text-[#291C1A] text-center">
+            <Text className="font-public-sans uppercase text-[#291C1A] text-center text-md">
               {item.day}
             </Text>
           </View>
