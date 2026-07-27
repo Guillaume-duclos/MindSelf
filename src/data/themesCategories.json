@@ -1,0 +1,38 @@
+[
+  {
+    "value": "gradient",
+    "title": "Gradient"
+  },
+  {
+    "value": "image",
+    "title": "Image"
+  },
+  {
+    "value": "video",
+    "title": "Video"
+  },
+  {
+    "value": "custom",
+    "title": "Custom"
+  },
+  {
+    "value": "animated_gradient",
+    "title": "Animated gradient"
+  },
+  {
+    "value": "with_sound",
+    "title": "With sound"
+  },
+  {
+    "value": "calm",
+    "title": "Calm"
+  },
+  {
+    "value": "neutral",
+    "title": "Neutral"
+  },
+  {
+    "value": "chill",
+    "title": "Chill"
+  }
+]

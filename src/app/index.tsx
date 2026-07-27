@@ -1,98 +1,91 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { AffirmationCard } from "@/components/AffirmationCard";
+import { RoundedButton } from "@/components/RoundedButton";
+import { FlashList } from "@shopify/flash-list";
+import { GlassView } from "expo-glass-effect";
+import { LinearGradient } from "expo-linear-gradient";
+import { Link } from "expo-router";
+import { SymbolView } from "expo-symbols";
+import { Pressable, Text, View, useWindowDimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import affirmations from "../data/affirmations.json";
 
 export default function HomeScreen() {
+  const { height } = useWindowDimensions();
+  const { top, bottom } = useSafeAreaInsets();
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <LinearGradient
+      className="flex-1"
+      colors={["#FFF4F2", "#EFD5C9"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+    >
+      {/* <Image
+        className="absolute inset-0 w-full h-full"
+        source="https://picsum.photos/seed/696/3000/2000"
+      /> */}
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      <View
+        className="absolute flex-1 flex-row items-center justify-between px-5 z-10"
+        style={{ top }}
+      >
+        <View className="flex-1">
+          <Text className="text-[#BA6A56] font-medium font-public-sans uppercase">
+            Bon matin
+          </Text>
+          <Text className="text-[#291C1A] font-medium font-noto-serif text-3xl">
+            Guillaume
+          </Text>
+        </View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+        <Link asChild href="/paywall">
+          <Pressable>
+            <GlassView
+              isInteractive
+              glassEffectStyle="regular"
+              className="items-center rounded-full gap-2 flex-row justify-center px-5 border-continuous"
+            >
+              <Text className="text-center font-noto-serif font-bold text-[#291C1A] text-lg leading-[40px]">
+                Get Premium
+              </Text>
+              <SymbolView
+                name={{ ios: "crown" }}
+                weight="medium"
+                tintColor="#291C1A"
+                size={26}
+              />
+            </GlassView>
+          </Pressable>
+        </Link>
+      </View>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      <Link asChild href="/settings">
+        <RoundedButton
+          iconName="person"
+          className="absolute left-10 z-10"
+          style={{ bottom: bottom + 5 }}
+        />
+      </Link>
+
+      <Link asChild href="/themes">
+        <RoundedButton
+          iconName="paintpalette"
+          className="absolute right-10 z-10"
+          style={{ bottom: bottom + 5 }}
+        />
+      </Link>
+
+      <FlashList
+        pagingEnabled
+        data={affirmations}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item, index) => `${index}-${item.text}`}
+        renderItem={({ item }) => (
+          <View className="items-center justify-center px-6" style={{ height }}>
+            <AffirmationCard text={item.text} />
+          </View>
+        )}
+      />
+    </LinearGradient>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});

@@ -4,24 +4,26 @@
     "slug": "MindSelf",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "",
     "scheme": "mindself",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "",
+      "bundleIdentifier": "com.anonymous.MindSelf"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "",
+        "backgroundImage": "",
+        "monochromeImage": ""
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.MindSelf"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
@@ -29,10 +31,62 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#208AEF",
-          "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
-      ]
+      ],
+      [
+        "expo-font",
+        {
+          "ios": {
+            "fonts": [
+              "./assets/fonts/NotoSerif-Variable.ttf",
+              "./assets/fonts/NotoSerif-Italic-Variable.ttf",
+              "./assets/fonts/PublicSans-Variable.ttf",
+              "./assets/fonts/PublicSans-Italic-Variable.ttf"
+            ]
+          },
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Noto Serif",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/fonts/NotoSerif-Variable.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./assets/fonts/NotoSerif-Italic-Variable.ttf",
+                    "weight": 400,
+                    "style": "italic"
+                  }
+                ]
+              },
+              {
+                "fontFamily": "Public Sans",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/fonts/PublicSans-Variable.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./assets/fonts/PublicSans-Italic-Variable.ttf",
+                    "weight": 400,
+                    "style": "italic"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": false,
+          "savePhotosPermission": "L'application a besoin d'accéder à tes photos pour enregistrer l'image de l'affirmation."
+        }
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true,

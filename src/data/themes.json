@@ -1,0 +1,242 @@
+[
+  {
+    "category": "gradient",
+    "colors": ["#FFF4F2", "#EFD5C9"]
+  },
+  {
+    "category": "gradient",
+    "colors": ["#FDE6E8", "#F6C9CE"]
+  },
+  {
+    "category": "gradient",
+    "colors": ["#FFE8DD", "#FFC8B0"]
+  },
+  {
+    "category": "gradient",
+    "colors": ["#FFEEDB", "#FCD9A6"]
+  },
+  {
+    "category": "gradient",
+    "colors": ["#FFF6DC", "#FBE79A"]
+  },
+  {
+    "category": "gradient",
+    "colors": ["#F3F8DE", "#E1EDB0"]
+  },
+  {
+    "category": "gradient",
+    "colors": ["#EAF3E5", "#CFE3C4"]
+  },
+  {
+    "category": "gradient",
+    "colors": ["#E4F6EE", "#BFE8D4"]
+  },
+  {
+    "category": "image",
+    "colors": ["#E3F5F1", "#BEE6DC"]
+  },
+  {
+    "category": "image",
+    "colors": ["#E2F2F1", "#B9DEDB"]
+  },
+  {
+    "category": "image",
+    "colors": ["#E5F2FA", "#C3E1F2"]
+  },
+  {
+    "category": "image",
+    "colors": ["#E3EEFB", "#BBD8F5"]
+  },
+  {
+    "category": "image",
+    "colors": ["#E7E9FB", "#C7CBF2"]
+  },
+  {
+    "category": "image",
+    "colors": ["#EEE6FA", "#D6C3F0"]
+  },
+  {
+    "category": "image",
+    "colors": ["#F3E5F7", "#E1BFEA"]
+  },
+  {
+    "category": "video",
+    "colors": ["#FBE4F1", "#F0BEDC"]
+  },
+  {
+    "category": "video",
+    "colors": ["#F6E3EA", "#E5BFCC"]
+  },
+  {
+    "category": "video",
+    "colors": ["#F7E1E3", "#E7BEC3"]
+  },
+  {
+    "category": "video",
+    "colors": ["#F5E6E4", "#E2C5C0"]
+  },
+  {
+    "category": "custom",
+    "colors": ["#FBE7DE", "#E9B79F"]
+  },
+  {
+    "category": "custom",
+    "colors": ["#FBF1E1", "#EBD6AE"]
+  },
+  {
+    "category": "custom",
+    "colors": ["#F5EEE4", "#DFCDB3"]
+  },
+  {
+    "category": "animated_gradient",
+    "colors": ["#FDF8EC", "#F2E4C2"]
+  },
+  {
+    "category": "animated_gradient",
+    "colors": ["#FFF2DA", "#F6D896"]
+  },
+  {
+    "category": "animated_gradient",
+    "colors": ["#FFEEDA", "#F9CC8F"]
+  },
+  {
+    "category": "animated_gradient",
+    "colors": ["#FFE9E1", "#FCC3AE"]
+  },
+  {
+    "category": "animated_gradient",
+    "colors": ["#F1E4EE", "#D9BEDD"]
+  },
+  {
+    "category": "animated_gradient",
+    "colors": ["#FFF4F2", "#EFD5C9"]
+  },
+  {
+    "category": "animated_gradient",
+    "colors": ["#FDE6E8", "#F6C9CE"]
+  },
+  {
+    "category": "with_sound",
+    "colors": ["#FFE8DD", "#FFC8B0"]
+  },
+  {
+    "category": "with_sound",
+    "colors": ["#FFEEDB", "#FCD9A6"]
+  },
+  {
+    "category": "with_sound",
+    "colors": ["#FFF6DC", "#FBE79A"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#F3F8DE", "#E1EDB0"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#EAF3E5", "#CFE3C4"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#E4F6EE", "#BFE8D4"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#E3F5F1", "#BEE6DC"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#E2F2F1", "#B9DEDB"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#E5F2FA", "#C3E1F2"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#E3EEFB", "#BBD8F5"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#E7E9FB", "#C7CBF2"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#EEE6FA", "#D6C3F0"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#F3E5F7", "#E1BFEA"]
+  },
+  {
+    "category": "calm",
+    "colors": ["#FBE4F1", "#F0BEDC"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#F6E3EA", "#E5BFCC"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#F7E1E3", "#E7BEC3"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#F5E6E4", "#E2C5C0"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#FBE7DE", "#E9B79F"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#FBF1E1", "#EBD6AE"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#F5EEE4", "#DFCDB3"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#FDF8EC", "#F2E4C2"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#FFF2DA", "#F6D896"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#FFEEDA", "#F9CC8F"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#FFE9E1", "#FCC3AE"]
+  },
+  {
+    "category": "neutral",
+    "colors": ["#F1E4EE", "#D9BEDD"]
+  },
+  {
+    "category": "chill",
+    "colors": ["#F5EEE4", "#DFCDB3"]
+  },
+  {
+    "category": "chill",
+    "colors": ["#FDF8EC", "#F2E4C2"]
+  },
+  {
+    "category": "chill",
+    "colors": ["#FFF2DA", "#F6D896"]
+  },
+  {
+    "category": "chill",
+    "colors": ["#FFEEDA", "#F9CC8F"]
+  },
+  {
+    "category": "chill",
+    "colors": ["#FFE9E1", "#FCC3AE"]
+  },
+  {
+    "category": "chill",
+    "colors": ["#F1E4EE", "#D9BEDD"]
+  }
+]
