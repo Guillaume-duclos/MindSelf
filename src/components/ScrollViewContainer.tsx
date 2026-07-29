@@ -6,12 +6,14 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   children: ReactNode;
 };
 
 export function ScrollViewContainer({ children }: Props) {
+  const { bottom } = useSafeAreaInsets();
   const topFadeOpacity = useSharedValue(0);
 
   const topFadeStyle = useAnimatedStyle(() => ({
@@ -39,9 +41,12 @@ export function ScrollViewContainer({ children }: Props) {
       </Animated.View>
 
       <ScrollView
-        contentContainerClassName="flex-1 px-5 gap-10"
         onScroll={handleScroll}
         scrollEventThrottle={32}
+        onScrollEndDrag={handleScroll}
+        onMomentumScrollEnd={handleScroll}
+        contentContainerClassName="px-5 gap-8"
+        contentContainerStyle={{ paddingBottom: bottom }}
       >
         {children}
       </ScrollView>

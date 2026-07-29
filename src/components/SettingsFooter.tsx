@@ -1,26 +1,14 @@
 import * as Application from "expo-application";
-import { GlassView } from "expo-glass-effect";
-import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
+import { AppIcon } from "./AppIcon";
 
 export function SettingsFooter() {
   const appVersion = Application.nativeApplicationVersion;
   const buildVersion = Application.nativeBuildVersion;
 
   return (
-    <View className="px-10 gap-3 items-center">
-      <GlassView className="w-20 h-20 rounded-2xl border-continuous overflow-hidden">
-        <LinearGradient
-          colors={["#FFF4F2", "#EFD5C9"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          className="w-full h-full items-center justify-center"
-        >
-          <Text className="font-noto-serif font-semibold text-sm">
-            MindSelf
-          </Text>
-        </LinearGradient>
-      </GlassView>
+    <View className="px-8 mt-8 gap-3 items-center">
+      <AppIcon />
 
       <View className="flex-row flex-wrap justify-center gap-2">
         <Text className="font-public-sans font-medium text-sm text-slate-800">

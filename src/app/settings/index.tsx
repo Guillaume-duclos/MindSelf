@@ -7,7 +7,6 @@ import { SettingsFooter } from "@/components/SettingsFooter";
 import { createModifier } from "@expo/ui/swift-ui/modifiers";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const plainRowModifiers = [
   createModifier("listRowBackground", { color: "clear" }),
@@ -22,10 +21,9 @@ const plainRowModifiers = [
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { bottom } = useSafeAreaInsets();
 
   return (
-    <View className="flex-1 bg-[#FAF3EF]" style={{ paddingBottom: bottom }}>
+    <View className="flex-1 bg-[#FAF3EF]">
       <ScreenHeader title="Mon profil" className="px-5" />
 
       <ScrollViewContainer>
@@ -35,6 +33,14 @@ export default function HomeScreen() {
           <ListItemLink
             text="Mon compte"
             onPress={() => router.navigate("/settings/account")}
+          />
+          <ListItemLink
+            text="Widget"
+            onPress={() => router.navigate("/settings/widget")}
+          />
+          <ListItemLink
+            text="Notification"
+            onPress={() => router.navigate("/settings/notification")}
           />
         </ListItemContainer>
 

@@ -43,7 +43,7 @@ export function ActivitySummary() {
         {days.map((item, index) => (
           <View key={index} className="gap-2">
             <View
-              className={`items-center justify-center w-8 h-8 rounded-full bg-[${item.completed ? "#F7B194" : "#F7D4C6"}]`}
+              className={`items-center justify-center w-8 h-8 rounded-full ${item.completed ? "bg-[#F7B194]" : "bg-[#F7D4C6]"}`}
             >
               {item.completed && (
                 <SymbolView

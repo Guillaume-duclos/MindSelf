@@ -39,10 +39,10 @@
         {
           "ios": {
             "fonts": [
-              "./assets/fonts/NotoSerif-Variable.ttf",
-              "./assets/fonts/NotoSerif-Italic-Variable.ttf",
-              "./assets/fonts/PublicSans-Variable.ttf",
-              "./assets/fonts/PublicSans-Italic-Variable.ttf"
+              "./src/assets/fonts/NotoSerif-Variable.ttf",
+              "./src/assets/fonts/NotoSerif-Italic-Variable.ttf",
+              "./src/assets/fonts/PublicSans-Variable.ttf",
+              "./src/assets/fonts/PublicSans-Italic-Variable.ttf"
             ]
           },
           "android": {
@@ -51,11 +51,11 @@
                 "fontFamily": "Noto Serif",
                 "fontDefinitions": [
                   {
-                    "path": "./assets/fonts/NotoSerif-Variable.ttf",
+                    "path": "./src/assets/fonts/NotoSerif-Variable.ttf",
                     "weight": 400
                   },
                   {
-                    "path": "./assets/fonts/NotoSerif-Italic-Variable.ttf",
+                    "path": "./src/assets/fonts/NotoSerif-Italic-Variable.ttf",
                     "weight": 400,
                     "style": "italic"
                   }
@@ -65,11 +65,11 @@
                 "fontFamily": "Public Sans",
                 "fontDefinitions": [
                   {
-                    "path": "./assets/fonts/PublicSans-Variable.ttf",
+                    "path": "./src/assets/fonts/PublicSans-Variable.ttf",
                     "weight": 400
                   },
                   {
-                    "path": "./assets/fonts/PublicSans-Italic-Variable.ttf",
+                    "path": "./src/assets/fonts/PublicSans-Italic-Variable.ttf",
                     "weight": 400,
                     "style": "italic"
                   }

@@ -8,6 +8,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { SymbolView } from "expo-symbols";
 import { cssInterop } from "nativewind";
 import { useColorScheme } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -21,16 +22,19 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="settings" options={{ presentation: "modal" }} />
-        <Stack.Screen name="account" options={{ presentation: "card" }} />
-        <Stack.Screen name="share" options={{ presentation: "modal" }} />
-        <Stack.Screen name="themes" options={{ presentation: "modal" }} />
-        <Stack.Screen name="paywall" options={{ presentation: "modal" }} />
-      </Stack>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <AnimatedSplashOverlay />
+
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="onboarding" />
+          <Stack.Screen name="index" />
+          <Stack.Screen name="settings" options={{ presentation: "modal" }} />
+          <Stack.Screen name="share" options={{ presentation: "modal" }} />
+          <Stack.Screen name="themes" options={{ presentation: "modal" }} />
+          <Stack.Screen name="paywall" options={{ presentation: "modal" }} />
+        </Stack>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
