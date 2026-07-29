@@ -1,8 +1,9 @@
 import { CustomButton } from "@/components/CustomButton";
 import { CustomTextInput } from "@/components/CustomTextInput";
+import { OnboardingTitle } from "@/components/OnboardingTitle";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Keyboard, Pressable, Text, View } from "react-native";
+import { Keyboard, Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function UserName() {
@@ -13,9 +14,7 @@ export default function UserName() {
     <Pressable className="flex-1" onPress={Keyboard.dismiss}>
       <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
         <View className="flex-1 items-center justify-center w-full gap-10">
-          <Text className="font-noto-serif font-semibold text-3xl text-center">
-            Quelle est votre prénom ?
-          </Text>
+          <OnboardingTitle title="Quelle est ton prénom ?" />
 
           <CustomTextInput
             value={userName}

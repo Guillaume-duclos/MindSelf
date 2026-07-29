@@ -10,7 +10,7 @@ export default function Libra({ color, style }: Props) {
   return (
     <Svg
       fill="none"
-      viewBox="0 0 20 25"
+      viewBox="0 0 47 43"
       style={{ width: 47, height: 43, ...style }}
     >
       <Path

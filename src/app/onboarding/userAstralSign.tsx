@@ -15,8 +15,8 @@ import { OnboardingTitle } from "@/components/OnboardingTitle";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
-import { useEffect, useState } from "react";
-import { Pressable, View } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import { Pressable, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   Easing,
@@ -29,18 +29,18 @@ import { SafeAreaView, useSafeAreaFrame } from "react-native-safe-area-context";
 import { runOnJS } from "react-native-worklets";
 
 const ZODIAC_SIGNS = [
-  Aries,
-  Taurus,
-  Gemini,
-  Cancer,
-  Leo,
-  Virgo,
-  Libra,
-  Scorpio,
-  Sagittarius,
-  Capricorn,
-  Aquarius,
-  Pisces,
+  { Icon: Aries, name: "Bélier" },
+  { Icon: Taurus, name: "Taureau" },
+  { Icon: Gemini, name: "Gémeaux" },
+  { Icon: Cancer, name: "Cancer" },
+  { Icon: Leo, name: "Lion" },
+  { Icon: Virgo, name: "Vierge" },
+  { Icon: Libra, name: "Balance" },
+  { Icon: Scorpio, name: "Scorpion" },
+  { Icon: Sagittarius, name: "Sagittaire" },
+  { Icon: Capricorn, name: "Capricorne" },
+  { Icon: Aquarius, name: "Verseau" },
+  { Icon: Pisces, name: "Poissons" },
 ];
 
 const STEP_ANGLE = 360 / ZODIAC_SIGNS.length;
@@ -50,8 +50,10 @@ export default function UserAstralSign() {
   const { width } = useSafeAreaFrame();
 
   const ICON_SIZE = 52;
+  const ITEM_WIDTH = 70;
+  const ITEM_HEIGHT = ICON_SIZE + 20;
   const CIRCLE_SIZE = width * 0.95;
-  const RADIUS = CIRCLE_SIZE / 2 - ICON_SIZE / 2 - 10;
+  const RADIUS = CIRCLE_SIZE / 2 - ITEM_HEIGHT / 2 - 10;
   const CENTER = CIRCLE_SIZE / 2;
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -82,7 +84,7 @@ export default function UserAstralSign() {
     const timeout = setTimeout(() => {
       rotation.value = withTiming(
         360,
-        { duration: 1400, easing: Easing.bezier(0.44, 0, 0.42, 1) },
+        { duration: 1600, easing: Easing.bezier(0.61, 0, 0.25, 1) },
         (finished) => {
           if (finished) {
             runOnJS(setIsIntroAnimating)(false);
@@ -127,14 +129,32 @@ export default function UserAstralSign() {
     transform: [{ rotate: `${rotation.value}deg` }],
   }));
 
+  const signLayouts = useMemo(
+    () =>
+      ZODIAC_SIGNS.map(({ Icon }, index) => {
+        const positionAngle = ((index * STEP_ANGLE - 90) * Math.PI) / 180;
+        const left =
+          CENTER + RADIUS * Math.cos(positionAngle) - ITEM_WIDTH / 2;
+        const top =
+          CENTER + RADIUS * Math.sin(positionAngle) - ITEM_HEIGHT / 2;
+        const rotationDeg = index * STEP_ANGLE;
+
+        return { Icon, left, top, rotationDeg };
+      }),
+    [CENTER, RADIUS, ITEM_WIDTH, ITEM_HEIGHT],
+  );
+
   return (
     <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
       <View className="flex-1 items-center justify-center w-full gap-10">
         <OnboardingTitle
           title="Quel est ton signe astrologique ?"
-          description="Fais pivoter la flèche ou clic sur un signe pour effectuer ta
-            sélection."
+          description="Fais pivoter la flèche ou clic sur un signe pour effectuer ta sélection."
         />
+
+        <Text className="font-noto-serif font-bold text-3xl text-[#C9663D]">
+          {ZODIAC_SIGNS[selectedIndex].name}
+        </Text>
 
         <GestureDetector gesture={panGesture}>
           <View
@@ -150,21 +170,27 @@ export default function UserAstralSign() {
               />
             </Animated.View>
 
-            {ZODIAC_SIGNS.map((Sign, index) => {
-              const angle = ((index * STEP_ANGLE - 90) * Math.PI) / 180;
-              const left = CENTER + RADIUS * Math.cos(angle) - ICON_SIZE / 2;
-              const top = CENTER + RADIUS * Math.sin(angle) - ICON_SIZE / 2;
+            {signLayouts.map(({ Icon, left, top, rotationDeg }, index) => {
+              const activeColor = index === selectedIndex ? "#C9663D" : "#000";
 
               return (
                 <Pressable
                   key={index}
                   disabled={isIntroAnimating}
                   onPress={() => handleSignPress(index)}
-                  style={{ position: "absolute", left, top }}
+                  style={{
+                    top,
+                    left,
+                    position: "absolute",
+                    width: ITEM_WIDTH,
+                    height: ITEM_HEIGHT,
+                    alignItems: "center",
+                    transform: [{ rotate: `${rotationDeg}deg` }],
+                  }}
                 >
-                  <Sign
+                  <Icon
                     style={{ width: ICON_SIZE, height: ICON_SIZE }}
-                    color={index === selectedIndex ? "#C9663D" : "#000"}
+                    color={activeColor}
                   />
                 </Pressable>
               );
@@ -176,6 +202,7 @@ export default function UserAstralSign() {
       <View className="w-full gap-4">
         <CustomButton
           label="Continuer"
+          disabled={isIntroAnimating}
           onPress={() => router.push("/onboarding/userProfessionalSituation")}
         />
       </View>

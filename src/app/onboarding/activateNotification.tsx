@@ -1,5 +1,6 @@
 import { CustomButton } from "@/components/CustomButton";
 import { CustomOptionsPicker } from "@/components/CustomOptionsPicker";
+import { OnboardingTitle } from "@/components/OnboardingTitle";
 import option from "@/types/option";
 import { GlassView } from "expo-glass-effect";
 import { LinearGradient } from "expo-linear-gradient";
@@ -43,9 +44,7 @@ export default function activateNotification() {
   return (
     <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
       <View className="flex-1 items-center justify-center w-full gap-10">
-        <Text className="font-noto-serif font-semibold text-3xl text-center">
-          Recevez des affirmations régulièrement
-        </Text>
+        <OnboardingTitle title="Recevez des affirmations régulièrement" />
 
         <View className="w-full">
           <GlassView
