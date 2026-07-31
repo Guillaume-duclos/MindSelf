@@ -1,5 +1,7 @@
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
+import { removeAllStorage } from "@/utils/storage";
 import { Host } from "@expo/ui";
+import { registerDevMenuItems } from "expo-dev-menu";
 import { GlassView } from "expo-glass-effect";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -17,6 +19,15 @@ cssInterop(SymbolView, { className: "style" });
 cssInterop(GlassView, { className: "style" });
 cssInterop(Image, { className: "style" });
 cssInterop(Host, { className: "style" });
+
+if (__DEV__) {
+  registerDevMenuItems([
+    {
+      name: "Vider le storage",
+      callback: () => removeAllStorage(),
+    },
+  ]);
+}
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

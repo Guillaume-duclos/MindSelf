@@ -17,7 +17,7 @@ export default function Onboarding() {
             MindSelf
           </Text>
           <Text className="font-public-sans text-xl text-center">
-            Bienvenue dans votre application MindSelf
+            Bienvenue dans MindSelf
           </Text>
         </View>
       </View>
@@ -25,7 +25,7 @@ export default function Onboarding() {
       <View className="w-full gap-4">
         <CustomButton
           label="Commencer"
-          onPress={() => router.push("/onboarding/userAstralSign")}
+          onPress={() => router.push("/onboarding/userName")}
         />
 
         <Text className="px-8 font-public-sans text-center font-medium text-[#F72A2015E6DF] opacity-50 text-sm leading-4">

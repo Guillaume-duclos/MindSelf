@@ -22,7 +22,7 @@ const HOUR_OPTIONS: option[] = Array.from({ length: 24 }, (_, i) => {
 export default function activateNotification() {
   const router = useRouter();
 
-  const [selectedCount, setSelectedCount] = useState(COUNT_OPTIONS[0].value);
+  const [selectedCount, setSelectedCount] = useState(COUNT_OPTIONS[2].value);
   const [selectedStartTime, setSelectedStartTime] = useState(
     HOUR_OPTIONS[9].value,
   );
@@ -44,7 +44,7 @@ export default function activateNotification() {
   return (
     <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
       <View className="flex-1 items-center justify-center w-full gap-10">
-        <OnboardingTitle title="Recevez des affirmations régulièrement" />
+        <OnboardingTitle title="Reçois des affirmations régulièrement" />
 
         <View className="w-full">
           <GlassView

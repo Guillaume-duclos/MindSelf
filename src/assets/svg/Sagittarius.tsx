@@ -10,12 +10,15 @@ export default function Sagittarius({ color, style }: Props) {
   return (
     <Svg
       fill="none"
-      viewBox="0 0 40 40"
-      style={{ width: 40, height: 40, ...style }}
+      viewBox="0 0 279 292"
+      style={{ width: 279, height: 292, ...style }}
     >
       <Path
-        d="M34.5625 8.03125L17.6875 24.9062L26.1562 33.375L22.8438 36.6875L14.375 28.2188L3.3125 39.2812L0 35.9688L11.0625 24.9062L2.59375 16.4375L5.90625 13.125L14.375 21.5938L31.2812 4.6875H18.4375V0H39.25V20.8125H34.5625V8.03125Z"
-        fill={color}
+        d="M12 280L117 168.495M150.387 12L263.129 15.87L267 128.101M263.129 15.87L117 168.495M117 168.495L173.129 224.61M117 168.495L63.7742 115.282"
+        stroke={color}
+        strokeWidth="28"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Svg>
   );

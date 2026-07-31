@@ -8,13 +8,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function UserName() {
   const router = useRouter();
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("Guillaume");
 
   return (
     <Pressable className="flex-1" onPress={Keyboard.dismiss}>
-      <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
+      <SafeAreaView className="flex-1 px-5 items-center bg-[#FAF3EF]">
         <View className="flex-1 items-center justify-center w-full gap-10">
-          <OnboardingTitle title="Quelle est ton prénom ?" />
+          <OnboardingTitle title="Quel est ton prénom ?" />
 
           <CustomTextInput
             value={userName}

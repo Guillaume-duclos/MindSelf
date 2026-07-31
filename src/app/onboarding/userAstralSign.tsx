@@ -11,7 +11,11 @@ import Scorpio from "@/assets/svg/Scorpio";
 import Taurus from "@/assets/svg/Taurus";
 import Virgo from "@/assets/svg/Virgo";
 import { CustomButton } from "@/components/CustomButton";
+import { OnboardingContentContainer } from "@/components/OnboardingContentContainer";
 import { OnboardingTitle } from "@/components/OnboardingTitle";
+import { ScreenHeader } from "@/components/ScreenHeader";
+import { StorageKey } from "@/enums/storageKey.enum";
+import { getStorageBoolean, setStorageItem } from "@/utils/storage";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
@@ -52,12 +56,14 @@ export default function UserAstralSign() {
   const ICON_SIZE = 52;
   const ITEM_WIDTH = 70;
   const ITEM_HEIGHT = ICON_SIZE + 20;
-  const CIRCLE_SIZE = width * 0.95;
+  const CIRCLE_SIZE = width;
   const RADIUS = CIRCLE_SIZE / 2 - ITEM_HEIGHT / 2 - 10;
   const CENTER = CIRCLE_SIZE / 2;
 
+  const hasViewedPage = getStorageBoolean(StorageKey.ASTRAL_SIGN_PAGE_VIEWED);
+
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isIntroAnimating, setIsIntroAnimating] = useState(true);
+  const [isIntroAnimating, setIsIntroAnimating] = useState(!hasViewedPage);
 
   const rotation = useSharedValue(0);
   const gestureStartAngle = useSharedValue(0);
@@ -81,17 +87,22 @@ export default function UserAstralSign() {
   );
 
   useEffect(() => {
+    if (hasViewedPage) {
+      return;
+    }
+
     const timeout = setTimeout(() => {
       rotation.value = withTiming(
         360,
-        { duration: 1600, easing: Easing.bezier(0.61, 0, 0.25, 1) },
+        { duration: 1500, easing: Easing.bezier(0.46, 0, 0.43, 1) },
         (finished) => {
           if (finished) {
             runOnJS(setIsIntroAnimating)(false);
+            runOnJS(setStorageItem)(StorageKey.ASTRAL_SIGN_PAGE_VIEWED, true);
           }
         },
       );
-    }, 500);
+    }, 350);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -133,79 +144,80 @@ export default function UserAstralSign() {
     () =>
       ZODIAC_SIGNS.map(({ Icon }, index) => {
         const positionAngle = ((index * STEP_ANGLE - 90) * Math.PI) / 180;
-        const left =
-          CENTER + RADIUS * Math.cos(positionAngle) - ITEM_WIDTH / 2;
-        const top =
-          CENTER + RADIUS * Math.sin(positionAngle) - ITEM_HEIGHT / 2;
-        const rotationDeg = index * STEP_ANGLE;
+        const left = CENTER + RADIUS * Math.cos(positionAngle) - ITEM_WIDTH / 2;
+        const top = CENTER + RADIUS * Math.sin(positionAngle) - ITEM_HEIGHT / 2;
 
-        return { Icon, left, top, rotationDeg };
+        return { Icon, left, top };
       }),
     [CENTER, RADIUS, ITEM_WIDTH, ITEM_HEIGHT],
   );
 
   return (
-    <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
-      <View className="flex-1 items-center justify-center w-full gap-10">
-        <OnboardingTitle
-          title="Quel est ton signe astrologique ?"
-          description="Fais pivoter la flèche ou clic sur un signe pour effectuer ta sélection."
-        />
+    <SafeAreaView className="flex-1 px-5 items-center bg-[#FAF3EF]">
+      <ScreenHeader showBackButton showCloseButton={false} className="py-0" />
 
-        <Text className="font-noto-serif font-bold text-3xl text-[#C9663D]">
-          {ZODIAC_SIGNS[selectedIndex].name}
-        </Text>
+      <OnboardingContentContainer>
+        <View className="flex-1 items-center justify-center w-full gap-10">
+          <OnboardingTitle
+            title="Quel est ton signe astrologique ?"
+            description="Fais pivoter la flèche ou clic sur un signe pour effectuer ta sélection."
+          />
 
-        <GestureDetector gesture={panGesture}>
-          <View
-            className="items-center justify-center"
-            style={{ width: CIRCLE_SIZE, height: CIRCLE_SIZE }}
-          >
-            <Animated.View style={arrowAnimatedStyle}>
-              <SymbolView
-                size={230}
-                name="arrow.up"
-                weight="semibold"
-                tintColor="#000"
-              />
-            </Animated.View>
+          <Text className="font-noto-serif font-bold text-3xl text-[#C9663D]">
+            {ZODIAC_SIGNS[selectedIndex].name}
+          </Text>
 
-            {signLayouts.map(({ Icon, left, top, rotationDeg }, index) => {
-              const activeColor = index === selectedIndex ? "#C9663D" : "#000";
+          <GestureDetector gesture={panGesture}>
+            <View
+              className="items-center justify-center"
+              style={{ width: CIRCLE_SIZE, height: CIRCLE_SIZE }}
+            >
+              <Animated.View style={arrowAnimatedStyle}>
+                <SymbolView
+                  size={width * 0.55}
+                  name="arrow.up"
+                  weight="semibold"
+                  tintColor="#000"
+                />
+              </Animated.View>
 
-              return (
-                <Pressable
-                  key={index}
-                  disabled={isIntroAnimating}
-                  onPress={() => handleSignPress(index)}
-                  style={{
-                    top,
-                    left,
-                    position: "absolute",
-                    width: ITEM_WIDTH,
-                    height: ITEM_HEIGHT,
-                    alignItems: "center",
-                    transform: [{ rotate: `${rotationDeg}deg` }],
-                  }}
-                >
-                  <Icon
-                    style={{ width: ICON_SIZE, height: ICON_SIZE }}
-                    color={activeColor}
-                  />
-                </Pressable>
-              );
-            })}
-          </View>
-        </GestureDetector>
-      </View>
+              {signLayouts.map(({ Icon, left, top }, index) => {
+                const activeColor =
+                  index === selectedIndex ? "#C9663D" : "#000";
 
-      <View className="w-full gap-4">
-        <CustomButton
-          label="Continuer"
-          disabled={isIntroAnimating}
-          onPress={() => router.push("/onboarding/userProfessionalSituation")}
-        />
-      </View>
+                return (
+                  <Pressable
+                    key={index}
+                    disabled={isIntroAnimating}
+                    onPress={() => handleSignPress(index)}
+                    style={{
+                      top,
+                      left,
+                      position: "absolute",
+                      width: ITEM_WIDTH,
+                      height: ITEM_HEIGHT,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Icon
+                      style={{ width: ICON_SIZE, height: ICON_SIZE }}
+                      color={activeColor}
+                    />
+                  </Pressable>
+                );
+              })}
+            </View>
+          </GestureDetector>
+        </View>
+
+        <View className="w-full gap-4">
+          <CustomButton
+            label="Continuer"
+            disabled={isIntroAnimating}
+            onPress={() => router.push("/onboarding/")}
+          />
+        </View>
+      </OnboardingContentContainer>
     </SafeAreaView>
   );
 }

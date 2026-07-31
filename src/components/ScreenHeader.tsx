@@ -1,24 +1,34 @@
 import { useRouter } from "expo-router";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { RoundedButton } from "./RoundedButton";
 
 type Props = {
   title?: string;
   showBackButton?: boolean;
   showCloseButton?: boolean;
+  showSkipButton?: boolean;
   className?: string;
+  onSkip?: () => void;
+  onBack?: () => void;
 };
 
 export function ScreenHeader({
   title,
   showBackButton,
   showCloseButton = true,
+  showSkipButton = true,
   className,
+  onSkip,
+  onBack,
 }: Props) {
   const router = useRouter();
 
   const goBack = (): void => {
-    router.back();
+    if (onBack) {
+      onBack();
+    } else {
+      router.back();
+    }
   };
 
   const close = (): void => {
@@ -27,8 +37,8 @@ export function ScreenHeader({
 
   return (
     <View
-      className={`flex-row justify-end py-5 items-center z-10 ${className}`}
-      style={title && { justifyContent: "space-between" }}
+      className={`flex-row w-full min-h-[42px] py-5 items-center z-10 ${showBackButton && !title ? "justify-start" : "justify-end"} ${className}`}
+      style={(showSkipButton || title) && { justifyContent: "space-between" }}
     >
       <View className="flex-row gap-5 items-center">
         {showBackButton && (
@@ -37,6 +47,7 @@ export function ScreenHeader({
             iconName="arrow.backward"
             iconSize={24}
             buttonSize={42}
+            className="self-start"
           />
         )}
 
@@ -54,6 +65,16 @@ export function ScreenHeader({
           iconSize={24}
           buttonSize={42}
         />
+      )}
+
+      {showSkipButton && (
+        <Pressable
+          hitSlop={10}
+          onPress={onSkip}
+          className="self-stretch items-center justify-center pl-5"
+        >
+          <Text className="font-noto-serif font-medium">Passer</Text>
+        </Pressable>
       )}
     </View>
   );
