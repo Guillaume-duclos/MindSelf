@@ -1,5 +1,5 @@
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
-import { removeAllStorage } from "@/utils/storage";
+import { getAllStorageEntries, removeAllStorage } from "@/utils/storage";
 import { Host } from "@expo/ui";
 import { registerDevMenuItems } from "expo-dev-menu";
 import { GlassView } from "expo-glass-effect";
@@ -25,6 +25,10 @@ if (__DEV__) {
     {
       name: "Vider le storage",
       callback: () => removeAllStorage(),
+    },
+    {
+      name: "Logger le storage",
+      callback: () => console.log("[Storage]", getAllStorageEntries()),
     },
   ]);
 }

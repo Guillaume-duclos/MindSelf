@@ -1,3 +1,4 @@
+import { getOnboardingResumeRoute } from "@/utils/onboarding";
 import { Redirect } from "expo-router";
 import { useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,7 +8,7 @@ export default function HomeScreen() {
   const { top, bottom } = useSafeAreaInsets();
 
   // TEMPORAIRE: force le lancement sur l'onboarding, à retirer une fois testé.
-  return <Redirect href="/onboarding" />;
+  return <Redirect href={getOnboardingResumeRoute()} />;
 
   // return (
   //   <LinearGradient

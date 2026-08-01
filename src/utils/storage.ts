@@ -50,3 +50,43 @@ export const removeStorageItem = (key: StorageKey): void => {
 export const removeAllStorage = (): void => {
   storage.clearAll();
 };
+
+// MMKV does not reliably return `undefined` when reading a key with the
+// wrong typed getter, so each key's type must be known ahead of time
+// instead of guessed at runtime.
+const STORAGE_KEY_TYPE: Record<StorageKey, "string" | "number" | "boolean"> = {
+  [StorageKey.LANGUAGE]: "string",
+  [StorageKey.ASTRAL_SIGN_PAGE_VIEWED]: "boolean",
+  [StorageKey.SHOW_SCROLL_DOWN_INDICATOR]: "boolean",
+  [StorageKey.CURRENT_ONBOARDING_PAGE]: "string",
+  [StorageKey.USER_NAME]: "string",
+  [StorageKey.USER_NOTIFICATION_TIME_RANGE]: "string",
+  [StorageKey.USER_AGE_RANGE]: "string",
+  [StorageKey.USER_SEX]: "string",
+  [StorageKey.USER_RELATIONSHIP_STATUS]: "string",
+  [StorageKey.USER_PROFESSIONAL_STATUS]: "string",
+  [StorageKey.USER_ASTRAL_SIGN]: "string",
+};
+
+// Get every stored key/value, regardless of its type
+export const getAllStorageEntries = (): Record<
+  string,
+  string | number | boolean | undefined
+> => {
+  return storage.getAllKeys().reduce(
+    (entries, key) => {
+      const type = STORAGE_KEY_TYPE[key as StorageKey];
+
+      if (type === "boolean") {
+        entries[key] = storage.getBoolean(key);
+      } else if (type === "number") {
+        entries[key] = storage.getNumber(key);
+      } else {
+        entries[key] = storage.getString(key);
+      }
+
+      return entries;
+    },
+    {} as Record<string, string | number | boolean | undefined>,
+  );
+};
