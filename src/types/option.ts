@@ -1,6 +1,6 @@
-type option = {
+type Option = {
   label: string;
   value: string;
 };
 
-export default option;
+export default Option;

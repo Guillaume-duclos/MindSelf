@@ -92,7 +92,7 @@ export function AstralSignPicker({
   const [selectedIndex, setSelectedIndex] = useState(initialIndex);
   const [isIntroAnimating, setIsIntroAnimating] = useState(!hasViewedPage);
 
-  const rotation = useSharedValue(0);
+  const rotation = useSharedValue(initialIndex * STEP_ANGLE);
   const gestureStartAngle = useSharedValue(0);
   const gestureStartRotation = useSharedValue(0);
 

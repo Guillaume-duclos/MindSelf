@@ -6,6 +6,8 @@ import { OnboardingTitle } from "@/components/OnboardingTitle";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
+import Question from "@/types/question";
+import { getRouteForPage } from "@/utils/onboarding";
 import { getStorageString, setStorageItem } from "@/utils/storage";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -17,25 +19,6 @@ import Animated, {
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { runOnJS } from "react-native-worklets";
-
-type Question =
-  | {
-      title: string;
-      description?: string;
-      astralSign?: false;
-      storageKey: StorageKey;
-      page: Page;
-      nextPage?: Page;
-      options: { label: string; value: string }[];
-    }
-  | {
-      title: string;
-      description?: string;
-      astralSign: true;
-      storageKey: StorageKey;
-      page: Page;
-      nextPage?: Page;
-    };
 
 const questions: Question[] = [
   {
@@ -161,6 +144,7 @@ const questions: Question[] = [
     astralSign: true,
     storageKey: StorageKey.USER_ASTRAL_SIGN,
     page: Page.ONBOARDING_USER_ASTRAL_SIGN,
+    nextPage: Page.ACTIVATE_SUBSCRIPTION,
   },
 ];
 
@@ -177,10 +161,17 @@ export default function PersonnalInformations() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(getInitialIndex);
   const [displayedIndex, setDisplayedIndex] = useState(getInitialIndex);
-  const [answers, setAnswers] = useState(
-    questions.map((question) =>
-      question.astralSign ? ZODIAC_SIGNS[0].value : question.options[0].value,
-    ),
+  const [answers, setAnswers] = useState(() =>
+    questions.map((question) => {
+      const savedValue = getStorageString(question.storageKey);
+      if (savedValue) {
+        return savedValue;
+      }
+
+      return question.astralSign
+        ? ZODIAC_SIGNS[0].value
+        : question.options[0].value;
+    }),
   );
   const [isIntroAnimating, setIsIntroAnimating] = useState(false);
 
@@ -221,12 +212,15 @@ export default function PersonnalInformations() {
 
   const handleContinue = () => {
     const nextPage = questions[displayedIndex].nextPage;
+
     if (nextPage) {
       setStorageItem(StorageKey.CURRENT_ONBOARDING_PAGE, nextPage);
     }
 
     if (isLastQuestion) {
-      router.push("/onboarding/");
+      if (nextPage) {
+        router.push(getRouteForPage(nextPage));
+      }
     } else {
       setCurrentIndex((previousIndex) => previousIndex + 1);
     }

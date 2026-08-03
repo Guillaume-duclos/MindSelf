@@ -5,6 +5,6 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-export function ThemePicker({ value, onChange }: Props) {
+export function CategoryPicker({ value, onChange }: Props) {
   return <View className="gap-6 flex-1 justify-center"></View>;
 }

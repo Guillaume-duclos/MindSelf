@@ -8,6 +8,9 @@ export default function SettingsLayout() {
       <Stack.Screen name="activateNotification" />
       <Stack.Screen name="aboutYou" />
       <Stack.Screen name="personnalInformations" />
+      <Stack.Screen name="activateSubscription" />
+      <Stack.Screen name="privacyPolicy" options={{ presentation: "modal" }} />
+      <Stack.Screen name="termsOfUse" options={{ presentation: "modal" }} />
     </Stack>
   );
 }
