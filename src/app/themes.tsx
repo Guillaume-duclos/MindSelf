@@ -173,7 +173,7 @@ export default function Share() {
 
   return (
     <View className="flex-1 bg-[#FAF3EF]">
-      <ScreenHeader title="Thèmes" className="px-5" />
+      <ScreenHeader title="Thèmes" className="py-5 px-5" />
 
       <ScrollView
         ref={categoryScrollRef}

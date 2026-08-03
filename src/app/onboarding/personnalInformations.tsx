@@ -255,6 +255,7 @@ export default function PersonnalInformations() {
       <ScreenHeader
         showBackButton={currentIndex > 0}
         showCloseButton={false}
+        showSkipButton
         className="py-0"
         onBack={handleBack}
         onSkip={handleContinue}

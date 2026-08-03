@@ -15,7 +15,7 @@ export default function Account() {
         title="Mon compte"
         showBackButton
         showCloseButton={false}
-        className="px-5"
+        className="py-5 px-5"
       />
 
       <ScrollView contentContainerClassName="flex-1 px-5 gap-10">

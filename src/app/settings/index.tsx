@@ -24,7 +24,7 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-[#FAF3EF]">
-      <ScreenHeader title="Mon profil" className="px-5" />
+      <ScreenHeader title="Mon profil" className="py-5 px-5" />
 
       <ScrollViewContainer>
         <ActivitySummary />

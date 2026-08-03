@@ -16,8 +16,8 @@ export function ScreenHeader({
   title,
   showBackButton,
   showCloseButton = true,
-  showSkipButton = true,
-  className,
+  showSkipButton = false,
+  className = "py-5",
   onSkip,
   onBack,
 }: Props) {
@@ -37,7 +37,7 @@ export function ScreenHeader({
 
   return (
     <View
-      className={`flex-row w-full min-h-[42px] py-5 items-center z-10 ${showBackButton && !title ? "justify-start" : "justify-end"} ${className}`}
+      className={`flex-row w-full min-h-[42px] items-center z-10 ${showBackButton && !title ? "justify-start" : "justify-end"} ${className}`}
       style={(showSkipButton || title) && { justifyContent: "space-between" }}
     >
       <View className="flex-row gap-5 items-center">

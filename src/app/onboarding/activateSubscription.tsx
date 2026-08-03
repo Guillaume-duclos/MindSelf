@@ -1,4 +1,4 @@
-import Paywall from "@/components/paywall";
+import Paywall from "@/components/Paywall";
 import { Page } from "@/enums/page.enum";
 import { getRouteForPage } from "@/utils/onboarding";
 import { useRouter } from "expo-router";

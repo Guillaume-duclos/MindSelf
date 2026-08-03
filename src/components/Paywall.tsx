@@ -1,6 +1,8 @@
 import { Host, Switch } from "@expo/ui";
 import { Divider } from "@expo/ui/swift-ui";
 import { background, opacity } from "@expo/ui/swift-ui/modifiers";
+import { StorageKey } from "@/enums/storageKey.enum";
+import { getStorageBoolean, setStorageItem } from "@/utils/storage";
 import { GlassView } from "expo-glass-effect";
 import { LinearGradient } from "expo-linear-gradient";
 import { SymbolView } from "expo-symbols";
@@ -14,13 +16,37 @@ type Props = {
   onPressPravicyPolicy?: () => void;
 };
 
+const getDateInDays = (daysFromNow: number): Date => {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromNow);
+  return date;
+};
+
+const formatLongDate = (date: Date): string =>
+  new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" }).format(
+    date,
+  );
+
+const formatShortMonth = (date: Date): string =>
+  new Intl.DateTimeFormat("fr-FR", { month: "short" }).format(date);
+
 export default function Paywall({
   className,
   onPressTermsOfUse,
   onPressPravicyPolicy,
 }: Props) {
   const { top, bottom } = useSafeAreaInsets();
-  const [isReminderEnabled, setIsReminderEnabled] = useState(false);
+  const [isReminderEnabled, setIsReminderEnabled] = useState(
+    () => getStorageBoolean(StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION) ?? false,
+  );
+
+  const handleReminderChange = (value: boolean) => {
+    setIsReminderEnabled(value);
+    setStorageItem(StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION, value);
+  };
+
+  const reminderDate = getDateInDays(6);
+  const subscriptionDate = getDateInDays(7);
 
   const items = [
     {
@@ -32,13 +58,12 @@ export default function Paywall({
     {
       icon: "bell.fill",
       title: "Recevez un rappel",
-      description: "Recevez un rappel le 27 juillet",
+      description: `Recevez un rappel le ${formatLongDate(reminderDate)}`,
     },
     {
       icon: "crown.fill",
       title: "Devenez membre premium",
-      description:
-        "Activation le 28 juillet, vous pouvez annuler votre abonement à tout moment",
+      description: `Activation le ${formatLongDate(subscriptionDate)}, vous pouvez annuler votre abonement à tout moment`,
     },
   ];
 
@@ -64,7 +89,7 @@ export default function Paywall({
           <GlassView
             tintColor="#F7E6DF"
             glassEffectStyle="regular"
-            className="items-center px-5 py-10 gap-6 rounded-3xl border-continuous justify-center"
+            className="items-center px-5 py-7 gap-6 rounded-3xl border-continuous justify-center"
           >
             <View className="gap-10">
               {items.map((item, index) => (
@@ -92,10 +117,10 @@ export default function Paywall({
                           end={{ x: 1, y: 1 }}
                         >
                           <Text className="font-public-sans text-center font-medium text-[#2A2015] text-xs">
-                            Juil.
+                            {formatShortMonth(reminderDate)}
                           </Text>
                           <Text className="font-noto-serif text-center font-extrabold text-[#2A2015] text-xl leading-none">
-                            27
+                            {reminderDate.getDate()}
                           </Text>
                         </LinearGradient>
 
@@ -117,10 +142,10 @@ export default function Paywall({
                           end={{ x: 1, y: 1 }}
                         >
                           <Text className="font-public-sans text-center font-medium text-[#2A2015] text-xs">
-                            Juil.
+                            {formatShortMonth(subscriptionDate)}
                           </Text>
                           <Text className="font-noto-serif text-center font-extrabold text-[#2A2015] text-xl leading-none">
-                            28
+                            {subscriptionDate.getDate()}
                           </Text>
                         </LinearGradient>
 
@@ -158,7 +183,7 @@ export default function Paywall({
               <Host matchContents={{ vertical: true, horizontal: true }}>
                 <Switch
                   value={isReminderEnabled}
-                  onValueChange={setIsReminderEnabled}
+                  onValueChange={handleReminderChange}
                 />
               </Host>
             </View>

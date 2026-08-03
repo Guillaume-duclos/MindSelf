@@ -12,4 +12,7 @@ export enum StorageKey {
   USER_RELATIONSHIP_STATUS = "userRelationshipStatus",
   USER_PROFESSIONAL_STATUS = "userProfessionalStatus",
   USER_ASTRAL_SIGN = "userAstralSign",
+
+  // Paywall
+  ACTIVATE_FREE_TRIAL_END_NOTIFICATION = "activateFreeTrialEndNotification",
 }

@@ -1,5 +1,5 @@
-import { Text } from "@expo/ui";
+import TermsOfUseContent from "@/components/TermsOfUseContent";
 
 export default function termsOfUse() {
-  return <Text></Text>;
+  return <TermsOfUseContent />;
 }

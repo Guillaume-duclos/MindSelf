@@ -1,5 +1,5 @@
-import { Text } from "@expo/ui";
+import PrivacyPolicyContent from "@/components/PrivacyPolicyContent";
 
-export default function ProvacyPolicy() {
-  return <Text></Text>;
+export default function PrivacyPolicy() {
+  return <PrivacyPolicyContent />;
 }
