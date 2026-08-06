@@ -18,6 +18,7 @@ const PAGE_ROUTES: Record<Page, Href> = {
   [Page.ONBOARDING_USER_ASTRAL_SIGN]: "/onboarding/personnalInformations",
   [Page.ACTIVATE_SUBSCRIPTION]: "/onboarding/activateSubscription",
   [Page.PAYWALL]: "/paywall",
+  [Page.HOME]: "/",
 };
 
 // Get the route matching a given onboarding page.

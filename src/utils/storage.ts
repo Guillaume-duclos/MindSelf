@@ -1,7 +1,9 @@
 import { createMMKV } from "react-native-mmkv";
 import { StorageKey } from "../enums/storageKey.enum";
 
-const storage = createMMKV();
+// Exported so components can subscribe to changes via MMKV's reactive
+// hooks (e.g. useMMKVObject) instead of doing one-shot reads.
+export const storage = createMMKV();
 
 // Get string value from storage
 export const getStorageString = (key: StorageKey): string | undefined => {
@@ -29,6 +31,12 @@ export const setStorageItem = (
 // Set object value from storage
 export const setStorageObject = <T>(key: StorageKey, value: T): void => {
   key && storage.set(key, JSON.stringify(value));
+};
+
+// Get object value from storage
+export const getStorageObject = <T>(key: StorageKey): T | undefined => {
+  const value = key ? storage.getString(key) : undefined;
+  return value ? (JSON.parse(value) as T) : undefined;
 };
 
 // Get if storage value exist
@@ -67,6 +75,7 @@ const STORAGE_KEY_TYPE: Record<StorageKey, "string" | "number" | "boolean"> = {
   [StorageKey.USER_PROFESSIONAL_STATUS]: "string",
   [StorageKey.USER_ASTRAL_SIGN]: "string",
   [StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION]: "boolean",
+  [StorageKey.SELECTED_THEME]: "string",
 };
 
 // Get every stored key/value, regardless of its type

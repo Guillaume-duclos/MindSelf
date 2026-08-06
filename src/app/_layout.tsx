@@ -47,7 +47,13 @@ export default function RootLayout() {
           <Stack.Screen name="settings" options={{ presentation: "modal" }} />
           <Stack.Screen name="share" options={{ presentation: "modal" }} />
           <Stack.Screen name="themes" options={{ presentation: "modal" }} />
-          <Stack.Screen name="paywall" options={{ presentation: "modal" }} />
+          <Stack.Screen
+            name="paywall"
+            options={{
+              presentation: "modal",
+              contentStyle: { backgroundColor: "#FAF3EF" },
+            }}
+          />
         </Stack>
       </ThemeProvider>
     </GestureHandlerRootView>

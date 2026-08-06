@@ -15,4 +15,7 @@ export enum StorageKey {
 
   // Paywall
   ACTIVATE_FREE_TRIAL_END_NOTIFICATION = "activateFreeTrialEndNotification",
+
+  // Themes
+  SELECTED_THEME = "selectedTheme",
 }

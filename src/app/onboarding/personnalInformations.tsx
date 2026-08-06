@@ -164,6 +164,7 @@ export default function PersonnalInformations() {
   const [answers, setAnswers] = useState(() =>
     questions.map((question) => {
       const savedValue = getStorageString(question.storageKey);
+
       if (savedValue) {
         return savedValue;
       }

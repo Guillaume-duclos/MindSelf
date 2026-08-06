@@ -1,6 +1,6 @@
+import AppIcon from "@/assets/svg/AppIcon";
 import * as Application from "expo-application";
 import { Text, View } from "react-native";
-import { AppIcon } from "./AppIcon";
 
 export function SettingsFooter() {
   const appVersion = Application.nativeApplicationVersion;
@@ -8,7 +8,7 @@ export function SettingsFooter() {
 
   return (
     <View className="px-8 mt-8 gap-3 items-center">
-      <AppIcon />
+      <AppIcon style={{ width: 70, height: 70 }} />
 
       <View className="flex-row flex-wrap justify-center gap-2">
         <Text className="font-public-sans font-medium text-sm text-slate-800">

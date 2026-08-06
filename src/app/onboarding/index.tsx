@@ -1,4 +1,4 @@
-import { AppIcon } from "@/components/AppIcon";
+import AppIcon from "@/assets/svg/AppIcon";
 import { CustomButton } from "@/components/CustomButton";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
@@ -10,7 +10,7 @@ export default function Onboarding() {
   return (
     <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
       <View className="flex-1 items-center justify-center w-full gap-20">
-        <AppIcon />
+        <AppIcon style={{ width: 130, height: 130 }} />
 
         <View className="">
           <Text className="font-noto-serif font-semibold text-6xl leading-[60px] text-center">

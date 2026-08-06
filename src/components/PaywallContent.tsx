@@ -1,19 +1,21 @@
+import { StorageKey } from "@/enums/storageKey.enum";
+import { getStorageBoolean, setStorageItem } from "@/utils/storage";
 import { Host, Switch } from "@expo/ui";
 import { Divider } from "@expo/ui/swift-ui";
 import { background, opacity } from "@expo/ui/swift-ui/modifiers";
-import { StorageKey } from "@/enums/storageKey.enum";
-import { getStorageBoolean, setStorageItem } from "@/utils/storage";
 import { GlassView } from "expo-glass-effect";
 import { LinearGradient } from "expo-linear-gradient";
 import { SymbolView } from "expo-symbols";
 import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
+  style?: ViewStyle;
   className?: string;
   onPressTermsOfUse?: () => void;
   onPressPravicyPolicy?: () => void;
+  onPressActivateSubscription?: () => void;
 };
 
 const getDateInDays = (daysFromNow: number): Date => {
@@ -30,14 +32,18 @@ const formatLongDate = (date: Date): string =>
 const formatShortMonth = (date: Date): string =>
   new Intl.DateTimeFormat("fr-FR", { month: "short" }).format(date);
 
-export default function Paywall({
+export default function PaywallContent({
+  style,
   className,
   onPressTermsOfUse,
   onPressPravicyPolicy,
+  onPressActivateSubscription,
 }: Props) {
   const { top, bottom } = useSafeAreaInsets();
   const [isReminderEnabled, setIsReminderEnabled] = useState(
-    () => getStorageBoolean(StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION) ?? false,
+    () =>
+      getStorageBoolean(StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION) ??
+      false,
   );
 
   const handleReminderChange = (value: boolean) => {
@@ -69,10 +75,10 @@ export default function Paywall({
 
   return (
     <View
-      className={`px-5 flex-1 bg-[#FAF3EF] ${className}`}
-      style={{ paddingTop: top, paddingBottom: bottom }}
+      className={`px-5 flex-1 ${className}`}
+      style={{ paddingBottom: bottom, ...style }}
     >
-      <View className="gap-10 flex-1 justify-center">
+      <View className="gap-10 flex-1">
         {/* TITLE */}
         <View className="gap-3">
           <Text className="text-center font-noto-serif font-semibold text-[#2A2015] text-4xl">
@@ -203,16 +209,18 @@ export default function Paywall({
           </Text>
         </GlassView>
 
-        <GlassView
-          isInteractive
-          tintColor="#2A2015"
-          glassEffectStyle="regular"
-          className="items-center px-5 py-5 rounded-full border-continuous justify-center"
-        >
-          <Text className="font-noto-serif font-semibold text-[#F7E6DF] text-xl">
-            Démarrez l'essaie
-          </Text>
-        </GlassView>
+        <Pressable onPress={onPressActivateSubscription}>
+          <GlassView
+            isInteractive
+            tintColor="#2A2015"
+            glassEffectStyle="regular"
+            className="items-center px-5 py-5 rounded-full border-continuous justify-center"
+          >
+            <Text className="font-noto-serif font-semibold text-[#F7E6DF] text-xl">
+              Démarrez l'essaie
+            </Text>
+          </GlassView>
+        </Pressable>
       </View>
 
       <View className="mt-3 gap-5 flex-row justify-center">

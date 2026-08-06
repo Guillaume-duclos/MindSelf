@@ -22,6 +22,8 @@ const triggerLikeHaptic = () => {
 
 const SCALE_UP_DURATION = 100;
 const SCALE_DOWN_DURATION = 100;
+const LIKE_COLOR_RESET_DELAY = 2000;
+const LIKE_COLOR_RESET_DURATION = 800;
 
 const AnimatedGlassView = Animated.createAnimatedComponent(GlassView);
 
@@ -70,11 +72,24 @@ export function AffirmationCard({
             runOnJS(triggerLikeHaptic)();
           }
         }),
-        withSpring(1, { damping: 30, stiffness: 300 }),
+        withSpring(1, {
+          mass: 4,
+          velocity: 0,
+          damping: 105,
+          stiffness: 1500,
+          energyThreshold: 6e-9,
+          overshootClamping: false,
+        }),
       );
       likeProgress.value = withDelay(
         SCALE_UP_DURATION,
-        withTiming(1, { duration: SCALE_DOWN_DURATION }),
+        withSequence(
+          withTiming(1, { duration: SCALE_DOWN_DURATION }),
+          withDelay(
+            LIKE_COLOR_RESET_DELAY,
+            withTiming(0, { duration: LIKE_COLOR_RESET_DURATION }),
+          ),
+        ),
       );
     } else {
       likeProgress.value = withTiming(0, { duration: 100 });

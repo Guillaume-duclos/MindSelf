@@ -1,10 +1,14 @@
-import Paywall from "@/components/Paywall";
+import PaywallContent from "@/components/PaywallContent";
 import { Page } from "@/enums/page.enum";
+import { StorageKey } from "@/enums/storageKey.enum";
 import { getRouteForPage } from "@/utils/onboarding";
+import { setStorageItem } from "@/utils/storage";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function activateSubscription() {
   const router = useRouter();
+  const { top } = useSafeAreaInsets();
 
   const onPressTermsOfUse = (): void => {
     router.push(getRouteForPage(Page.TERMS_OF_USE));
@@ -14,10 +18,17 @@ export default function activateSubscription() {
     router.push(getRouteForPage(Page.PRIVACY_POLICY));
   };
 
+  const onPressActivateSubscription = (): void => {
+    setStorageItem(StorageKey.CURRENT_ONBOARDING_PAGE, Page.HOME);
+    router.push(getRouteForPage(Page.HOME));
+  };
+
   return (
-    <Paywall
+    <PaywallContent
+      style={{ paddingTop: top }}
       onPressTermsOfUse={onPressTermsOfUse}
       onPressPravicyPolicy={onPressPravicyPolicy}
+      onPressActivateSubscription={onPressActivateSubscription}
     />
   );
 }

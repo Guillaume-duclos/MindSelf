@@ -1,9 +1,21 @@
+import AnimatedGradientBackground from "@/components/AnimatedGradientBackground";
 import { ScreenHeader } from "@/components/ScreenHeader";
+import { StorageKey } from "@/enums/storageKey.enum";
+import Category from "@/enums/themeCategory.enum";
+import Theme from "@/types/theme";
+import { darkenColor } from "@/utils/color";
+import { setStorageObject, storage } from "@/utils/storage";
+import { THEME_IMAGES } from "@/utils/themeImages";
 import { FlashList, FlashListRef, ViewToken } from "@shopify/flash-list";
 import { GlassView } from "expo-glass-effect";
+import * as Haptics from "expo-haptics";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import { SymbolView } from "expo-symbols";
 import { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
+import { useMMKVObject } from "react-native-mmkv";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -16,24 +28,47 @@ import themesCategories from "../data/themesCategories.json";
 const NUM_COLUMNS = 3;
 
 type SectionEntry =
-  | { type: "header"; title: string }
-  | { type: "theme"; colors: [string, string] };
+  | { type: "header"; title: string; value: string }
+  | ({ type: "theme" } & Theme);
 
-const sections: SectionEntry[] = themesCategories.flatMap((category) => {
-  const categoryThemes = themes.filter(
-    (theme) => theme.category === category.value,
-  );
+const categoryTitleByValue = new Map(
+  themesCategories.map((category) => [category.value, category.title]),
+);
 
-  if (categoryThemes.length === 0) {
+const sections: SectionEntry[] = themes.flatMap((categoryGroup) => {
+  if (categoryGroup.themes.length === 0) {
     return [];
   }
 
+  const title =
+    categoryTitleByValue.get(categoryGroup.category) ?? categoryGroup.category;
+
   return [
-    { type: "header", title: category.title } as const,
-    ...categoryThemes.map(
-      (theme) =>
-        ({ type: "theme", colors: theme.colors as [string, string] }) as const,
-    ),
+    { type: "header", title, value: categoryGroup.category } as const,
+    ...categoryGroup.themes.map((theme) => {
+      const isPremium = theme.isPremium === "true";
+
+      if ("image" in theme) {
+        return {
+          type: "theme",
+          category: Category.IMAGE,
+          image: theme.image,
+          isPremium,
+        } as const;
+      }
+
+      const category =
+        categoryGroup.category === Category.ANIMATED_GRADIENT
+          ? Category.ANIMATED_GRADIENT
+          : Category.GRADIENT;
+
+      return {
+        type: "theme",
+        category,
+        colors: theme.colors as [string, string],
+        isPremium,
+      } as const;
+    }),
   ];
 });
 
@@ -45,8 +80,7 @@ const categoryByIndex: string[] = [];
 
   sections.forEach((entry, index) => {
     if (entry.type === "header") {
-      const category = themesCategories.find((c) => c.title === entry.title);
-      currentCategory = category?.value ?? currentCategory;
+      currentCategory = entry.value;
       categoryHeaderIndex[currentCategory] = index;
     }
 
@@ -54,8 +88,29 @@ const categoryByIndex: string[] = [];
   });
 }
 
+const isSameTheme = (a: Theme, b: Theme | undefined): boolean => {
+  if (!b) {
+    return false;
+  }
+
+  if ("image" in a && "image" in b) {
+    return a.image === b.image;
+  }
+
+  if ("colors" in a && "colors" in b) {
+    return a.colors[0] === b.colors[0] && a.colors[1] === b.colors[1];
+  }
+
+  return false;
+};
+
 export default function Share() {
+  const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const [selectedTheme] = useMMKVObject<Theme>(
+    StorageKey.SELECTED_THEME,
+    storage,
+  );
   const topFadeOpacity = useSharedValue(0);
   const listRef = useRef<FlashListRef<SectionEntry>>(null);
   const categoryScrollRef = useRef<ScrollView>(null);
@@ -99,6 +154,12 @@ export default function Share() {
   };
 
   const isProgrammaticScroll = useRef(false);
+
+  const handleSelectTheme = (theme: Theme) => {
+    Haptics.selectionAsync();
+    setStorageObject(StorageKey.SELECTED_THEME, theme);
+    router.back();
+  };
 
   const scrollToCategory = async (categoryValue: string) => {
     setActiveCategory(categoryValue);
@@ -171,6 +232,20 @@ export default function Share() {
     });
   };
 
+  const renderAffirmationCard = () => {
+    return (
+      <GlassView
+        isInteractive={false}
+        glassEffectStyle="regular"
+        className="items-center w-[80%] h-[75%] rounded-lg justify-center px-2 border-continuous"
+      >
+        <Text className="text-center font-noto-serif font-bold text-[#291C1A] text-md leading-[40px]">
+          MindSelf
+        </Text>
+      </GlassView>
+    );
+  };
+
   return (
     <View className="flex-1 bg-[#FAF3EF]">
       <ScreenHeader title="Thèmes" className="py-5 px-5" />
@@ -230,25 +305,78 @@ export default function Share() {
               );
             }
 
+            const theme: Theme =
+              Category.IMAGE in item
+                ? {
+                    category: item.category,
+                    image: item.image,
+                    isPremium: item.isPremium,
+                  }
+                : {
+                    category: item.category,
+                    colors: item.colors,
+                    isPremium: item.isPremium,
+                  };
+
+            const borderColor =
+              selectedTheme && "colors" in selectedTheme
+                ? darkenColor(selectedTheme.colors[1], 0.3)
+                : "#291C1A";
+
             return (
-              <View className="border-[#F07E56] rounded-[18px] border-continuous m-1 p-1">
-                <LinearGradient
-                  className="items-center justify-center h-48 border border-[#291C1A] border-continuous rounded-xl"
-                  colors={item.colors}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
+              <Pressable onPress={() => handleSelectTheme(theme)}>
+                <View
+                  className={`border-[#F07E56] border-continuous rounded-xl overflow-hidden m-3`}
+                  style={{ boxShadow: `0px 4px 7px #CBC4C1` }}
                 >
-                  <GlassView
-                    isInteractive={false}
-                    glassEffectStyle="regular"
-                    className="items-center w-[80%] h-[65%] rounded-lg justify-center px-2 border-continuous"
-                  >
-                    <Text className="text-center font-noto-serif font-bold text-[#291C1A] text-md leading-[40px]">
-                      MindSelf
-                    </Text>
-                  </GlassView>
-                </LinearGradient>
-              </View>
+                  {Category.IMAGE in item ? (
+                    <View className="h-48 border-continuous">
+                      <Image
+                        className="absolute inset-0 w-full h-full"
+                        source={THEME_IMAGES[item.image]}
+                        contentFit="cover"
+                      />
+                      <View className="flex-1 items-center justify-center">
+                        {renderAffirmationCard()}
+                      </View>
+                    </View>
+                  ) : item.category === Category.ANIMATED_GRADIENT ? (
+                    <View className="h-48 border-continuous overflow-hidden">
+                      <View className="absolute inset-0">
+                        <AnimatedGradientBackground colors={item.colors} />
+                      </View>
+                      <View className="flex-1 items-center justify-center">
+                        {renderAffirmationCard()}
+                      </View>
+                    </View>
+                  ) : (
+                    <LinearGradient
+                      className="items-center justify-center h-48 border-continuous"
+                      colors={item.colors}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                    >
+                      {renderAffirmationCard()}
+                    </LinearGradient>
+                  )}
+                </View>
+
+                {isSameTheme(theme, selectedTheme) && (
+                  <View
+                    className="border-[3px] absolute top-0 left-0 right-0 bottom-0 rounded-[16px] border-continuous"
+                    style={{ borderColor }}
+                  />
+                )}
+
+                {item.isPremium && (
+                  <SymbolView
+                    name="crown"
+                    weight="bold"
+                    tintColor="#291C1A"
+                    className="absolute -top-1 -right-1"
+                  />
+                )}
+              </Pressable>
             );
           }}
         />

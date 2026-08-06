@@ -37,7 +37,7 @@ export default function activateNotification() {
     setSelectedStartTime(value);
     const hour = Number(value);
 
-    if (hour > Number(selectedEndTime)) {
+    if (hour >= Number(selectedEndTime)) {
       setSelectedEndTime(String((hour + 1) % 24).padStart(2, "0"));
     }
   };

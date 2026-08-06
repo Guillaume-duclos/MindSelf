@@ -10,4 +10,5 @@ export enum Page {
   ONBOARDING_USER_ASTRAL_SIGN = "onboardingUserAstralSign",
   ACTIVATE_SUBSCRIPTION = "activateSubscription",
   PAYWALL = "paywall",
+  HOME = "home",
 }
