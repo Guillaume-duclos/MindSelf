@@ -1,9 +1,10 @@
 import { CustomButton } from "@/components/CustomButton";
-import { CustomOptionsPicker } from "@/components/CustomOptionsPicker";
+import { NotificationSetter } from "@/components/NotificationSetter";
 import { OnboardingTitle } from "@/components/OnboardingTitle";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
-import option from "@/types/option";
+import NotificationTimeRange from "@/types/notificationTimeRange";
+import { scheduleDailyAffirmationNotifications } from "@/utils/notifications";
 import { setStorageItem, setStorageObject } from "@/utils/storage";
 import { GlassView } from "expo-glass-effect";
 import { LinearGradient } from "expo-linear-gradient";
@@ -12,46 +13,29 @@ import { useState } from "react";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const COUNT_OPTIONS: option[] = Array.from({ length: 20 }, (_, i) => {
-  const count = String(i + 1);
-  return { label: count, value: count };
-});
-
-const HOUR_OPTIONS: option[] = Array.from({ length: 24 }, (_, i) => {
-  const hour = String(i).padStart(2, "0");
-  return { label: hour, value: hour };
-});
+const DEFAULT_TIME_RANGE: NotificationTimeRange = {
+  count: "3",
+  startTime: "09",
+  endTime: "22",
+};
 
 export default function activateNotification() {
   const router = useRouter();
 
-  const [selectedCount, setSelectedCount] = useState(COUNT_OPTIONS[2].value);
-  const [selectedStartTime, setSelectedStartTime] = useState(
-    HOUR_OPTIONS[9].value,
-  );
-  const [selectedEndTime, setSelectedEndTime] = useState(
-    HOUR_OPTIONS[22].value,
-  );
+  const [timeRange, setTimeRange] =
+    useState<NotificationTimeRange>(DEFAULT_TIME_RANGE);
 
-  const handleStartTimeChange = (value: string) => {
-    setSelectedStartTime(value);
-    const hour = Number(value);
+  const activateNotification = async (): Promise<void> => {
+    setStorageObject(StorageKey.USER_NOTIFICATION_TIME_RANGE, timeRange);
 
-    if (hour >= Number(selectedEndTime)) {
-      setSelectedEndTime(String((hour + 1) % 24).padStart(2, "0"));
-    }
-  };
-
-  const activateNotification = (): void => {
-    setStorageObject(StorageKey.USER_NOTIFICATION_TIME_RANGE, {
-      count: selectedCount,
-      startTime: selectedStartTime,
-      endTime: selectedEndTime,
-    });
     setStorageItem(
       StorageKey.CURRENT_ONBOARDING_PAGE,
       Page.ONBOARDING_USER_AGE_RANGE,
     );
+
+    await scheduleDailyAffirmationNotifications(timeRange);
+
+    router.push("/onboarding/aboutYou");
   };
 
   const handleSkip = () => {
@@ -59,6 +43,7 @@ export default function activateNotification() {
       StorageKey.CURRENT_ONBOARDING_PAGE,
       Page.ONBOARDING_USER_AGE_RANGE,
     );
+
     router.push("/onboarding/aboutYou");
   };
 
@@ -115,45 +100,7 @@ export default function activateNotification() {
         </View>
       </View>
 
-      <View className="flex-1 flex-row">
-        <View className="flex-1">
-          <Text className="text-center text-xl font-public-sans font-semibold leading-6">
-            Rappels par jour
-          </Text>
-
-          <CustomOptionsPicker
-            options={COUNT_OPTIONS}
-            selectedValue={selectedCount}
-            onValueChange={setSelectedCount}
-          />
-        </View>
-
-        <View className="flex-1">
-          <Text className="text-center text-xl font-public-sans font-semibold leading-6">
-            Heure de début
-          </Text>
-
-          <CustomOptionsPicker
-            options={HOUR_OPTIONS}
-            selectedValue={selectedStartTime}
-            onValueChange={handleStartTimeChange}
-            fixedLabel="h"
-          />
-        </View>
-
-        <View className="flex-1">
-          <Text className="text-center text-xl font-public-sans font-semibold leading-6">
-            Heure de{"\n"}fin
-          </Text>
-
-          <CustomOptionsPicker
-            options={HOUR_OPTIONS}
-            selectedValue={selectedEndTime}
-            onValueChange={setSelectedEndTime}
-            fixedLabel="h"
-          />
-        </View>
-      </View>
+      <NotificationSetter value={timeRange} onChange={setTimeRange} />
 
       <View className="w-full gap-4">
         <CustomButton

@@ -1,4 +1,8 @@
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
+import {
+  configureNotificationHandler,
+  scheduleNotification,
+} from "@/utils/notifications";
 import { getAllStorageEntries, removeAllStorage } from "@/utils/storage";
 import { Host } from "@expo/ui";
 import { registerDevMenuItems } from "expo-dev-menu";
@@ -20,6 +24,8 @@ cssInterop(GlassView, { className: "style" });
 cssInterop(Image, { className: "style" });
 cssInterop(Host, { className: "style" });
 
+configureNotificationHandler();
+
 if (__DEV__) {
   registerDevMenuItems([
     {
@@ -29,6 +35,11 @@ if (__DEV__) {
     {
       name: "Logger le storage",
       callback: () => console.log("[Storage]", getAllStorageEntries()),
+    },
+    {
+      name: "Tester une notification",
+      callback: () =>
+        scheduleNotification("Tout ce que j'entreprend est formidable"),
     },
   ]);
 }
@@ -45,7 +56,13 @@ export default function RootLayout() {
           <Stack.Screen name="onboarding" />
           <Stack.Screen name="index" />
           <Stack.Screen name="settings" options={{ presentation: "modal" }} />
-          <Stack.Screen name="share" options={{ presentation: "modal" }} />
+          <Stack.Screen
+            name="share"
+            options={{
+              presentation: "modal",
+              contentStyle: { backgroundColor: "#FAF3EF" },
+            }}
+          />
           <Stack.Screen name="themes" options={{ presentation: "modal" }} />
           <Stack.Screen
             name="paywall"

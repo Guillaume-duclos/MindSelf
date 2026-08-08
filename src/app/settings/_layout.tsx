@@ -6,7 +6,10 @@ export default function SettingsLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="account" />
       <Stack.Screen name="widget" />
-      <Stack.Screen name="notification" />
+      <Stack.Screen
+        name="notification"
+        options={{ contentStyle: { backgroundColor: "#FAF3EF" } }}
+      />
     </Stack>
   );
 }

@@ -26,6 +26,7 @@ export default function activateSubscription() {
   return (
     <PaywallContent
       style={{ paddingTop: top }}
+      contentClassName="justify-center"
       onPressTermsOfUse={onPressTermsOfUse}
       onPressPravicyPolicy={onPressPravicyPolicy}
       onPressActivateSubscription={onPressActivateSubscription}

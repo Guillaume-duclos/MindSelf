@@ -86,7 +86,9 @@
           "savePhotosPermission": "L'application a besoin d'accéder à tes photos pour enregistrer l'image de l'affirmation."
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-notifications",
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true,

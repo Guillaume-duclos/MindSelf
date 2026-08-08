@@ -13,6 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 type Props = {
   style?: ViewStyle;
   className?: string;
+  contentClassName?: string;
   onPressTermsOfUse?: () => void;
   onPressPravicyPolicy?: () => void;
   onPressActivateSubscription?: () => void;
@@ -35,11 +36,12 @@ const formatShortMonth = (date: Date): string =>
 export default function PaywallContent({
   style,
   className,
+  contentClassName,
   onPressTermsOfUse,
   onPressPravicyPolicy,
   onPressActivateSubscription,
 }: Props) {
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
   const [isReminderEnabled, setIsReminderEnabled] = useState(
     () =>
       getStorageBoolean(StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION) ??
@@ -78,7 +80,7 @@ export default function PaywallContent({
       className={`px-5 flex-1 ${className}`}
       style={{ paddingBottom: bottom, ...style }}
     >
-      <View className="gap-10 flex-1">
+      <View className={`gap-10 flex-1 ${contentClassName}`}>
         {/* TITLE */}
         <View className="gap-3">
           <Text className="text-center font-noto-serif font-semibold text-[#2A2015] text-4xl">
