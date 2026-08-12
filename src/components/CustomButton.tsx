@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import { GlassView } from "expo-glass-effect";
 import { Pressable, Text } from "react-native";
 
@@ -15,8 +16,8 @@ export function CustomButton({
   label,
   disabled,
   className,
-  textClassName = "text-[#F7E6DF]",
-  tintColor = "#2A2015",
+  textClassName = "text-cream-200",
+  tintColor = colors.ink,
 }: Props) {
   return (
     <Pressable

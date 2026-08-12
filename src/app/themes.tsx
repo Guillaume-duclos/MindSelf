@@ -1,11 +1,13 @@
 import AnimatedGradientBackground from "@/components/AnimatedGradientBackground";
 import { ScreenHeader } from "@/components/ScreenHeader";
+import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import Category from "@/enums/themeCategory.enum";
 import Theme from "@/types/theme";
 import { darkenColor } from "@/utils/color";
 import { setStorageObject, storage } from "@/utils/storage";
 import { THEME_IMAGES } from "@/utils/themeImages";
+import { updateAffirmationWidgetTimeline } from "@/utils/widget";
 import { FlashList, FlashListRef, ViewToken } from "@shopify/flash-list";
 import { GlassView } from "expo-glass-effect";
 import * as Haptics from "expo-haptics";
@@ -158,6 +160,7 @@ export default function Share() {
   const handleSelectTheme = (theme: Theme) => {
     Haptics.selectionAsync();
     setStorageObject(StorageKey.SELECTED_THEME, theme);
+    updateAffirmationWidgetTimeline();
     router.back();
   };
 
@@ -216,12 +219,12 @@ export default function Share() {
           <GlassView
             isInteractive
             glassEffectStyle="regular"
-            tintColor={isActive ? "#291C1A" : undefined}
+            tintColor={isActive ? colors.ink : undefined}
             className="h-10 rounded-full justify-center px-5 border-continuous"
           >
             <Text
               className={`text-center font-noto-serif font-bold text-md ${
-                isActive ? "text-white" : "text-[#291C1A]"
+                isActive ? "text-white" : "text-ink"
               }`}
             >
               {category.title}
@@ -239,7 +242,7 @@ export default function Share() {
         glassEffectStyle="regular"
         className="items-center w-[80%] h-[75%] rounded-lg justify-center px-2 border-continuous"
       >
-        <Text className="text-center font-noto-serif font-bold text-[#291C1A] text-md leading-[40px]">
+        <Text className="text-center font-noto-serif font-bold text-ink text-md leading-[40px]">
           MindSelf
         </Text>
       </GlassView>
@@ -247,7 +250,7 @@ export default function Share() {
   };
 
   return (
-    <View className="flex-1 bg-[#FAF3EF]">
+    <View className="flex-1 bg-cream-50">
       <ScreenHeader title="Thèmes" className="py-5 px-5" />
 
       <ScrollView
@@ -272,7 +275,7 @@ export default function Share() {
         >
           <LinearGradient
             className="h-full w-full"
-            colors={["#FAF3EF", "#FAF3EF00"]}
+            colors={[colors.cream[50], `${colors.cream[50]}00`]}
           />
         </Animated.View>
 
@@ -299,7 +302,7 @@ export default function Share() {
           renderItem={({ item }) => {
             if (item.type === "header") {
               return (
-                <Text className="font-noto-serif font-bold text-[#291C1A] text-lg px-2 pb-2 pt-4">
+                <Text className="font-noto-serif font-bold text-ink text-lg px-2 pb-2 pt-4">
                   {item.title}
                 </Text>
               );
@@ -321,13 +324,13 @@ export default function Share() {
             const borderColor =
               selectedTheme && "colors" in selectedTheme
                 ? darkenColor(selectedTheme.colors[1], 0.3)
-                : "#291C1A";
+                : colors.ink;
 
             return (
               <Pressable onPress={() => handleSelectTheme(theme)}>
                 <View
-                  className={`border-[#F07E56] border-continuous rounded-xl overflow-hidden m-3`}
-                  style={{ boxShadow: `0px 4px 7px #CBC4C1` }}
+                  className={`border-terracotta-400 border-continuous rounded-xl overflow-hidden m-3`}
+                  style={{ boxShadow: `0px 4px 7px ${colors.taupe}` }}
                 >
                   {Category.IMAGE in item ? (
                     <View className="h-48 border-continuous">
@@ -372,7 +375,7 @@ export default function Share() {
                   <SymbolView
                     name="crown"
                     weight="bold"
-                    tintColor="#291C1A"
+                    tintColor={colors.ink}
                     className="absolute -top-1 -right-1"
                   />
                 )}

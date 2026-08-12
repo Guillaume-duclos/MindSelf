@@ -1,6 +1,7 @@
 import { CustomButton } from "@/components/CustomButton";
 import { NotificationSetter } from "@/components/NotificationSetter";
 import { OnboardingTitle } from "@/components/OnboardingTitle";
+import colors from "@/constants/colors";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
 import NotificationTimeRange from "@/types/notificationTimeRange";
@@ -48,7 +49,7 @@ export default function activateNotification() {
   };
 
   return (
-    <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
+    <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
       <View className="flex-1 items-center justify-center w-full gap-10">
         <OnboardingTitle title="Reçois des affirmations régulièrement" />
 
@@ -70,7 +71,7 @@ export default function activateNotification() {
             <View className="gap-2.5 flex-row items-center">
               <GlassView className="w-[38px] h-[38px] rounded-[10px] border-continuous overflow-hidden">
                 <LinearGradient
-                  colors={["#FFF4F2", "#EFD5C9"]}
+                  colors={[colors.cream[100], colors.cream[300]]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   className="w-full h-full items-center justify-center"
@@ -109,8 +110,8 @@ export default function activateNotification() {
         />
         <CustomButton
           label="Plus tard"
-          tintColor="#F7E6DF"
-          textClassName="text-[#2A2015]"
+          tintColor={colors.cream[200]}
+          textClassName="text-ink"
           onPress={handleSkip}
         />
       </View>

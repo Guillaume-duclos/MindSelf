@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
@@ -36,7 +37,7 @@ export function ScrollViewContainer({ children }: Props) {
       >
         <LinearGradient
           className="absolute top-0 left-0 right-0 h-10 z-10"
-          colors={["#FAF3EF", "#FAF3EF00"]}
+          colors={[colors.cream[50], `${colors.cream[50]}00`]}
         />
       </Animated.View>
 

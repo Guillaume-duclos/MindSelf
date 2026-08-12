@@ -8,7 +8,7 @@ export default function Onboarding() {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
+    <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
       <View className="flex-1 items-center justify-center w-full gap-20">
         <AppIcon style={{ width: 130, height: 130 }} />
 
@@ -28,7 +28,7 @@ export default function Onboarding() {
           onPress={() => router.push("/onboarding/userName")}
         />
 
-        <Text className="px-8 font-public-sans text-center font-medium text-[#F72A2015E6DF] opacity-50 text-sm leading-4">
+        <Text className="px-8 font-public-sans text-center font-medium text-ink opacity-50 text-sm leading-4">
           En continuant, vous acceptez les conditions{" "}
           <Text className="underline">d'utilisation</Text> et de{" "}
           <Text className="underline">confidentialité</Text>

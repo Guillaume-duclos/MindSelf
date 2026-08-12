@@ -23,7 +23,7 @@ export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <View className="flex-1 bg-[#FAF3EF]">
+    <View className="flex-1 bg-cream-50">
       <ScreenHeader title="Mon profil" className="py-5 px-5" />
 
       <ScrollViewContainer>

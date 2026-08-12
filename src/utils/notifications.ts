@@ -1,6 +1,6 @@
-import affirmations from "@/data/affirmations.json";
 import OS from "@/enums/os.enum";
 import type NotificationTimeRange from "@/types/notificationTimeRange";
+import { pickRandomAffirmationText } from "@/utils/affirmations";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
@@ -110,11 +110,6 @@ const buildStratifiedDailyTimes = (
       minute: totalMinutes % 60,
     };
   });
-};
-
-const pickRandomAffirmationText = (): string => {
-  const index = Math.floor(Math.random() * affirmations.length);
-  return affirmations[index].text;
 };
 
 // A DAILY trigger whose hour/minute has already gone by today only fires

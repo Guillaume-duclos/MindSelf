@@ -252,7 +252,7 @@ export default function PersonnalInformations() {
   };
 
   return (
-    <SafeAreaView className="flex-1 px-5 items-center bg-[#FAF3EF]">
+    <SafeAreaView className="flex-1 px-5 items-center bg-cream-50">
       <ScreenHeader
         showBackButton={currentIndex > 0}
         showCloseButton={false}

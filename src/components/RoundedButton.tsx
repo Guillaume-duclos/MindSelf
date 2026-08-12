@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import { GlassView } from "expo-glass-effect";
 import { SFSymbol, SymbolView, SymbolWeight } from "expo-symbols";
 import { Pressable, StyleProp, Text, ViewStyle } from "react-native";
@@ -19,7 +20,7 @@ export function RoundedButton({
   onPress,
   iconName,
   iconWeight = "medium",
-  iconTintColor = "#2A2015",
+  iconTintColor = colors.ink,
   iconSize = 30,
   iconClassName,
   buttonSize = 68,
@@ -49,7 +50,7 @@ export function RoundedButton({
       </GlassView>
 
       {label && (
-        <Text className="text-center font-public-sans font-medium text-[#291C1A] text-sm leading-4">
+        <Text className="text-center font-public-sans font-medium text-ink text-sm leading-4">
           {label}
         </Text>
       )}

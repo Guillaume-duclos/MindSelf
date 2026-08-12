@@ -7,7 +7,7 @@ export default function Account() {
 
   return (
     <View
-      className="flex-1 bg-[#FAF3EF] px-5"
+      className="flex-1 bg-cream-50 px-5"
       style={{ paddingBottom: bottom }}
     >
       <ScreenHeader title="Widget" showBackButton showCloseButton={false} />

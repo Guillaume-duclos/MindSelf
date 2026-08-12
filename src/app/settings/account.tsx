@@ -10,7 +10,7 @@ export default function Account() {
   const { bottom } = useSafeAreaInsets();
 
   return (
-    <View className="flex-1 bg-[#FAF3EF]" style={{ paddingBottom: bottom }}>
+    <View className="flex-1 bg-cream-50" style={{ paddingBottom: bottom }}>
       <ScreenHeader
         title="Mon compte"
         showBackButton

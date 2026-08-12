@@ -86,6 +86,25 @@
           "savePhotosPermission": "L'application a besoin d'accéder à tes photos pour enregistrer l'image de l'affirmation."
         }
       ],
+      "./plugins/withWidgetFonts",
+      [
+        "expo-widgets",
+        {
+          "widgets": [
+            {
+              "name": "AffirmationWidget",
+              "displayName": "Affirmations",
+              "description": "Une affirmation positive, toujours sous les yeux.",
+              "supportedFamilies": [
+                "systemSmall",
+                "systemMedium",
+                "systemLarge"
+              ],
+              "contentMarginsDisabled": true
+            }
+          ]
+        }
+      ],
       "expo-localization",
       "expo-notifications",
       "expo-sharing"

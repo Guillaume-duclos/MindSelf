@@ -1,9 +1,11 @@
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
+import colors from "@/constants/colors";
 import {
   configureNotificationHandler,
   scheduleNotification,
 } from "@/utils/notifications";
 import { getAllStorageEntries, removeAllStorage } from "@/utils/storage";
+import { updateAffirmationWidgetTimeline } from "@/utils/widget";
 import { Host } from "@expo/ui";
 import { registerDevMenuItems } from "expo-dev-menu";
 import { GlassView } from "expo-glass-effect";
@@ -25,6 +27,7 @@ cssInterop(Image, { className: "style" });
 cssInterop(Host, { className: "style" });
 
 configureNotificationHandler();
+updateAffirmationWidgetTimeline();
 
 if (__DEV__) {
   registerDevMenuItems([
@@ -40,6 +43,10 @@ if (__DEV__) {
       name: "Tester une notification",
       callback: () =>
         scheduleNotification("Tout ce que j'entreprend est formidable"),
+    },
+    {
+      name: "Rafraîchir le widget",
+      callback: () => updateAffirmationWidgetTimeline(),
     },
   ]);
 }
@@ -60,7 +67,7 @@ export default function RootLayout() {
             name="share"
             options={{
               presentation: "modal",
-              contentStyle: { backgroundColor: "#FAF3EF" },
+              contentStyle: { backgroundColor: colors.cream[50] },
             }}
           />
           <Stack.Screen name="themes" options={{ presentation: "modal" }} />
@@ -68,7 +75,7 @@ export default function RootLayout() {
             name="paywall"
             options={{
               presentation: "modal",
-              contentStyle: { backgroundColor: "#FAF3EF" },
+              contentStyle: { backgroundColor: colors.cream[50] },
             }}
           />
         </Stack>

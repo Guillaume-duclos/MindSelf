@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import { GlassView } from "expo-glass-effect";
 import * as Haptics from "expo-haptics";
 import { Link } from "expo-router";
@@ -27,8 +28,8 @@ const LIKE_COLOR_RESET_DURATION = 800;
 
 const AnimatedGlassView = Animated.createAnimatedComponent(GlassView);
 
-const DEFAULT_TINT_COLOR = "#FFFFFF";
-const LIKED_TINT_COLOR = "#68D278";
+const DEFAULT_TINT_COLOR = "white";
+const LIKED_TINT_COLOR = colors.success;
 
 type Props = {
   text: string;
@@ -105,7 +106,7 @@ export function AffirmationCard({
       style={animatedStyle}
       className={`items-center h-[55%] rounded-3xl border-continuous justify-center px-8 ${className}`}
     >
-      <Text className="text-center font-noto-serif font-medium text-[#291C1A] text-4xl leading-[40px]">
+      <Text className="text-center font-noto-serif font-medium text-ink text-4xl leading-[40px]">
         {text}
       </Text>
 
@@ -117,7 +118,7 @@ export function AffirmationCard({
                 className="-top-1"
                 name={{ ios: "square.and.arrow.up" }}
                 weight="medium"
-                tintColor="#F7A07C"
+                tintColor={colors.terracotta[300]}
                 size={38}
               />
             </Pressable>
@@ -127,7 +128,7 @@ export function AffirmationCard({
             <SymbolView
               name={{ ios: liked ? "heart.fill" : "heart" }}
               weight="medium"
-              tintColor="#F7A07C"
+              tintColor={colors.terracotta[300]}
               size={35}
             />
           </Pressable>

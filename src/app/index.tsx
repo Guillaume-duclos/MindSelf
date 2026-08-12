@@ -1,6 +1,7 @@
 import { AffirmationCard } from "@/components/AffirmationCard";
 import AnimatedGradientBackground from "@/components/AnimatedGradientBackground";
 import { RoundedButton } from "@/components/RoundedButton";
+import colors from "@/constants/colors";
 import affirmations from "@/data/affirmations.json";
 import { StorageKey } from "@/enums/storageKey.enum";
 import Category from "@/enums/themeCategory.enum";
@@ -48,7 +49,11 @@ export default function HomeScreen() {
       ) : (
         <LinearGradient
           className="absolute inset-0"
-          colors={selectedTheme ? selectedTheme.colors : ["#FFF4F2", "#EFD5C9"]}
+          colors={
+            selectedTheme
+              ? selectedTheme.colors
+              : [colors.cream[100], colors.cream[300]]
+          }
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         />
@@ -59,10 +64,10 @@ export default function HomeScreen() {
         style={{ top }}
       >
         <View className="flex-1">
-          <Text className="text-[#BA6A56] font-medium font-public-sans uppercase">
+          <Text className="text-terracotta-500 font-medium font-public-sans uppercase">
             Bon matin
           </Text>
-          <Text className="text-[#291C1A] font-medium font-noto-serif text-3xl">
+          <Text className="text-ink font-medium font-noto-serif text-3xl">
             Guillaume
           </Text>
         </View>
@@ -74,13 +79,13 @@ export default function HomeScreen() {
               glassEffectStyle="regular"
               className="items-center rounded-full gap-2 flex-row justify-center px-5 border-continuous"
             >
-              <Text className="text-center font-noto-serif font-bold text-[#291C1A] text-lg leading-[40px]">
+              <Text className="text-center font-noto-serif font-bold text-ink text-lg leading-[40px]">
                 Get Premium
               </Text>
               <SymbolView
                 name={{ ios: "crown" }}
                 weight="medium"
-                tintColor="#291C1A"
+                tintColor={colors.ink}
                 size={26}
               />
             </GlassView>

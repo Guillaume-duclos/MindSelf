@@ -2,6 +2,7 @@ import { AffirmationCard } from "@/components/AffirmationCard";
 import AnimatedGradientBackground from "@/components/AnimatedGradientBackground";
 import { RoundedButton } from "@/components/RoundedButton";
 import { ScreenHeader } from "@/components/ScreenHeader";
+import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import Category from "@/enums/themeCategory.enum";
 import Theme from "@/types/theme";
@@ -101,7 +102,9 @@ export default function Share() {
           <LinearGradient
             className="absolute inset-0"
             colors={
-              selectedTheme ? selectedTheme.colors : ["#FFF4F2", "#EFD5C9"]
+              selectedTheme
+                ? selectedTheme.colors
+                : [colors.cream[100], colors.cream[300]]
             }
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}

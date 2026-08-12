@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import { Stack } from "expo-router";
 
 export default function SettingsLayout() {
@@ -8,7 +9,7 @@ export default function SettingsLayout() {
       <Stack.Screen name="widget" />
       <Stack.Screen
         name="notification"
-        options={{ contentStyle: { backgroundColor: "#FAF3EF" } }}
+        options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
       />
     </Stack>
   );

@@ -16,7 +16,7 @@ export function ListItemSwitch({ text, onValueChange }: Props) {
       className="flex-row items-center justify-between py-4 rounded-4xl border-continuous"
     >
       <Text className="font-public-sans text-lg">{text}</Text>
-      <SymbolView name="chevron.forward" tintColor="#000000" size={16} />
+      <SymbolView name="chevron.forward" tintColor="black" size={16} />
     </Pressable>
   );
 }

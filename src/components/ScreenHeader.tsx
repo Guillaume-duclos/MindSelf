@@ -52,7 +52,7 @@ export function ScreenHeader({
         )}
 
         {title && (
-          <Text className="font-noto-serif font-semibold text-[#2A2015] text-4xl leading-[41px]">
+          <Text className="font-noto-serif font-semibold text-ink text-4xl leading-[41px]">
             {title}
           </Text>
         )}

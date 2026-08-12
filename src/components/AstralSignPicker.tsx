@@ -10,6 +10,7 @@ import Sagittarius from "@/assets/svg/Sagittarius";
 import Scorpio from "@/assets/svg/Scorpio";
 import Taurus from "@/assets/svg/Taurus";
 import Virgo from "@/assets/svg/Virgo";
+import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { getStorageBoolean, setStorageItem } from "@/utils/storage";
 import * as Haptics from "expo-haptics";
@@ -189,7 +190,7 @@ export function AstralSignPicker({
 
   return (
     <View className="gap-6 flex-1 justify-center">
-      <Text className="font-noto-serif text-center font-bold text-3xl text-[#C9663D]">
+      <Text className="font-noto-serif text-center font-bold text-3xl text-terracotta-600">
         {ZODIAC_SIGNS[selectedIndex].name}
       </Text>
 
@@ -203,12 +204,13 @@ export function AstralSignPicker({
               size={width * 0.55}
               name="arrow.up"
               weight="semibold"
-              tintColor="#000"
+              tintColor="black"
             />
           </Animated.View>
 
           {signLayouts.map(({ Icon, left, top }, index) => {
-            const activeColor = index === selectedIndex ? "#C9663D" : "#000";
+            const activeColor =
+              index === selectedIndex ? colors.terracotta[600] : "black";
 
             return (
               <Pressable

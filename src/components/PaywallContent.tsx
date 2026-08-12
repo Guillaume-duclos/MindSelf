@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { getStorageBoolean, setStorageItem } from "@/utils/storage";
 import { Host, Switch } from "@expo/ui";
@@ -83,11 +84,11 @@ export default function PaywallContent({
       <View className={`gap-10 flex-1 ${contentClassName}`}>
         {/* TITLE */}
         <View className="gap-3">
-          <Text className="text-center font-noto-serif font-semibold text-[#2A2015] text-4xl">
+          <Text className="text-center font-noto-serif font-semibold text-ink text-4xl">
             Débloquez tout le potentielle
           </Text>
 
-          <Text className="px-5 text-center font-noto-seriffont-medium text-[#2A2015] text-lg leading-5">
+          <Text className="px-5 text-center font-noto-seriffont-medium text-ink text-lg leading-5">
             Découvrez les offres et démarrez votre essaie gratuit aujourd'hui
           </Text>
         </View>
@@ -95,7 +96,7 @@ export default function PaywallContent({
         {/* TIMELINE CARD */}
         <View>
           <GlassView
-            tintColor="#F7E6DF"
+            tintColor={colors.cream[200]}
             glassEffectStyle="regular"
             className="items-center px-5 py-7 gap-6 rounded-3xl border-continuous justify-center"
           >
@@ -110,7 +111,7 @@ export default function PaywallContent({
                       <SymbolView
                         size={32}
                         name={item.icon}
-                        tintColor="#2A2015"
+                        tintColor={colors.ink}
                         className="left-1"
                         weight="semibold"
                       />
@@ -119,15 +120,15 @@ export default function PaywallContent({
                     {index === 1 && (
                       <>
                         <LinearGradient
-                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-[#2A2015]"
-                          colors={["#FFF4F2", "#EFD5C9"]}
+                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-ink"
+                          colors={[colors.cream[100], colors.cream[300]]}
                           start={{ x: 0, y: 0 }}
                           end={{ x: 1, y: 1 }}
                         >
-                          <Text className="font-public-sans text-center font-medium text-[#2A2015] text-xs">
+                          <Text className="font-public-sans text-center font-medium text-ink text-xs">
                             {formatShortMonth(reminderDate)}
                           </Text>
-                          <Text className="font-noto-serif text-center font-extrabold text-[#2A2015] text-xl leading-none">
+                          <Text className="font-noto-serif text-center font-extrabold text-ink text-xl leading-none">
                             {reminderDate.getDate()}
                           </Text>
                         </LinearGradient>
@@ -135,7 +136,7 @@ export default function PaywallContent({
                         <SymbolView
                           size={24}
                           name={item.icon}
-                          tintColor="#2A2015"
+                          tintColor={colors.ink}
                           className="absolute -bottom-3 -right-2.5"
                         />
                       </>
@@ -144,15 +145,15 @@ export default function PaywallContent({
                     {index === 2 && (
                       <>
                         <LinearGradient
-                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-[#2A2015]"
-                          colors={["#FFF4F2", "#EFD5C9"]}
+                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-ink"
+                          colors={[colors.cream[100], colors.cream[300]]}
                           start={{ x: 0, y: 0 }}
                           end={{ x: 1, y: 1 }}
                         >
-                          <Text className="font-public-sans text-center font-medium text-[#2A2015] text-xs">
+                          <Text className="font-public-sans text-center font-medium text-ink text-xs">
                             {formatShortMonth(subscriptionDate)}
                           </Text>
-                          <Text className="font-noto-serif text-center font-extrabold text-[#2A2015] text-xl leading-none">
+                          <Text className="font-noto-serif text-center font-extrabold text-ink text-xl leading-none">
                             {subscriptionDate.getDate()}
                           </Text>
                         </LinearGradient>
@@ -160,7 +161,7 @@ export default function PaywallContent({
                         <SymbolView
                           size={26}
                           name={item.icon}
-                          tintColor="#2A2015"
+                          tintColor={colors.ink}
                           className="absolute -bottom-3 -right-2.5"
                         />
                       </>
@@ -168,10 +169,10 @@ export default function PaywallContent({
                   </View>
 
                   <View className="flex-1">
-                    <Text className="font-noto-serif font-semibold text-[#2A2015] text-xl">
+                    <Text className="font-noto-serif font-semibold text-ink text-xl">
                       {item.title}
                     </Text>
-                    <Text className="font-public-sans text-[#2A2015]">
+                    <Text className="font-public-sans text-ink">
                       {item.description}
                     </Text>
                   </View>
@@ -180,11 +181,11 @@ export default function PaywallContent({
             </View>
 
             <Host matchContents={{ vertical: true }} className="w-full mt-2">
-              <Divider modifiers={[background("#2A2015"), opacity(0.2)]} />
+              <Divider modifiers={[background(colors.ink), opacity(0.2)]} />
             </Host>
 
             <View className="flex-row items-center justify-between w-full">
-              <Text className="font-noto-serif font-semibold text-[#2A2015] text-xl">
+              <Text className="font-noto-serif font-semibold text-ink text-xl">
                 Activer le rappel
               </Text>
 
@@ -202,11 +203,11 @@ export default function PaywallContent({
       <View className="gap-3">
         <GlassView
           isInteractive
-          tintColor="#F7E6DF"
+          tintColor={colors.cream[200]}
           glassEffectStyle="regular"
           className="items-center px-5 py-5 rounded-full border-continuous justify-center"
         >
-          <Text className="font-noto-serif font-semibold text-[#2A2015] text-xl">
+          <Text className="font-noto-serif font-semibold text-ink text-xl">
             Voir toutes les offres
           </Text>
         </GlassView>
@@ -214,11 +215,11 @@ export default function PaywallContent({
         <Pressable onPress={onPressActivateSubscription}>
           <GlassView
             isInteractive
-            tintColor="#2A2015"
+            tintColor={colors.ink}
             glassEffectStyle="regular"
             className="items-center px-5 py-5 rounded-full border-continuous justify-center"
           >
-            <Text className="font-noto-serif font-semibold text-[#F7E6DF] text-xl">
+            <Text className="font-noto-serif font-semibold text-cream-200 text-xl">
               Démarrez l'essaie
             </Text>
           </GlassView>
@@ -227,15 +228,15 @@ export default function PaywallContent({
 
       <View className="mt-3 gap-5 flex-row justify-center">
         <Pressable onPress={onPressTermsOfUse}>
-          <Text className="font-public-sans font-medium text-[#F72A2015E6DF] opacity-50 text-sm">
+          <Text className="font-public-sans font-medium text-ink opacity-50 text-sm">
             Conditions d'utilisation
           </Text>
         </Pressable>
-        <Text className="font-public-sans font-medium text-[#F72A2015E6DF] opacity-50 text-sm">
+        <Text className="font-public-sans font-medium text-ink opacity-50 text-sm">
           -
         </Text>
         <Pressable onPress={onPressPravicyPolicy}>
-          <Text className="font-public-sans font-medium text-[#F72A2015E6DF] opacity-50 text-sm">
+          <Text className="font-public-sans font-medium text-ink opacity-50 text-sm">
             Politique de confidentialité
           </Text>
         </Pressable>

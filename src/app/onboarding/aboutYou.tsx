@@ -10,7 +10,7 @@ export default function AboutYou() {
   const userName = getStorageString(StorageKey.USER_NAME);
 
   return (
-    <SafeAreaView className="flex-1 px-10 items-center bg-[#FAF3EF]">
+    <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
       <View className="flex-1 items-center justify-center w-full gap-2">
         <Text className="font-noto-serif font-semibold text-3xl text-center">
           Parlons un peu de toi{userName ? `, ${userName}` : ""} !

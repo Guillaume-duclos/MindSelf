@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import { TextInput, View } from "react-native";
 
 type Props = {
@@ -13,7 +14,7 @@ export function CustomTextInput({ placeHolder, value, onChangeText }: Props) {
         value={value}
         placeholder={placeHolder}
         onChangeText={onChangeText}
-        placeholderTextColor="#00000088"
+        placeholderTextColor={colors.placeholder}
         className="w-full h-full text-xl leading-[21px]"
       />
     </View>

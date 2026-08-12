@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import * as SplashScreen from "expo-splash-screen";
 import { useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
@@ -133,14 +134,14 @@ const styles = StyleSheet.create({
   },
   background: {
     borderRadius: 40,
-    experimental_backgroundImage: `linear-gradient(180deg, #3C9FFE, #0274DF)`,
+    experimental_backgroundImage: `linear-gradient(180deg, ${colors.sky[400]}, ${colors.sky[600]})`,
     width: 128,
     height: 128,
     position: "absolute",
   },
   splashOverlay: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: "#208AEF",
+    backgroundColor: colors.splash,
     alignItems: "center",
     justifyContent: "center",
     zIndex: 1000,
