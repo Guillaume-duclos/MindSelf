@@ -1,12 +1,14 @@
 import { CustomButton } from "@/components/CustomButton";
 import { NotificationSetter } from "@/components/NotificationSetter";
 import { ScreenHeader } from "@/components/ScreenHeader";
+import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import NotificationTimeRange from "@/types/notificationTimeRange";
 import { scheduleDailyAffirmationNotifications } from "@/utils/notifications";
 import { getStorageObject, setStorageObject } from "@/utils/storage";
 import * as Notifications from "expo-notifications";
 import { useFocusEffect, useRouter } from "expo-router";
+import { SymbolView } from "expo-symbols";
 import { useCallback, useEffect, useState } from "react";
 import { AppState, Linking, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -69,16 +71,25 @@ export default function Account() {
         showCloseButton={false}
       />
 
-      <View className="gap-20 flex-1 items-center justify-center">
-        <View className="gap-4">
-          <Text className="font-noto-serif font-semibold text-center text-3xl">
-            Configure tes notifications
-          </Text>
+      <View className="gap-16 flex-1 items-center justify-center mb-6">
+        <View className="gap-8">
+          <SymbolView
+            size={100}
+            name="bell.fill"
+            tintColor={colors.ink}
+            className="self-center"
+          />
 
-          <Text className="font-public-sans text-center text-xl leading-6">
-            Sélectionne la plage horaire pendant laquelle tu veux recevoir tes
-            affirmations journalières
-          </Text>
+          <View className="gap-4">
+            <Text className="font-noto-serif font-semibold text-center text-3xl">
+              Configure tes notifications
+            </Text>
+
+            <Text className="font-public-sans text-center text-xl leading-6">
+              Sélectionne la plage horaire pendant laquelle tu veux recevoir tes
+              affirmations journalières
+            </Text>
+          </View>
         </View>
 
         <NotificationSetter

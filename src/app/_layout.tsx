@@ -1,4 +1,3 @@
-import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import colors from "@/constants/colors";
 import {
   configureNotificationHandler,
@@ -55,10 +54,11 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView
+      style={{ flex: 1 }}
+      onLayout={() => SplashScreen.hideAsync()}
+    >
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <AnimatedSplashOverlay />
-
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="onboarding" />
           <Stack.Screen name="index" />

@@ -34,8 +34,11 @@ export function CustomOptionsPicker({
           pointerEvents="none"
           className="absolute right-8 inset-y-0 justify-center"
         >
-          <Text className="text-2xl" style={{ color: PlatformColor("label") }}>
-            h
+          <Text
+            className="text-[18px]"
+            style={{ color: PlatformColor("label") }}
+          >
+            {fixedLabel}
           </Text>
         </View>
       )}
