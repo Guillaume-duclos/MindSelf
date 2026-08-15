@@ -76,6 +76,8 @@ const STORAGE_KEY_TYPE: Record<StorageKey, "string" | "number" | "boolean"> = {
   [StorageKey.USER_ASTRAL_SIGN]: "string",
   [StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION]: "boolean",
   [StorageKey.SELECTED_THEME]: "string",
+  [StorageKey.WIDGET_DISPLAY_BUTTONS]: "boolean",
+  [StorageKey.WIDGET_AFFIRMATIONS_PER_DAY]: "number",
 };
 
 // Get every stored key/value, regardless of its type

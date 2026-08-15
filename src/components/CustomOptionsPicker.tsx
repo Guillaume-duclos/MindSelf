@@ -35,7 +35,7 @@ export function CustomOptionsPicker({
           className="absolute right-8 inset-y-0 justify-center"
         >
           <Text
-            className="text-[18px]"
+            className="text-[18px] leading-[20px]"
             style={{ color: PlatformColor("label") }}
           >
             {fixedLabel}

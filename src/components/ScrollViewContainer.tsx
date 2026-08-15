@@ -1,7 +1,7 @@
 import colors from "@/constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { ReactNode } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -11,9 +11,15 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   children: ReactNode;
+  contentContainerStyle?: ViewStyle;
+  contentContainerClassName?: string;
 };
 
-export function ScrollViewContainer({ children }: Props) {
+export function ScrollViewContainer({
+  children,
+  contentContainerStyle,
+  contentContainerClassName,
+}: Props) {
   const { bottom } = useSafeAreaInsets();
   const topFadeOpacity = useSharedValue(0);
 
@@ -46,8 +52,11 @@ export function ScrollViewContainer({ children }: Props) {
         scrollEventThrottle={32}
         onScrollEndDrag={handleScroll}
         onMomentumScrollEnd={handleScroll}
-        contentContainerClassName="px-5 gap-8"
-        contentContainerStyle={{ paddingBottom: bottom }}
+        contentContainerClassName={`px-5 gap-8 ${contentContainerClassName}`}
+        contentContainerStyle={{
+          paddingBottom: bottom,
+          ...contentContainerStyle,
+        }}
       >
         {children}
       </ScrollView>

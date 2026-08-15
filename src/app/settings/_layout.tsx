@@ -7,6 +7,7 @@ export default function SettingsLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="account" />
       <Stack.Screen name="widget" />
+      <Stack.Screen name="widgetHelp" options={{ presentation: "modal" }} />
       <Stack.Screen
         name="notification"
         options={{ contentStyle: { backgroundColor: colors.cream[50] } }}

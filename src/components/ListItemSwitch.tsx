@@ -1,22 +1,19 @@
-import { SymbolView } from "expo-symbols";
-import { useState } from "react";
-import { Pressable, Text } from "react-native";
+import { Host, Switch } from "@expo/ui";
+import { Text, View } from "react-native";
 
 type Props = {
   text: string;
-  onValueChange: () => void;
+  value: boolean;
+  onValueChange: (value: boolean) => void;
 };
 
-export function ListItemSwitch({ text, onValueChange }: Props) {
-  const [isActivated, setIsActivated] = useState(false);
-
+export function ListItemSwitch({ text, value, onValueChange }: Props) {
   return (
-    <Pressable
-      onPress={onValueChange}
-      className="flex-row items-center justify-between py-4 rounded-4xl border-continuous"
-    >
-      <Text className="font-public-sans text-lg">{text}</Text>
-      <SymbolView name="chevron.forward" tintColor="black" size={16} />
-    </Pressable>
+    <View className="flex-row items-center justify-between py-4 rounded-4xl border-continuous gap-5">
+      <Text className="flex-1 font-public-sans text-lg leading-6">{text}</Text>
+      <Host matchContents>
+        <Switch value={value} onValueChange={onValueChange} />
+      </Host>
+    </View>
   );
 }

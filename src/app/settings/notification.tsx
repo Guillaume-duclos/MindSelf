@@ -11,6 +11,14 @@ import { useFocusEffect, useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useCallback, useEffect, useState } from "react";
 import { AppState, Linking, Text, View } from "react-native";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withTiming,
+} from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const DEFAULT_TIME_RANGE: NotificationTimeRange = {
@@ -52,6 +60,30 @@ export default function Account() {
     return () => subscription.remove();
   }, [checkPermission]);
 
+  // expo-symbols doesn't expose SF Symbols' native "wiggle" bell-ring effect
+  // (it animates the clapper as a separate layer from the bell body, which
+  // isn't reproducible with a single flat icon) — this approximates it with
+  // a damped swing of the whole icon, pivoting from its top like a real bell.
+  const bellRotation = useSharedValue(0);
+
+  useEffect(() => {
+    bellRotation.value = withDelay(
+      500,
+      withSequence(
+        withTiming(15, { duration: 100, easing: Easing.out(Easing.quad) }),
+        withTiming(-12, { duration: 100 }),
+        withTiming(9, { duration: 90 }),
+        withTiming(-6, { duration: 90 }),
+        withTiming(3, { duration: 80 }),
+        withTiming(0, { duration: 80 }),
+      ),
+    );
+  }, []);
+
+  const bellAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${bellRotation.value}deg` }],
+  }));
+
   const activateNotifications = (): void => {
     Linking.openSettings();
   };
@@ -73,12 +105,12 @@ export default function Account() {
 
       <View className="gap-16 flex-1 items-center justify-center mb-6">
         <View className="gap-8">
-          <SymbolView
-            size={100}
-            name="bell.fill"
-            tintColor={colors.ink}
+          <Animated.View
+            style={[bellAnimatedStyle, { transformOrigin: "50% 0%" }]}
             className="self-center"
-          />
+          >
+            <SymbolView size={100} name="bell.fill" tintColor={colors.ink} />
+          </Animated.View>
 
           <View className="gap-4">
             <Text className="font-noto-serif font-semibold text-center text-3xl">

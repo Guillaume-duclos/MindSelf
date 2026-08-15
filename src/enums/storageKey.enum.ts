@@ -18,4 +18,8 @@ export enum StorageKey {
 
   // Themes
   SELECTED_THEME = "selectedTheme",
+
+  // Widget
+  WIDGET_DISPLAY_BUTTONS = "widgetDisplayButtons",
+  WIDGET_AFFIRMATIONS_PER_DAY = "widgetAffirmationsPerDay",
 }

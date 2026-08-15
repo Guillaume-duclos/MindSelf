@@ -8,7 +8,7 @@
     "scheme": "mindself",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "",
+      "icon": "./src/assets/expo.icon",
       "bundleIdentifier": "com.anonymous.MindSelf"
     },
     "android": {

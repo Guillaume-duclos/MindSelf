@@ -3,13 +3,18 @@ import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import type Theme from "@/types/theme";
 import { pickRandomAffirmationText } from "@/utils/affirmations";
-import { getStorageObject } from "@/utils/storage";
+import {
+  getStorageBoolean,
+  getStorageNumber,
+  getStorageObject,
+} from "@/utils/storage";
 import { THEME_WIDGET_IMAGES } from "@/utils/themeImages";
 import { Asset } from "expo-asset";
 import { File } from "expo-file-system";
 import { widgetsDirectory } from "expo-widgets";
 
 const HOURS_IN_DAY = 24;
+const DAY_IN_MS = HOURS_IN_DAY * 60 * 60 * 1000;
 
 // Matches the fallback gradient used on the home screen (src/app/index.tsx)
 // when the user hasn't picked a theme yet.
@@ -84,22 +89,26 @@ const getWidgetBackground = async (): Promise<WidgetBackground> => {
   return { colors: DEFAULT_BACKGROUND_COLORS };
 };
 
-// Schedules one random affirmation per hour for the next 24 hours, so the
-// widget keeps rotating content throughout the day even while the app
-// isn't running — WidgetKit switches entries on its own at each date.
+// Schedules `affirmationsPerDay` evenly-spaced entries over the next 24
+// hours, so the widget keeps rotating content throughout the day even while
+// the app isn't running — WidgetKit switches entries on its own at each
+// date. E.g. 24/day changes hourly, 12/day changes every 2 hours.
 export const updateAffirmationWidgetTimeline = async (): Promise<void> => {
   const now = new Date();
   const background = await getWidgetBackground();
+  const showButtons = getStorageBoolean(StorageKey.WIDGET_DISPLAY_BUTTONS) ?? true;
+  const affirmationsPerDay =
+    getStorageNumber(StorageKey.WIDGET_AFFIRMATIONS_PER_DAY) ?? HOURS_IN_DAY;
+  const intervalMs = DAY_IN_MS / affirmationsPerDay;
 
-  const entries = Array.from({ length: HOURS_IN_DAY }, (_, i) => {
-    const date = new Date(now);
-    date.setHours(now.getHours() + i, 0, 0, 0);
-
-    return {
-      date,
-      props: { text: pickRandomAffirmationText(), ...background },
-    };
-  });
+  const entries = Array.from({ length: affirmationsPerDay }, (_, i) => ({
+    date: new Date(now.getTime() + i * intervalMs),
+    props: {
+      text: pickRandomAffirmationText(),
+      ...background,
+      showButtons,
+    },
+  }));
 
   Widget.updateTimeline(entries);
 };
