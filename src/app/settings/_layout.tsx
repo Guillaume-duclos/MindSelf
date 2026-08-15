@@ -12,6 +12,14 @@ export default function SettingsLayout() {
         name="notification"
         options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
       />
+      <Stack.Screen
+        name="termsOfUse"
+        options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
+      />
+      <Stack.Screen
+        name="privacyPolicy"
+        options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
+      />
     </Stack>
   );
 }

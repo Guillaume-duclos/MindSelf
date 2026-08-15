@@ -63,58 +63,62 @@ export default function Widget() {
     <View className="flex-1 bg-cream-50 px-5" style={{ paddingBottom: bottom }}>
       <ScreenHeader title="Widget" showBackButton showCloseButton={false} />
 
-      <View className="gap-12 border">
-        <Image
-          className="w-[92%] self-center border"
+      <View className="gap-12">
+        <View
+          className="w-[92%] self-center"
           style={{ aspectRatio: getImageAspectRatio(WIDGET_ILLUSTRATION) }}
-          contentFit="contain"
-          source={WIDGET_ILLUSTRATION}
-        />
+        >
+          <Image
+            className="absolute inset-0"
+            contentFit="contain"
+            source={WIDGET_ILLUSTRATION}
+          />
 
-        <GlassView className="absolute top-[14.5%] left-[11.3%] z-10 w-[77.2%] h-[21.6%] rounded-[22px] overflow-hidden justify-center items-center p-4">
-          {selectedTheme && Category.IMAGE in selectedTheme ? (
-            <Image
-              contentFit="cover"
-              className="absolute inset-0"
-              source={THEME_IMAGES[selectedTheme.image]}
-            />
-          ) : (
-            <LinearGradient
-              className="absolute inset-0"
-              colors={
-                selectedTheme && "colors" in selectedTheme
-                  ? selectedTheme.colors
-                  : [colors.cream[100], colors.cream[300]]
-              }
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            />
-          )}
-          <Text
-            className="font-noto-serif font-semibold text-ink text-center text-lg"
-            numberOfLines={3}
-          >
-            {previewText}
-          </Text>
+          <GlassView className="absolute top-[27%] left-[11.3%] z-10 w-[77.6%] h-[40%] rounded-[22px] overflow-hidden justify-center items-center p-4">
+            {selectedTheme && Category.IMAGE in selectedTheme ? (
+              <Image
+                contentFit="cover"
+                className="absolute inset-0"
+                source={THEME_IMAGES[selectedTheme.image]}
+              />
+            ) : (
+              <LinearGradient
+                className="absolute inset-0"
+                colors={
+                  selectedTheme && "colors" in selectedTheme
+                    ? selectedTheme.colors
+                    : [colors.cream[100], colors.cream[300]]
+                }
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+              />
+            )}
+            <Text
+              className="font-noto-serif font-semibold text-ink text-center text-lg"
+              numberOfLines={3}
+            >
+              {previewText}
+            </Text>
 
-          {displayButtons && (
-            <View className="flex-row gap-5 absolute items-center bottom-2 right-4">
-              <SymbolView
-                className="-top-1"
-                name={{ ios: "square.and.arrow.up" }}
-                weight="medium"
-                tintColor={colors.ink}
-                size={28}
-              />
-              <SymbolView
-                name={"heart"}
-                weight="medium"
-                tintColor={colors.ink}
-                size={25}
-              />
-            </View>
-          )}
-        </GlassView>
+            {displayButtons && (
+              <View className="flex-row gap-5 absolute items-center bottom-2 right-4">
+                <SymbolView
+                  className="-top-1"
+                  name={{ ios: "square.and.arrow.up" }}
+                  weight="medium"
+                  tintColor={colors.ink}
+                  size={28}
+                />
+                <SymbolView
+                  name={"heart"}
+                  weight="medium"
+                  tintColor={colors.ink}
+                  size={25}
+                />
+              </View>
+            )}
+          </GlassView>
+        </View>
 
         <ListItemContainer>
           <ListItemSwitch

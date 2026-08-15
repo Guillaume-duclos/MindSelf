@@ -10,20 +10,14 @@ export function SettingsFooter() {
     <View className="px-8 mt-8 gap-3 items-center">
       <AppIcon style={{ width: 70, height: 70 }} />
 
-      <View className="flex-row flex-wrap justify-center gap-2">
-        <Text className="font-public-sans font-medium text-sm text-slate-800">
+      <View className="flex-wrap">
+        <Text className="font-public-sans font-medium text-sm text-slate-800 text-center">
           Author : Guillaume Duclos
         </Text>
-        <Text className="font-public-sans font-medium text-sm text-slate-800">
-          -
-        </Text>
-        <Text className="font-public-sans font-medium text-sm text-slate-800">
+        <Text className="font-public-sans font-medium text-sm text-slate-800 text-center">
           Version : {appVersion}
         </Text>
-        <Text className="font-public-sans font-medium text-sm text-slate-800">
-          -
-        </Text>
-        <Text className="font-public-sans font-medium text-sm text-slate-800">
+        <Text className="font-public-sans font-medium text-sm text-slate-800 text-center">
           Build : {buildVersion}
         </Text>
       </View>

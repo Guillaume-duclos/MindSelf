@@ -37,8 +37,7 @@ export function ScreenHeader({
 
   return (
     <View
-      className={`flex-row w-full min-h-[42px] items-center z-10 ${showBackButton && !title ? "justify-start" : "justify-end"} ${className}`}
-      style={(showSkipButton || title) && { justifyContent: "space-between" }}
+      className={`flex-row w-full min-h-[42px] items-center justify-between z-10 ${className}`}
     >
       <View className="flex-row gap-5 items-center">
         {showBackButton && (
@@ -50,32 +49,47 @@ export function ScreenHeader({
             className="self-start"
           />
         )}
-
-        {title && (
-          <Text className="font-noto-serif font-semibold text-ink text-4xl leading-[41px]">
-            {title}
-          </Text>
-        )}
       </View>
 
-      {showCloseButton && (
-        <RoundedButton
-          onPress={close}
-          iconName="xmark"
-          iconSize={24}
-          buttonSize={42}
-        />
+      {/* Positioned independently of the side buttons (rather than living
+      next to the back button in the left group) so it stays centered in the
+      header no matter which buttons are enabled on either side. */}
+      {title && (
+        <View
+          className="absolute inset-0 items-center justify-center px-14"
+          pointerEvents="none"
+        >
+          <Text
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.1}
+            className="font-noto-serif font-semibold text-ink text-2xl leading-[40px]"
+          >
+            {title}
+          </Text>
+        </View>
       )}
 
-      {showSkipButton && (
-        <Pressable
-          hitSlop={10}
-          onPress={onSkip}
-          className="self-stretch items-center justify-center pl-5"
-        >
-          <Text className="font-noto-serif font-medium">Passer</Text>
-        </Pressable>
-      )}
+      <View className="flex-row gap-5 items-center">
+        {showCloseButton && (
+          <RoundedButton
+            onPress={close}
+            iconName="xmark"
+            iconSize={24}
+            buttonSize={42}
+          />
+        )}
+
+        {showSkipButton && (
+          <Pressable
+            hitSlop={10}
+            onPress={onSkip}
+            className="self-stretch items-center justify-center"
+          >
+            <Text className="font-noto-serif font-medium">Passer</Text>
+          </Pressable>
+        )}
+      </View>
     </View>
   );
 }

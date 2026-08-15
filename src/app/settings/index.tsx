@@ -47,11 +47,11 @@ export default function HomeScreen() {
         <ListItemContainer title="Légale">
           <ListItemLink
             text="Conditions d'utilisation"
-            onPress={() => router.navigate("/settings/account")}
+            onPress={() => router.navigate("/settings/termsOfUse")}
           />
           <ListItemLink
             text="Politique de confidentialité"
-            onPress={() => router.navigate("/settings/account")}
+            onPress={() => router.navigate("/settings/privacyPolicy")}
           />
         </ListItemContainer>
 

@@ -28,14 +28,6 @@ export default function Account() {
             text="Genre"
             onPress={() => router.navigate("/settings/account")}
           />
-          <ListItemLink
-            text="Email"
-            onPress={() => router.navigate("/settings/account")}
-          />
-          <ListItemLink
-            text="Langue"
-            onPress={() => router.navigate("/settings/account")}
-          />
         </ListItemContainer>
       </ScrollView>
     </View>
