@@ -1,9 +1,13 @@
 import colors from "@/constants/colors";
+import {
+  isAffirmationLiked,
+  toggleAffirmationLike,
+} from "@/utils/affirmationStats";
 import { GlassView } from "expo-glass-effect";
 import * as Haptics from "expo-haptics";
 import { Link } from "expo-router";
 import { SymbolView } from "expo-symbols";
-import { Ref, useState } from "react";
+import { Ref, useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import Animated, {
   interpolateColor,
@@ -46,9 +50,15 @@ export function AffirmationCard({
   isInteractive = false,
   ref,
 }: Props) {
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(() => isAffirmationLiked(text));
   const likeProgress = useSharedValue(0);
   const scale = useSharedValue(1);
+
+  // FlashList recycles component instances across different `text` props,
+  // so the liked state can't rely on the initial useState alone.
+  useEffect(() => {
+    setLiked(isAffirmationLiked(text));
+  }, [text]);
 
   const animatedProps = useAnimatedProps(() => ({
     tintColor: interpolateColor(
@@ -63,7 +73,7 @@ export function AffirmationCard({
   }));
 
   const toggleLike = () => {
-    const next = !liked;
+    const next = toggleAffirmationLike(text);
     setLiked(next);
 
     if (next) {

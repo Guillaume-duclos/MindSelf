@@ -2,7 +2,8 @@ import Widget from "@/components/Widget";
 import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import type Theme from "@/types/theme";
-import { pickRandomAffirmationText } from "@/utils/affirmations";
+import { recordAffirmationSeen } from "@/utils/affirmationStats";
+import { pickNextAffirmations } from "@/utils/affirmations";
 import {
   getStorageBoolean,
   getStorageNumber,
@@ -101,10 +102,22 @@ export const updateAffirmationWidgetTimeline = async (): Promise<void> => {
     getStorageNumber(StorageKey.WIDGET_AFFIRMATIONS_PER_DAY) ?? HOURS_IN_DAY;
   const intervalMs = DAY_IN_MS / affirmationsPerDay;
 
-  const entries = Array.from({ length: affirmationsPerDay }, (_, i) => ({
+  // Picked with the same freshness/like/share weighting as the home feed's
+  // pickNextAffirmations, so the widget's rotation stays in sync with what
+  // the app already knows about instead of scoring independently — and
+  // "without replacement" also means no accidental repeat within one day.
+  const texts = pickNextAffirmations(affirmationsPerDay);
+
+  // The widget runs in an isolated extension process with no access to app
+  // storage, so it can't record its own "seen" events — this call, made
+  // from the app process at generation time, is the closest proxy: these
+  // affirmations are about to be shown over the next 24h.
+  texts.forEach(recordAffirmationSeen);
+
+  const entries = texts.map((text, i) => ({
     date: new Date(now.getTime() + i * intervalMs),
     props: {
-      text: pickRandomAffirmationText(),
+      text,
       ...background,
       showButtons,
     },

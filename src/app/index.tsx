@@ -2,10 +2,11 @@ import { AffirmationCard } from "@/components/AffirmationCard";
 import AnimatedGradientBackground from "@/components/AnimatedGradientBackground";
 import { RoundedButton } from "@/components/RoundedButton";
 import colors from "@/constants/colors";
-import affirmations from "@/data/affirmations.json";
 import { StorageKey } from "@/enums/storageKey.enum";
 import Category from "@/enums/themeCategory.enum";
 import Theme from "@/types/theme";
+import { recordAffirmationSeen } from "@/utils/affirmationStats";
+import { pickNextAffirmations } from "@/utils/affirmations";
 import { getOnboardingResumeRoute } from "@/utils/onboarding";
 import { storage } from "@/utils/storage";
 import { THEME_IMAGES } from "@/utils/themeImages";
@@ -15,9 +16,26 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link, Redirect } from "expo-router";
 import { SymbolView } from "expo-symbols";
-import { Pressable, Text, useWindowDimensions, View } from "react-native";
+import { useRef, useState } from "react";
+import {
+  Pressable,
+  Text,
+  useWindowDimensions,
+  View,
+  type ViewToken,
+} from "react-native";
 import { useMMKVObject } from "react-native-mmkv";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+// Enough to fill several screens up front, then topped up as the user
+// scrolls so the weighting (fresh/liked/shared) reacts to what's already
+// been shown in this session instead of being computed all at once.
+const INITIAL_BATCH_SIZE = 20;
+const NEXT_BATCH_SIZE = 15;
+// Only the most recent picks are excluded from the next batch — a rolling
+// short-term memory, not a permanent ban, so the pool can recycle over a
+// long scroll session instead of running dry.
+const RECENT_PICKS_EXCLUDE_WINDOW = 60;
 
 export default function HomeScreen() {
   const { height } = useWindowDimensions();
@@ -26,6 +44,27 @@ export default function HomeScreen() {
     StorageKey.SELECTED_THEME,
     storage,
   );
+  const [queue, setQueue] = useState<string[]>(() =>
+    pickNextAffirmations(INITIAL_BATCH_SIZE),
+  );
+
+  const loadMoreAffirmations = () => {
+    setQueue((current) => {
+      const exclude = new Set(current.slice(-RECENT_PICKS_EXCLUDE_WINDOW));
+      return [...current, ...pickNextAffirmations(NEXT_BATCH_SIZE, exclude)];
+    });
+  };
+
+  const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 90 }).current;
+  const handleViewableItemsChanged = useRef(
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+      const visibleText = viewableItems[0]?.item as string | undefined;
+
+      if (visibleText) {
+        recordAffirmationSeen(visibleText);
+      }
+    },
+  ).current;
 
   // TEMPORAIRE: force le lancement sur l'onboarding, à retirer une fois testé.
   const resumeRoute = getOnboardingResumeRoute();
@@ -111,12 +150,16 @@ export default function HomeScreen() {
 
       <FlashList
         pagingEnabled
-        data={affirmations}
+        data={queue}
+        onEndReached={loadMoreAffirmations}
+        onEndReachedThreshold={0.5}
+        viewabilityConfig={viewabilityConfig}
+        onViewableItemsChanged={handleViewableItemsChanged}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item, index) => `${index}-${item.text}`}
+        keyExtractor={(item, index) => `${index}-${item}`}
         renderItem={({ item }) => (
           <View className="items-center justify-center px-6" style={{ height }}>
-            <AffirmationCard text={item.text} />
+            <AffirmationCard text={item} />
           </View>
         )}
       />

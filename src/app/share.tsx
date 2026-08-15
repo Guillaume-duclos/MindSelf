@@ -6,6 +6,7 @@ import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import Category from "@/enums/themeCategory.enum";
 import Theme from "@/types/theme";
+import { recordAffirmationShared } from "@/utils/affirmationStats";
 import { storage } from "@/utils/storage";
 import { THEME_IMAGES } from "@/utils/themeImages";
 import * as Clipboard from "expo-clipboard";
@@ -76,6 +77,8 @@ export default function Share() {
       mimeType: "image/png",
       UTI: "public.png",
     });
+
+    recordAffirmationShared(text);
   };
 
   const addToWidget = async (): Promise<void> => {};
@@ -84,40 +87,42 @@ export default function Share() {
     <View className="flex-1 px-5">
       <ScreenHeader title="Partager" />
 
-      <View
-        ref={cardRef}
-        className="flex-1 rounded-3xl border-continuous overflow-hidden"
-      >
-        {selectedTheme && Category.IMAGE in selectedTheme ? (
-          <Image
-            className="absolute inset-0 w-full h-full"
-            source={THEME_IMAGES[selectedTheme.image]}
-            contentFit="cover"
-          />
-        ) : selectedTheme?.category === Category.ANIMATED_GRADIENT ? (
-          <View className="absolute inset-0">
-            <AnimatedGradientBackground colors={selectedTheme.colors} />
-          </View>
-        ) : (
-          <LinearGradient
-            className="absolute inset-0"
-            colors={
-              selectedTheme
-                ? selectedTheme.colors
-                : [colors.cream[100], colors.cream[300]]
-            }
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-          />
-        )}
+      <View className="flex-1 rounded-3xl shadow-xl shadow-black/30">
+        <View
+          ref={cardRef}
+          className="flex-1 rounded-3xl border-continuous overflow-hidden"
+        >
+          {selectedTheme && Category.IMAGE in selectedTheme ? (
+            <Image
+              className="absolute inset-0 w-full h-full"
+              source={THEME_IMAGES[selectedTheme.image]}
+              contentFit="cover"
+            />
+          ) : selectedTheme?.category === Category.ANIMATED_GRADIENT ? (
+            <View className="absolute inset-0">
+              <AnimatedGradientBackground colors={selectedTheme.colors} />
+            </View>
+          ) : (
+            <LinearGradient
+              className="absolute inset-0"
+              colors={
+                selectedTheme
+                  ? selectedTheme.colors
+                  : [colors.cream[100], colors.cream[300]]
+              }
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            />
+          )}
 
-        <View className="flex-1 px-12 py-28">
-          <AffirmationCard
-            text={text}
-            className="flex-1"
-            showButtons={false}
-            isInteractive={false}
-          />
+          <View className="flex-1 px-12 py-28">
+            <AffirmationCard
+              text={text}
+              className="flex-1"
+              showButtons={false}
+              isInteractive={false}
+            />
+          </View>
         </View>
       </View>
 
