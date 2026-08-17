@@ -22,11 +22,23 @@ export default function Account() {
         <ListItemContainer title="Informations personnelles">
           <ListItemLink
             text="Prénom"
-            onPress={() => router.navigate("/settings/account")}
+            onPress={() => router.navigate("/settings/userName")}
           />
           <ListItemLink
             text="Genre"
-            onPress={() => router.navigate("/settings/account")}
+            onPress={() => router.navigate("/settings/userSex")}
+          />
+          <ListItemLink
+            text="Age"
+            onPress={() => router.navigate("/settings/userAgeRange")}
+          />
+          <ListItemLink
+            text="Statut relationnel"
+            onPress={() => router.navigate("/settings/userRelationshipStatus")}
+          />
+          <ListItemLink
+            text="Situation professionnelle"
+            onPress={() => router.navigate("/settings/userProfessionalStatus")}
           />
         </ListItemContainer>
       </ScrollView>

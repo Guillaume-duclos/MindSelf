@@ -20,6 +20,26 @@ export default function SettingsLayout() {
         name="privacyPolicy"
         options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
       />
+      <Stack.Screen
+        name="userName"
+        options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
+      />
+      <Stack.Screen
+        name="userSex"
+        options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
+      />
+      <Stack.Screen
+        name="userAgeRange"
+        options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
+      />
+      <Stack.Screen
+        name="userRelationshipStatus"
+        options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
+      />
+      <Stack.Screen
+        name="userProfessionalStatus"
+        options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
+      />
     </Stack>
   );
 }

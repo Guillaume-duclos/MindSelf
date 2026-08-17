@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function UserName() {
   const router = useRouter();
-  const [userName, setUserName] = useState("Guillaume");
+  const [userName, setUserName] = useState("");
 
   const handleContinue = () => {
     setStorageItem(StorageKey.USER_NAME, userName);

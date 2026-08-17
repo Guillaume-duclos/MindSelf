@@ -77,6 +77,7 @@ const STORAGE_KEY_TYPE: Record<StorageKey, "string" | "number" | "boolean"> = {
   [StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION]: "boolean",
   [StorageKey.SELECTED_THEME]: "string",
   [StorageKey.AFFIRMATION_STATS]: "string",
+  [StorageKey.HAS_SEEN_SECOND_AFFIRMATION]: "boolean",
   [StorageKey.WIDGET_DISPLAY_BUTTONS]: "boolean",
   [StorageKey.WIDGET_AFFIRMATIONS_PER_DAY]: "number",
 };

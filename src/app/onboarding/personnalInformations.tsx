@@ -74,7 +74,7 @@ const questions: Question[] = [
     ],
   },
   {
-    title: "Quelle est ton statut relationnel ?",
+    title: "Quel est ton statut relationnel ?",
     storageKey: StorageKey.USER_RELATIONSHIP_STATUS,
     page: Page.ONBOARDING_USER_RELATIONSHIP_STATUS,
     nextPage: Page.ONBOARDING_USER_PROFESSIONAL_STATUS,

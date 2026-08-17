@@ -9,6 +9,7 @@ import Theme from "@/types/theme";
 import { recordAffirmationShared } from "@/utils/affirmationStats";
 import { storage } from "@/utils/storage";
 import { THEME_IMAGES } from "@/utils/themeImages";
+import { pinAffirmationToWidget } from "@/utils/widget";
 import * as Clipboard from "expo-clipboard";
 import { File, Paths } from "expo-file-system";
 import * as Haptics from "expo-haptics";
@@ -81,7 +82,10 @@ export default function Share() {
     recordAffirmationShared(text);
   };
 
-  const addToWidget = async (): Promise<void> => {};
+  const addToWidget = async (): Promise<void> => {
+    await pinAffirmationToWidget(text);
+    await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  };
 
   return (
     <View className="flex-1 px-5">

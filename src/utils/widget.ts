@@ -90,23 +90,31 @@ const getWidgetBackground = async (): Promise<WidgetBackground> => {
   return { colors: DEFAULT_BACKGROUND_COLORS };
 };
 
-// Schedules `affirmationsPerDay` evenly-spaced entries over the next 24
-// hours, so the widget keeps rotating content throughout the day even while
-// the app isn't running — WidgetKit switches entries on its own at each
-// date. E.g. 24/day changes hourly, 12/day changes every 2 hours.
-export const updateAffirmationWidgetTimeline = async (): Promise<void> => {
+// Builds and pushes `affirmationsPerDay` evenly-spaced entries over the next
+// 24 hours, so the widget keeps rotating content throughout the day even
+// while the app isn't running — WidgetKit switches entries on its own at
+// each date. E.g. 24/day changes hourly, 12/day changes every 2 hours.
+// `pinnedText`, when given, takes the very next (immediate) slot instead of
+// a weighted pick, while every later slot still follows the normal rotation.
+const pushAffirmationTimeline = async (
+  affirmationsPerDay: number,
+  pinnedText?: string,
+): Promise<void> => {
   const now = new Date();
   const background = await getWidgetBackground();
   const showButtons = getStorageBoolean(StorageKey.WIDGET_DISPLAY_BUTTONS) ?? true;
-  const affirmationsPerDay =
-    getStorageNumber(StorageKey.WIDGET_AFFIRMATIONS_PER_DAY) ?? HOURS_IN_DAY;
   const intervalMs = DAY_IN_MS / affirmationsPerDay;
 
   // Picked with the same freshness/like/share weighting as the home feed's
   // pickNextAffirmations, so the widget's rotation stays in sync with what
   // the app already knows about instead of scoring independently — and
   // "without replacement" also means no accidental repeat within one day.
-  const texts = pickNextAffirmations(affirmationsPerDay);
+  const pickCount = pinnedText ? affirmationsPerDay - 1 : affirmationsPerDay;
+  const picked = pickNextAffirmations(
+    pickCount,
+    pinnedText ? new Set([pinnedText]) : undefined,
+  );
+  const texts = pinnedText ? [pinnedText, ...picked] : picked;
 
   // The widget runs in an isolated extension process with no access to app
   // storage, so it can't record its own "seen" events — this call, made
@@ -124,4 +132,18 @@ export const updateAffirmationWidgetTimeline = async (): Promise<void> => {
   }));
 
   Widget.updateTimeline(entries);
+};
+
+const getAffirmationsPerDay = (): number =>
+  getStorageNumber(StorageKey.WIDGET_AFFIRMATIONS_PER_DAY) ?? HOURS_IN_DAY;
+
+export const updateAffirmationWidgetTimeline = async (): Promise<void> => {
+  await pushAffirmationTimeline(getAffirmationsPerDay());
+};
+
+// Puts `text` on the widget right away (replacing whatever is currently
+// shown), then lets the rest of the day's rotation continue as configured
+// in the widget settings instead of freezing on this one affirmation.
+export const pinAffirmationToWidget = async (text: string): Promise<void> => {
+  await pushAffirmationTimeline(getAffirmationsPerDay(), text);
 };

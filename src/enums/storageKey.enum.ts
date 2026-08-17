@@ -21,6 +21,7 @@ export enum StorageKey {
 
   // Affirmations
   AFFIRMATION_STATS = "affirmationStats",
+  HAS_SEEN_SECOND_AFFIRMATION = "hasSeenSecondAffirmation",
 
   // Widget
   WIDGET_DISPLAY_BUTTONS = "widgetDisplayButtons",

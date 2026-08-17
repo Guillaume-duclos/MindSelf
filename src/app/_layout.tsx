@@ -1,9 +1,14 @@
 import colors from "@/constants/colors";
+import { StorageKey } from "@/enums/storageKey.enum";
 import {
   configureNotificationHandler,
   scheduleNotification,
 } from "@/utils/notifications";
-import { getAllStorageEntries, removeAllStorage } from "@/utils/storage";
+import {
+  getAllStorageEntries,
+  removeAllStorage,
+  setStorageItem,
+} from "@/utils/storage";
 import { updateAffirmationWidgetTimeline } from "@/utils/widget";
 import { Host } from "@expo/ui";
 import { registerDevMenuItems } from "expo-dev-menu";
@@ -46,6 +51,11 @@ if (__DEV__) {
     {
       name: "Rafraîchir le widget",
       callback: () => updateAffirmationWidgetTimeline(),
+    },
+    {
+      name: "Rejouer les animations d'accueil",
+      callback: () =>
+        setStorageItem(StorageKey.HAS_SEEN_SECOND_AFFIRMATION, false),
     },
   ]);
 }
