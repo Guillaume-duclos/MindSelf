@@ -1,5 +1,6 @@
 import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
+import { recordAppOpenedToday } from "@/utils/activity";
 import {
   configureNotificationHandler,
   scheduleNotification,
@@ -32,6 +33,7 @@ cssInterop(Host, { className: "style" });
 
 configureNotificationHandler();
 updateAffirmationWidgetTimeline();
+recordAppOpenedToday();
 
 if (__DEV__) {
   registerDevMenuItems([

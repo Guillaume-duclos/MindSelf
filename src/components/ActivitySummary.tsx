@@ -1,43 +1,37 @@
+import { StorageKey } from "@/enums/storageKey.enum";
+import type { WeekActivity } from "@/utils/activity";
+import { storage } from "@/utils/storage";
 import { SymbolView } from "expo-symbols";
 import { Text, View } from "react-native";
+import { useMMKVNumber, useMMKVObject } from "react-native-mmkv";
+
+// Monday to Sunday, matching the Monday-indexed week used in
+// src/utils/activity.ts.
+const DAY_LABELS = ["l", "m", "m", "j", "v", "s", "d"];
 
 export function ActivitySummary() {
-  const days = [
-    {
-      day: "l",
-      completed: true,
-    },
-    {
-      day: "m",
-      completed: true,
-    },
-    {
-      day: "m",
-      completed: false,
-    },
-    {
-      day: "j",
-      completed: true,
-    },
-    {
-      day: "v",
-      completed: false,
-    },
-    {
-      day: "s",
-      completed: false,
-    },
-    {
-      day: "d",
-      completed: true,
-    },
-  ];
+  const [openedDays] = useMMKVObject<WeekActivity>(
+    StorageKey.ACTIVITY_OPENED_DAYS,
+    storage,
+  );
+  const [completedWeeks] = useMMKVNumber(
+    StorageKey.ACTIVITY_COMPLETED_WEEKS_COUNT,
+    storage,
+  );
+
+  const days = DAY_LABELS.map((day, index) => ({
+    day,
+    completed: openedDays?.[index] ?? false,
+  }));
 
   return (
     <View className="gap-4 bg-cream-200 px-6 py-6 rounded-3xl">
       <View className="flex-row justify-between">
         <Text className="font-noto-serif font-semibold text-4xl leading-none text-ink">
-          <Text className="font-noto-serif font-bold text-5xl">1</Text> série
+          <Text className="font-noto-serif font-bold text-5xl">
+            {completedWeeks ?? 0}
+          </Text>{" "}
+          série
         </Text>
       </View>
 

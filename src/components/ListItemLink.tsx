@@ -1,3 +1,4 @@
+import { useLongPressStyle } from "@/hooks/use-long-press-style";
 import { SymbolView } from "expo-symbols";
 import { Pressable, Text, View } from "react-native";
 
@@ -8,10 +9,14 @@ type Props = {
 };
 
 export function ListItemLink({ text, leftIcon, onPress }: Props) {
+  const { isLongPressed, onPressIn, onPressOut } = useLongPressStyle();
+
   return (
     <Pressable
       onPress={onPress}
-      className="flex-row items-center justify-between py-4 rounded-4xl border-continuous gap-5"
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      className={`flex-row items-center justify-between py-4 px-5 rounded-4xl border-continuous gap-5 ${isLongPressed ? "bg-cream-300" : ""}`}
     >
       {leftIcon ? (
         <View className="flex-1 flex-row items-center gap-2">

@@ -23,6 +23,11 @@ export enum StorageKey {
   AFFIRMATION_STATS = "affirmationStats",
   HAS_SEEN_SECOND_AFFIRMATION = "hasSeenSecondAffirmation",
 
+  // Activity
+  ACTIVITY_WEEK_START = "activityWeekStart",
+  ACTIVITY_OPENED_DAYS = "activityOpenedDays",
+  ACTIVITY_COMPLETED_WEEKS_COUNT = "activityCompletedWeeksCount",
+
   // Widget
   WIDGET_DISPLAY_BUTTONS = "widgetDisplayButtons",
   WIDGET_AFFIRMATIONS_PER_DAY = "widgetAffirmationsPerDay",

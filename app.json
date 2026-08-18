@@ -98,7 +98,9 @@
               "supportedFamilies": [
                 "systemSmall",
                 "systemMedium",
-                "systemLarge"
+                "systemLarge",
+                "accessoryRectangular",
+                "accessoryInline"
               ],
               "contentMarginsDisabled": true
             }

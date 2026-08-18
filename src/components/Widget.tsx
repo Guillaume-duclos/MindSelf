@@ -17,6 +17,7 @@ import {
   containerRelativeFrame,
   font,
   foregroundStyle,
+  lineLimit,
   multilineTextAlignment,
   offset,
   padding,
@@ -38,6 +39,53 @@ const AffirmationWidget = (
 ) => {
   "widget";
 
+  // Only this function's own source is sent to the widget extension (see
+  // FONT_SIZE_BY_FAMILY below) — it can't import "@/constants/colors", so
+  // these are kept in sync with that file's values by hand.
+  const ink = "#291C1A";
+  const terracotta = "#F7A07C";
+
+  const ACCESSORY_FONT_SIZE_BY_FAMILY: Partial<Record<string, number>> = {
+    accessoryRectangular: 13,
+    accessoryInline: 15,
+  };
+
+  const ACCESSORY_LINE_LIMIT_BY_FAMILY: Partial<Record<string, number>> = {
+    accessoryRectangular: 4,
+    accessoryInline: 1,
+  };
+
+  // Lock screen widgets (iOS 16+): the system renders them in its own
+  // vibrant/tinted mode and gives almost no space, so they get a
+  // stripped-down layout — affirmation text only, no image/gradient
+  // background or buttons, matching stock iOS lock screen widgets (system
+  // font, white text). Overflowing text truncates with an ellipsis,
+  // SwiftUI's default once a lineLimit is set.
+  if (environment.widgetFamily in ACCESSORY_FONT_SIZE_BY_FAMILY) {
+    return (
+      <ZStack
+        alignment="leading"
+        modifiers={[containerBackground(props.colors[0], "widget")]}
+      >
+        <Text
+          modifiers={[
+            font({
+              weight: "semibold",
+              size: ACCESSORY_FONT_SIZE_BY_FAMILY[environment.widgetFamily] ?? 13,
+            }),
+            foregroundStyle("#FFFFFF"),
+            multilineTextAlignment("leading"),
+            lineLimit(
+              ACCESSORY_LINE_LIMIT_BY_FAMILY[environment.widgetFamily] ?? 3,
+            ),
+          ]}
+        >
+          {props.text}
+        </Text>
+      </ZStack>
+    );
+  }
+
   const FONT_SIZE_BY_FAMILY: Partial<Record<string, number>> = {
     systemSmall: 14,
     systemMedium: 16,
@@ -54,12 +102,6 @@ const AffirmationWidget = (
     systemLarge: 14,
     systemExtraLarge: 14,
   };
-
-  // Only this function's own source is sent to the widget extension (see
-  // FONT_SIZE_BY_FAMILY above) — it can't import "@/constants/colors", so
-  // these are kept in sync with that file's values by hand.
-  const ink = "#291C1A";
-  const terracotta = "#F7A07C";
 
   return (
     <ZStack modifiers={[containerBackground(props.colors[0], "widget")]}>

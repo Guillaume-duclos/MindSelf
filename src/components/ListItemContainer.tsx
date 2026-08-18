@@ -17,10 +17,14 @@ export function ListItemContainer({ title, children }: Props) {
         </Text>
       )}
 
-      <View className="w-full px-5 rounded-3xl border-continuous bg-cream-200">
+      {/* No horizontal padding here — each row owns its own (px-5), so its
+      pressed-state background can span the full card width edge to edge
+      instead of stopping short at a padding gap. overflow-hidden clips
+      that full-bleed background to the card's rounded corners. */}
+      <View className="w-full rounded-3xl border-continuous bg-cream-200 overflow-hidden">
         {items.map((item, index) => (
           <Fragment key={index}>
-            {index > 0 && <View className="h-px bg-ink/10" />}
+            {index > 0 && <View className="h-px mx-5 bg-ink/10" />}
             {item}
           </Fragment>
         ))}

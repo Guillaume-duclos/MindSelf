@@ -78,6 +78,9 @@ const STORAGE_KEY_TYPE: Record<StorageKey, "string" | "number" | "boolean"> = {
   [StorageKey.SELECTED_THEME]: "string",
   [StorageKey.AFFIRMATION_STATS]: "string",
   [StorageKey.HAS_SEEN_SECOND_AFFIRMATION]: "boolean",
+  [StorageKey.ACTIVITY_WEEK_START]: "string",
+  [StorageKey.ACTIVITY_OPENED_DAYS]: "string",
+  [StorageKey.ACTIVITY_COMPLETED_WEEKS_COUNT]: "number",
   [StorageKey.WIDGET_DISPLAY_BUTTONS]: "boolean",
   [StorageKey.WIDGET_AFFIRMATIONS_PER_DAY]: "number",
 };

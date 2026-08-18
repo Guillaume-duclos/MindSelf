@@ -1,8 +1,9 @@
 import { ListItemContainer } from "@/components/ListItemContainer";
 import { ListItemLink } from "@/components/ListItemLink";
 import { ScreenHeader } from "@/components/ScreenHeader";
+import { ScrollViewContainer } from "@/components/ScrollViewContainer";
 import { useRouter } from "expo-router";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Account() {
@@ -18,7 +19,7 @@ export default function Account() {
         className="py-5 px-5"
       />
 
-      <ScrollView contentContainerClassName="flex-1 px-5 gap-10">
+      <ScrollViewContainer contentContainerClassName="flex-1 px-5 gap-10">
         <ListItemContainer title="Informations personnelles">
           <ListItemLink
             text="Prénom"
@@ -41,7 +42,7 @@ export default function Account() {
             onPress={() => router.navigate("/settings/userProfessionalStatus")}
           />
         </ListItemContainer>
-      </ScrollView>
+      </ScrollViewContainer>
     </View>
   );
 }
