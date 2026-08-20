@@ -8,6 +8,8 @@ type Props = {
   minValue?: number;
   maxValue?: number;
   onValueChange: (value: number) => void;
+  className?: string;
+  disabled?: boolean;
 };
 
 export function ListItemStepper({
@@ -16,13 +18,22 @@ export function ListItemStepper({
   minValue = 1,
   maxValue = 24,
   onValueChange,
+  className,
+  disabled,
 }: Props) {
   return (
-    <View className="flex-row items-center justify-between py-4 px-5 rounded-4xl border-continuous gap-5">
-      <Text className="flex-1 font-public-sans text-lg leading-6 text-text-900">{text}</Text>
+    <View
+      pointerEvents={disabled ? "none" : "auto"}
+      className={`flex-row items-center justify-between py-4 px-5 rounded-4xl border-continuous gap-5 ${className}`}
+    >
+      <Text className="flex-1 font-public-sans text-lg leading-6 text-text-900">
+        {text}
+      </Text>
 
       <View className="flex-row items-center gap-3">
-        <Text className="font-public-sans font-semibold text-lg text-text-900">{value}</Text>
+        <Text className="font-public-sans font-semibold text-lg text-text-900">
+          {value}
+        </Text>
 
         <Host matchContents>
           <Stepper

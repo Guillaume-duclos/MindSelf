@@ -76,6 +76,7 @@ const STORAGE_KEY_TYPE: Record<StorageKey, "string" | "number" | "boolean"> = {
   [StorageKey.USER_PROFESSIONAL_STATUS]: "string",
   [StorageKey.USER_ASTRAL_SIGN]: "string",
   [StorageKey.USER_DAY_GOAL]: "number",
+  [StorageKey.USER_DAY_GOAL_ENABLED]: "boolean",
   [StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION]: "boolean",
   [StorageKey.SELECTED_THEME]: "string",
   [StorageKey.AFFIRMATION_STATS]: "string",

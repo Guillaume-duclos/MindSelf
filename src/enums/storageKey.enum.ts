@@ -14,6 +14,7 @@ export enum StorageKey {
   USER_PROFESSIONAL_STATUS = "userProfessionalStatus",
   USER_ASTRAL_SIGN = "userAstralSign",
   USER_DAY_GOAL = "userDayGoal",
+  USER_DAY_GOAL_ENABLED = "userDayGoalEnabled",
 
   // Paywall
   ACTIVATE_FREE_TRIAL_END_NOTIFICATION = "activateFreeTrialEndNotification",
