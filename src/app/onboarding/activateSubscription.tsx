@@ -10,14 +10,6 @@ export default function activateSubscription() {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
 
-  const onPressTermsOfUse = (): void => {
-    router.push(getRouteForPage(Page.TERMS_OF_USE));
-  };
-
-  const onPressPravicyPolicy = (): void => {
-    router.push(getRouteForPage(Page.PRIVACY_POLICY));
-  };
-
   const onPressActivateSubscription = (): void => {
     setStorageItem(StorageKey.CURRENT_ONBOARDING_PAGE, Page.HOME);
     router.push(getRouteForPage(Page.HOME));
@@ -27,8 +19,6 @@ export default function activateSubscription() {
     <PaywallContent
       style={{ paddingTop: top }}
       contentClassName="justify-center"
-      onPressTermsOfUse={onPressTermsOfUse}
-      onPressPravicyPolicy={onPressPravicyPolicy}
       onPressActivateSubscription={onPressActivateSubscription}
     />
   );

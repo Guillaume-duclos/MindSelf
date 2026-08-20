@@ -6,6 +6,7 @@ import { CustomOptionsWheelPicker } from "./CustomOptionsWheelPicker";
 type Props = {
   value: NotificationTimeRange;
   onChange: (value: NotificationTimeRange) => void;
+  disabled?: boolean;
   className?: string;
 };
 
@@ -19,7 +20,12 @@ const HOUR_OPTIONS: option[] = Array.from({ length: 24 }, (_, i) => {
   return { label: hour, value: hour };
 });
 
-export function NotificationSetter({ value, onChange, className }: Props) {
+export function NotificationSetter({
+  value,
+  onChange,
+  disabled,
+  className,
+}: Props) {
   const handleStartTimeChange = (startTime: string) => {
     const hour = Number(startTime);
     const endTime =
@@ -31,7 +37,10 @@ export function NotificationSetter({ value, onChange, className }: Props) {
   };
 
   return (
-    <View className={`flex-row ${className}`}>
+    <View
+      className={`flex-row ${className}`}
+      pointerEvents={disabled ? "none" : "auto"}
+    >
       <View className="flex-1">
         <Text className="text-center text-xl font-public-sans font-semibold leading-6 text-text-900">
           Rappels par {"\n"}jour

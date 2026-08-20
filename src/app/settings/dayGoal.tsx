@@ -3,6 +3,8 @@ import { CustomOptionsWheelPicker } from "@/components/CustomOptionsWheelPicker"
 import { ScreenTitle } from "@/components/ScreenTitle";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { StorageKey } from "@/enums/storageKey.enum";
+import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
+import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
 import { getStorageNumber, setStorageItem } from "@/utils/storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -24,6 +26,9 @@ const OPTIONS = Array.from(
 export default function DayGoal() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const closeSettingsModal = useCloseSettingsModal();
+
+  useDisableSwipeDismiss();
 
   const [dayGoal, setDayGoal] = useState(() =>
     String(getStorageNumber(StorageKey.USER_DAY_GOAL) ?? DEFAULT_DAY_GOAL),
@@ -39,7 +44,8 @@ export default function DayGoal() {
       <ScreenHeader
         title="Mes objectifs"
         showBackButton
-        showCloseButton={false}
+        showCloseButton
+        onClose={closeSettingsModal}
       />
 
       <View className="flex-1 justify-between mt-10 px-5 gap-10">

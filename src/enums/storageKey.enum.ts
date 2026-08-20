@@ -7,6 +7,7 @@ export enum StorageKey {
   ASTRAL_SIGN_PAGE_VIEWED = "astralSignPageViewed",
   USER_NAME = "userName",
   USER_NOTIFICATION_TIME_RANGE = "userNotificationTimeRange",
+  NOTIFICATIONS_ENABLED = "notificationsEnabled",
   USER_AGE_RANGE = "userAgeRange",
   USER_SEX = "userSex",
   USER_RELATIONSHIP_STATUS = "userRelationshipStatus",

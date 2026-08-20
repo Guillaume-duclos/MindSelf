@@ -28,6 +28,7 @@ export default function activateNotification() {
 
   const activateNotification = async (): Promise<void> => {
     setStorageObject(StorageKey.USER_NOTIFICATION_TIME_RANGE, timeRange);
+    setStorageItem(StorageKey.NOTIFICATIONS_ENABLED, true);
 
     setStorageItem(
       StorageKey.CURRENT_ONBOARDING_PAGE,
@@ -40,6 +41,8 @@ export default function activateNotification() {
   };
 
   const handleSkip = () => {
+    setStorageItem(StorageKey.NOTIFICATIONS_ENABLED, false);
+
     setStorageItem(
       StorageKey.CURRENT_ONBOARDING_PAGE,
       Page.ONBOARDING_USER_AGE_RANGE,

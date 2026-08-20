@@ -5,6 +5,8 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScrollViewContainer } from "@/components/ScrollViewContainer";
 import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
+import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
+import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
 import { getStorageString, setStorageItem } from "@/utils/storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -42,6 +44,9 @@ const OPTIONS = [
 export default function UserAgeRange() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const closeSettingsModal = useCloseSettingsModal();
+
+  useDisableSwipeDismiss();
 
   const [userAgeRange, setUserAgeRange] = useState(
     () => getStorageString(StorageKey.USER_AGE_RANGE) ?? "",
@@ -57,7 +62,8 @@ export default function UserAgeRange() {
       <ScreenHeader
         title="Age"
         showBackButton
-        showCloseButton={false}
+        showCloseButton
+        onClose={closeSettingsModal}
         className="p-5"
       />
 

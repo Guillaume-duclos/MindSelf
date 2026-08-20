@@ -1,5 +1,6 @@
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScrollViewContainer } from "@/components/ScrollViewContainer";
+import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
 import { getImageAspectRatio } from "@/utils/image";
 import { Host, Picker, Text as SegmentedText } from "@expo/ui/swift-ui";
 import { pickerStyle, tag } from "@expo/ui/swift-ui/modifiers";
@@ -79,6 +80,9 @@ const WIDGET_HELP_TABS: WidgetHelpTab[] = [
 
 export default function WidgetHelp() {
   const { bottom } = useSafeAreaInsets();
+
+  useDisableSwipeDismiss(true);
+
   const [tabId, setTabId] = useState(WIDGET_HELP_TABS[0].id);
 
   const activeTab =
@@ -88,8 +92,7 @@ export default function WidgetHelp() {
     <View className="flex-1 bg-cream-50">
       <ScreenHeader
         title="Afficher un widget"
-        showBackButton
-        showCloseButton={false}
+        showCloseButton
         className="p-5"
       />
 

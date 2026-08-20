@@ -6,6 +6,8 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import Category from "@/enums/themeCategory.enum";
+import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
+import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
 import Theme from "@/types/theme";
 import { pickRandomAffirmationText } from "@/utils/affirmations";
 import { getImageAspectRatio } from "@/utils/image";
@@ -32,6 +34,10 @@ const WIDGET_ILLUSTRATION = require("@/assets/images/widget-help/widget-illustra
 export default function Widget() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const closeSettingsModal = useCloseSettingsModal();
+
+  useDisableSwipeDismiss();
+
   const [selectedTheme] = useMMKVObject<Theme>(
     StorageKey.SELECTED_THEME,
     storage,
@@ -61,7 +67,12 @@ export default function Widget() {
 
   return (
     <View className="flex-1 bg-cream-50 px-5" style={{ paddingBottom: bottom }}>
-      <ScreenHeader title="Widget" showBackButton showCloseButton={false} />
+      <ScreenHeader
+        title="Widget"
+        showBackButton
+        showCloseButton
+        onClose={closeSettingsModal}
+      />
 
       <View className="gap-12">
         <View

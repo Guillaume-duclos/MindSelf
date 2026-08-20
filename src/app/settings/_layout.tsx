@@ -10,7 +10,9 @@ export default function SettingsLayout() {
       <Stack.Screen name="widgetHelp" options={{ presentation: "modal" }} />
       <Stack.Screen
         name="notification"
-        options={{ contentStyle: { backgroundColor: colors.cream[50] } }}
+        options={{
+          contentStyle: { backgroundColor: colors.cream[50] },
+        }}
       />
       <Stack.Screen
         name="termsOfUse"

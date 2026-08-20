@@ -1,11 +1,14 @@
 import colors from "@/constants/colors";
+import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
+import { getRouteForPage } from "@/utils/onboarding";
 import { getStorageBoolean, setStorageItem } from "@/utils/storage";
 import { Host, Switch } from "@expo/ui";
 import { Divider } from "@expo/ui/swift-ui";
 import { background, opacity } from "@expo/ui/swift-ui/modifiers";
 import { GlassView } from "expo-glass-effect";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useState } from "react";
 import { Pressable, Text, View, ViewStyle } from "react-native";
@@ -15,8 +18,6 @@ type Props = {
   style?: ViewStyle;
   className?: string;
   contentClassName?: string;
-  onPressTermsOfUse?: () => void;
-  onPressPravicyPolicy?: () => void;
   onPressActivateSubscription?: () => void;
 };
 
@@ -38,10 +39,9 @@ export default function PaywallContent({
   style,
   className,
   contentClassName,
-  onPressTermsOfUse,
-  onPressPravicyPolicy,
   onPressActivateSubscription,
 }: Props) {
+  const router = useRouter();
   const { bottom } = useSafeAreaInsets();
   const [isReminderEnabled, setIsReminderEnabled] = useState(
     () =>
@@ -52,6 +52,14 @@ export default function PaywallContent({
   const handleReminderChange = (value: boolean) => {
     setIsReminderEnabled(value);
     setStorageItem(StorageKey.ACTIVATE_FREE_TRIAL_END_NOTIFICATION, value);
+  };
+
+  const onPressTermsOfUse = (): void => {
+    router.push(getRouteForPage(Page.TERMS_OF_USE));
+  };
+
+  const onPressPravicyPolicy = (): void => {
+    router.push(getRouteForPage(Page.PRIVACY_POLICY));
   };
 
   const reminderDate = getDateInDays(6);
@@ -88,7 +96,7 @@ export default function PaywallContent({
             Débloquez tout le potentielle
           </Text>
 
-          <Text className="px-5 text-center font-noto-seriffont-medium text-text-900 text-lg leading-5">
+          <Text className="px-5 text-center font-noto-seriffont-medium text-text-900 text-lg leading-6">
             Découvrez les offres et démarrez votre essaie gratuit aujourd'hui
           </Text>
         </View>
@@ -181,7 +189,9 @@ export default function PaywallContent({
             </View>
 
             <Host matchContents={{ vertical: true }} className="w-full mt-2">
-              <Divider modifiers={[background(colors.text[900]), opacity(0.2)]} />
+              <Divider
+                modifiers={[background(colors.text[900]), opacity(0.2)]}
+              />
             </Host>
 
             <View className="flex-row items-center justify-between w-full">

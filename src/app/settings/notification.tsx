@@ -1,16 +1,25 @@
 import { CustomButton } from "@/components/CustomButton";
+import { ListItemContainer } from "@/components/ListItemContainer";
+import { ListItemSwitch } from "@/components/ListItemSwitch";
 import { NotificationSetter } from "@/components/NotificationSetter";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
+import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
+import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
 import NotificationTimeRange from "@/types/notificationTimeRange";
 import { scheduleDailyAffirmationNotifications } from "@/utils/notifications";
-import { getStorageObject, setStorageObject } from "@/utils/storage";
+import {
+  getStorageBoolean,
+  getStorageObject,
+  setStorageItem,
+  setStorageObject,
+} from "@/utils/storage";
 import * as Notifications from "expo-notifications";
-import { useFocusEffect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
-import { useCallback, useEffect, useState } from "react";
-import { AppState, Linking, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -35,30 +44,18 @@ const getStoredTimeRange = (): NotificationTimeRange =>
 export default function Account() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const closeSettingsModal = useCloseSettingsModal();
 
-  const [isActive, setIsActive] = useState(false);
+  useDisableSwipeDismiss();
+
+  // App-level preference — independent of the OS permission status, and
+  // shared with the onboarding activation screen, so toggling it here is
+  // the same choice as the one made (or skipped) during onboarding.
+  const [notificationsEnabled, setNotificationsEnabled] = useState(
+    () => getStorageBoolean(StorageKey.NOTIFICATIONS_ENABLED) ?? false,
+  );
   const [timeRange, setTimeRange] =
     useState<NotificationTimeRange>(getStoredTimeRange);
-
-  const checkPermission = useCallback(() => {
-    Notifications.getPermissionsAsync().then(({ status }) => {
-      setIsActive(status === Notifications.PermissionStatus.GRANTED);
-    });
-  }, []);
-
-  // Covers navigating back to this screen from elsewhere in the app.
-  useFocusEffect(checkPermission);
-
-  // Covers coming back from the native Settings app: that's a
-  // background/foreground transition, not a navigation event, so
-  // useFocusEffect alone never sees it.
-  useEffect(() => {
-    const subscription = AppState.addEventListener("change", (nextState) => {
-      if (nextState === "active") checkPermission();
-    });
-
-    return () => subscription.remove();
-  }, [checkPermission]);
 
   // expo-symbols doesn't expose SF Symbols' native "wiggle" bell-ring effect
   // (it animates the clapper as a separate layer from the bell body, which
@@ -84,13 +81,15 @@ export default function Account() {
     transform: [{ rotate: `${bellRotation.value}deg` }],
   }));
 
-  const activateNotifications = (): void => {
-    Linking.openSettings();
-  };
-
   const saveChanges = async (): Promise<void> => {
+    setStorageItem(StorageKey.NOTIFICATIONS_ENABLED, notificationsEnabled);
     setStorageObject(StorageKey.USER_NOTIFICATION_TIME_RANGE, timeRange);
-    await scheduleDailyAffirmationNotifications(timeRange);
+
+    if (notificationsEnabled) {
+      await scheduleDailyAffirmationNotifications(timeRange);
+    } else {
+      await Notifications.cancelAllScheduledNotificationsAsync();
+    }
 
     router.back();
   };
@@ -100,7 +99,8 @@ export default function Account() {
       <ScreenHeader
         showBackButton
         title="Notification"
-        showCloseButton={false}
+        showCloseButton
+        onClose={closeSettingsModal}
       />
 
       <View className="gap-16 flex-1 items-center justify-center mb-6">
@@ -109,7 +109,11 @@ export default function Account() {
             style={[bellAnimatedStyle, { transformOrigin: "50% 0%" }]}
             className="self-center"
           >
-            <SymbolView size={100} name="bell.fill" tintColor={colors.text[900]} />
+            <SymbolView
+              size={100}
+              name="bell.fill"
+              tintColor={colors.text[950]}
+            />
           </Animated.View>
 
           <View className="gap-4">
@@ -124,18 +128,26 @@ export default function Account() {
           </View>
         </View>
 
-        <NotificationSetter
-          value={timeRange}
-          onChange={setTimeRange}
-          className="items-center"
-        />
+        <View className="gap-7 w-full">
+          <ListItemContainer className="w-full">
+            <ListItemSwitch
+              value={notificationsEnabled}
+              text="Activer les notifications"
+              onValueChange={setNotificationsEnabled}
+            />
+          </ListItemContainer>
+
+          <NotificationSetter
+            value={timeRange}
+            onChange={setTimeRange}
+            disabled={!notificationsEnabled}
+            className={`items-center ${!notificationsEnabled && "opacity-40"}`}
+          />
+        </View>
       </View>
 
-      <View className="w-full gap-4">
-        <CustomButton
-          label={isActive ? "Sauvegarder" : "Activer les notifications"}
-          onPress={isActive ? saveChanges : activateNotifications}
-        />
+      <View className="w-full">
+        <CustomButton label="Sauvegarder" onPress={saveChanges} />
       </View>
     </View>
   );

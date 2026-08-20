@@ -4,13 +4,14 @@ import { Text, View } from "react-native";
 type Props = {
   title?: string;
   children: ReactNode;
+  className?: string;
 };
 
-export function ListItemContainer({ title, children }: Props) {
+export function ListItemContainer({ title, children, className }: Props) {
   const items = Children.toArray(children);
 
   return (
-    <View className="gap-3">
+    <View className={`gap-3 ${className}`}>
       {title && (
         <Text className="px-5 font-noto-serif font-semibold text-xl text-text-900">
           {title}

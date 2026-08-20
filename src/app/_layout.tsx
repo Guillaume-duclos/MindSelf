@@ -99,6 +99,11 @@ export default function RootLayout() {
               contentStyle: { backgroundColor: colors.cream[50] },
             }}
           />
+          <Stack.Screen
+            name="privacyPolicy"
+            options={{ presentation: "modal" }}
+          />
+          <Stack.Screen name="termsOfUse" options={{ presentation: "modal" }} />
         </Stack>
       </ThemeProvider>
     </GestureHandlerRootView>

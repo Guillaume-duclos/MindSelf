@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   onSkip?: () => void;
   onBack?: () => void;
+  onClose?: () => void;
 };
 
 export function ScreenHeader({
@@ -20,6 +21,7 @@ export function ScreenHeader({
   className = "py-5",
   onSkip,
   onBack,
+  onClose,
 }: Props) {
   const router = useRouter();
 
@@ -32,7 +34,11 @@ export function ScreenHeader({
   };
 
   const close = (): void => {
-    router.back();
+    if (onClose) {
+      onClose();
+    } else {
+      router.back();
+    }
   };
 
   return (

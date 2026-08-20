@@ -3,6 +3,8 @@ import { CustomTextInput } from "@/components/CustomTextInput";
 import { ScreenTitle } from "@/components/ScreenTitle";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { StorageKey } from "@/enums/storageKey.enum";
+import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
+import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
 import { getStorageString, setStorageItem } from "@/utils/storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -12,6 +14,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function UserName() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const closeSettingsModal = useCloseSettingsModal();
+
+  useDisableSwipeDismiss();
 
   const [userName, setUserName] = useState(
     () => getStorageString(StorageKey.USER_NAME) ?? "",
@@ -31,7 +36,8 @@ export default function UserName() {
       <ScreenHeader
         title="Nom d'utilisateur"
         showBackButton
-        showCloseButton={false}
+        showCloseButton
+        onClose={closeSettingsModal}
       />
 
       <View className="flex-1 justify-between mt-10 px-5 gap-10">

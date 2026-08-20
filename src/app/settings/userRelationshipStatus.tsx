@@ -5,6 +5,8 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScrollViewContainer } from "@/components/ScrollViewContainer";
 import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
+import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
+import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
 import { getStorageString, setStorageItem } from "@/utils/storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -38,6 +40,9 @@ const OPTIONS = [
 export default function UserRelationshipStatus() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const closeSettingsModal = useCloseSettingsModal();
+
+  useDisableSwipeDismiss();
 
   const [userRelationshipStatus, setUserRelationshipStatus] = useState(
     () => getStorageString(StorageKey.USER_RELATIONSHIP_STATUS) ?? "",
@@ -53,7 +58,8 @@ export default function UserRelationshipStatus() {
       <ScreenHeader
         title="Statut relationnel"
         showBackButton
-        showCloseButton={false}
+        showCloseButton
+        onClose={closeSettingsModal}
         className="p-5"
       />
 

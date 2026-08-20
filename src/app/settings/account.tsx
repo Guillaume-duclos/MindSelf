@@ -2,6 +2,8 @@ import { ListItemContainer } from "@/components/ListItemContainer";
 import { ListItemLink } from "@/components/ListItemLink";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScrollViewContainer } from "@/components/ScrollViewContainer";
+import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
+import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,13 +11,17 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function Account() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const closeSettingsModal = useCloseSettingsModal();
+
+  useDisableSwipeDismiss();
 
   return (
     <View className="flex-1 bg-cream-50" style={{ paddingBottom: bottom }}>
       <ScreenHeader
         title="Mon compte"
         showBackButton
-        showCloseButton={false}
+        showCloseButton
+        onClose={closeSettingsModal}
         className="py-5 px-5"
       />
 

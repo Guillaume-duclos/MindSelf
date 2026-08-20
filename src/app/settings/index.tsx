@@ -4,6 +4,7 @@ import { ListItemLink } from "@/components/ListItemLink";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScrollViewContainer } from "@/components/ScrollViewContainer";
 import { SettingsFooter } from "@/components/SettingsFooter";
+import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
 import { createModifier } from "@expo/ui/swift-ui/modifiers";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
@@ -21,10 +22,15 @@ const plainRowModifiers = [
 
 export default function HomeScreen() {
   const router = useRouter();
+  const closeSettingsModal = useCloseSettingsModal();
 
   return (
     <View className="flex-1 bg-cream-50">
-      <ScreenHeader title="Mon profil" className="py-5 px-5" />
+      <ScreenHeader
+        title="Mon profil"
+        className="py-5 px-5"
+        onClose={closeSettingsModal}
+      />
 
       <ScrollViewContainer contentContainerClassName="px-5 gap-8">
         <ActivitySummary />

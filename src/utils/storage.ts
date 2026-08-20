@@ -69,6 +69,7 @@ const STORAGE_KEY_TYPE: Record<StorageKey, "string" | "number" | "boolean"> = {
   [StorageKey.CURRENT_ONBOARDING_PAGE]: "string",
   [StorageKey.USER_NAME]: "string",
   [StorageKey.USER_NOTIFICATION_TIME_RANGE]: "string",
+  [StorageKey.NOTIFICATIONS_ENABLED]: "boolean",
   [StorageKey.USER_AGE_RANGE]: "string",
   [StorageKey.USER_SEX]: "string",
   [StorageKey.USER_RELATIONSHIP_STATUS]: "string",
