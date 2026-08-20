@@ -12,6 +12,7 @@ export enum StorageKey {
   USER_RELATIONSHIP_STATUS = "userRelationshipStatus",
   USER_PROFESSIONAL_STATUS = "userProfessionalStatus",
   USER_ASTRAL_SIGN = "userAstralSign",
+  USER_DAY_GOAL = "userDayGoal",
 
   // Paywall
   ACTIVATE_FREE_TRIAL_END_NOTIFICATION = "activateFreeTrialEndNotification",
@@ -27,6 +28,8 @@ export enum StorageKey {
   ACTIVITY_WEEK_START = "activityWeekStart",
   ACTIVITY_OPENED_DAYS = "activityOpenedDays",
   ACTIVITY_COMPLETED_WEEKS_COUNT = "activityCompletedWeeksCount",
+  DAILY_LIKE_COUNT = "dailyLikeCount",
+  DAILY_LIKE_DATE = "dailyLikeDate",
 
   // Widget
   WIDGET_DISPLAY_BUTTONS = "widgetDisplayButtons",

@@ -7,13 +7,10 @@ export function SettingsFooter() {
   const buildVersion = Application.nativeBuildVersion;
 
   return (
-    <View className="px-8 mt-8 gap-3 items-center">
+    <View className="px-8 mt-10 gap-3 items-center">
       <AppIcon style={{ width: 70, height: 70 }} />
 
       <View className="flex-wrap">
-        <Text className="font-public-sans font-medium text-sm text-slate-800 text-center">
-          Author : Guillaume Duclos
-        </Text>
         <Text className="font-public-sans font-medium text-sm text-slate-800 text-center">
           Version : {appVersion}
         </Text>

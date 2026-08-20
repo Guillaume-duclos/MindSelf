@@ -17,7 +17,7 @@ export function CustomButton({
   disabled,
   className,
   textClassName = "text-cream-200",
-  tintColor = colors.ink,
+  tintColor = colors.text[950],
 }: Props) {
   return (
     <Pressable

@@ -1,13 +1,31 @@
-// Single source of truth for the app's hardcoded design colors. Consumed by
-// tailwind.config.js (so each name below becomes a className, e.g.
-// `bg-cream-50`, `text-ink`, `border-terracotta-400`) and importable directly
-// wherever a raw color string is needed (LinearGradient, tintColor, SVG
-// fill, the widget, etc.) — kept as plain JS (not .ts) so tailwind.config.js
-// can `require()` it without a build step.
-//
-// `ink` originally existed as two near-identical browns (#291C1A, #2A2015)
-// scattered across the app; they've been unified into this single token.
 module.exports = {
+  text: {
+    50: "#f6f4f0",
+    100: "#e8e2d9",
+    200: "#d4c7b4",
+    300: "#baa48a",
+    400: "#a68769",
+    500: "#97765b",
+    600: "#82604c",
+    700: "#694b3f",
+    800: "#59413a",
+    900: "#4e3935",
+    950: "#291c1a",
+  },
+  primary: {
+    50: "#faf4f0",
+    100: "#f5e9e0",
+    200: "#e9cfbf",
+    300: "#dbaf96",
+    400: "#cb886c",
+    500: "#c06c4f",
+    600: "#b35843",
+    700: "#954539",
+    800: "#783a34",
+    900: "#62322d",
+    950: "#341816",
+  },
+
   cream: {
     50: "#FAF3EF", // main screen background
     100: "#FFF4F2", // gradient start, paired with cream-300
@@ -22,7 +40,6 @@ module.exports = {
     500: "#BA6A56", // uppercase label text
     600: "#C9663D", // deep/active accent (astral sign picker)
   },
-  ink: "#291C1A", // primary text / icon tint
   taupe: "#CBC4C1", // card drop-shadow color
   sky: {
     400: "#3C9FFE", // gradient start (animated icon)

@@ -9,7 +9,7 @@ type Props = {
   fixedLabel?: string;
 };
 
-export function CustomOptionsPicker({
+export function CustomOptionsWheelPicker({
   options,
   selectedValue,
   onValueChange,

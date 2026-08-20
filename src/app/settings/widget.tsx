@@ -94,7 +94,7 @@ export default function Widget() {
               />
             )}
             <Text
-              className="font-noto-serif font-semibold text-ink text-center text-lg"
+              className="font-noto-serif font-semibold text-text-900 text-center text-lg"
               numberOfLines={3}
             >
               {previewText}
@@ -106,13 +106,13 @@ export default function Widget() {
                   className="-top-1"
                   name={{ ios: "square.and.arrow.up" }}
                   weight="medium"
-                  tintColor={colors.ink}
+                  tintColor={colors.text[900]}
                   size={28}
                 />
                 <SymbolView
                   name={"heart"}
                   weight="medium"
-                  tintColor={colors.ink}
+                  tintColor={colors.text[900]}
                   size={25}
                 />
               </View>

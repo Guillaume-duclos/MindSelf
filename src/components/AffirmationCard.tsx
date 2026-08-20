@@ -3,6 +3,7 @@ import {
   isAffirmationLiked,
   toggleAffirmationLike,
 } from "@/utils/affirmationStats";
+import { recordAffirmationLiked } from "@/utils/dailyLikes";
 import { GlassView } from "expo-glass-effect";
 import * as Haptics from "expo-haptics";
 import { Link } from "expo-router";
@@ -77,6 +78,8 @@ export function AffirmationCard({
     setLiked(next);
 
     if (next) {
+      recordAffirmationLiked();
+
       scale.value = withSequence(
         withTiming(1.05, { duration: SCALE_UP_DURATION }, (finished) => {
           if (finished) {
@@ -116,7 +119,12 @@ export function AffirmationCard({
       style={animatedStyle}
       className={`items-center h-[55%] rounded-3xl border-continuous justify-center px-8 ${className}`}
     >
-      <Text className="text-center font-noto-serif font-medium text-ink text-4xl leading-[40px]">
+      <Text
+        numberOfLines={8}
+        adjustsFontSizeToFit
+        minimumFontScale={0.5}
+        className="text-center font-noto-serif font-medium text-text-900 text-[36px]"
+      >
         {text}
       </Text>
 

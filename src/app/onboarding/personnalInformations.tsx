@@ -1,9 +1,9 @@
 import { AstralSignPicker, ZODIAC_SIGNS } from "@/components/AstralSignPicker";
 import { CustomButton } from "@/components/CustomButton";
-import { CustomOptionsPicker } from "@/components/CustomOptionsPicker";
+import { CustomOptionsSelectPicker } from "@/components/CustomOptionsSelectPicker";
 import { OnboardingContentContainer } from "@/components/OnboardingContentContainer";
-import { OnboardingTitle } from "@/components/OnboardingTitle";
 import { ScreenHeader } from "@/components/ScreenHeader";
+import { ScreenTitle } from "@/components/ScreenTitle";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
 import Question from "@/types/question";
@@ -265,9 +265,9 @@ export default function PersonnalInformations() {
       <OnboardingContentContainer>
         <Animated.View
           style={animatedContentStyle}
-          className="my-6 flex-1 items-center justify-center w-full gap-2"
+          className="my-6 flex-1 items-center justify-center w-full gap-8"
         >
-          <OnboardingTitle
+          <ScreenTitle
             title={displayedQuestion.title}
             description={displayedQuestion.description}
           />
@@ -279,7 +279,7 @@ export default function PersonnalInformations() {
               onIntroAnimatingChange={setIsIntroAnimating}
             />
           ) : (
-            <CustomOptionsPicker
+            <CustomOptionsSelectPicker
               options={displayedQuestion.options}
               selectedValue={answers[displayedIndex]}
               onValueChange={handleSelectAnswer}

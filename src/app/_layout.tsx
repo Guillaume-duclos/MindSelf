@@ -1,6 +1,7 @@
 import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { recordAppOpenedToday } from "@/utils/activity";
+import { resetDailyLikesIfNewDay } from "@/utils/dailyLikes";
 import {
   configureNotificationHandler,
   scheduleNotification,
@@ -34,6 +35,7 @@ cssInterop(Host, { className: "style" });
 configureNotificationHandler();
 updateAffirmationWidgetTimeline();
 recordAppOpenedToday();
+resetDailyLikesIfNewDay();
 
 if (__DEV__) {
   registerDevMenuItems([
@@ -58,6 +60,13 @@ if (__DEV__) {
       name: "Rejouer les animations d'accueil",
       callback: () =>
         setStorageItem(StorageKey.HAS_SEEN_SECOND_AFFIRMATION, false),
+    },
+    {
+      name: "Réinitialiser l'objectif journalier",
+      callback: () => {
+        setStorageItem(StorageKey.DAILY_LIKE_COUNT, 0);
+        setStorageItem(StorageKey.DAILY_LIKE_DATE, "");
+      },
     },
   ]);
 }

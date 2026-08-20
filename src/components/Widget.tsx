@@ -18,6 +18,7 @@ import {
   font,
   foregroundStyle,
   lineLimit,
+  minimumScaleFactor,
   multilineTextAlignment,
   offset,
   padding,
@@ -42,7 +43,7 @@ const AffirmationWidget = (
   // Only this function's own source is sent to the widget extension (see
   // FONT_SIZE_BY_FAMILY below) — it can't import "@/constants/colors", so
   // these are kept in sync with that file's values by hand.
-  const ink = "#291C1A";
+  const text = "#291C1A";
   const terracotta = "#F7A07C";
 
   const ACCESSORY_FONT_SIZE_BY_FAMILY: Partial<Record<string, number>> = {
@@ -55,13 +56,22 @@ const AffirmationWidget = (
     accessoryInline: 1,
   };
 
+  // Below this, the lock screen text stops being comfortably readable — so
+  // instead of a flat scale factor, each family gets one derived from its
+  // own base size, keeping the floor at a fixed, legible point size no
+  // matter how long the affirmation is.
+  const ACCESSORY_MIN_FONT_SIZE = 9;
+
   // Lock screen widgets (iOS 16+): the system renders them in its own
   // vibrant/tinted mode and gives almost no space, so they get a
   // stripped-down layout — affirmation text only, no image/gradient
   // background or buttons, matching stock iOS lock screen widgets (system
-  // font, white text). Overflowing text truncates with an ellipsis,
-  // SwiftUI's default once a lineLimit is set.
+  // font, white text). Text shrinks to fit down to a legible floor, then
+  // truncates with an ellipsis (SwiftUI's default) once lineLimit is hit.
   if (environment.widgetFamily in ACCESSORY_FONT_SIZE_BY_FAMILY) {
+    const accessoryFontSize =
+      ACCESSORY_FONT_SIZE_BY_FAMILY[environment.widgetFamily] ?? 13;
+
     return (
       <ZStack
         alignment="leading"
@@ -69,15 +79,13 @@ const AffirmationWidget = (
       >
         <Text
           modifiers={[
-            font({
-              weight: "semibold",
-              size: ACCESSORY_FONT_SIZE_BY_FAMILY[environment.widgetFamily] ?? 13,
-            }),
+            font({ size: accessoryFontSize }),
             foregroundStyle("#FFFFFF"),
             multilineTextAlignment("leading"),
             lineLimit(
               ACCESSORY_LINE_LIMIT_BY_FAMILY[environment.widgetFamily] ?? 3,
             ),
+            minimumScaleFactor(ACCESSORY_MIN_FONT_SIZE / accessoryFontSize),
           ]}
         >
           {props.text}
@@ -135,7 +143,7 @@ const AffirmationWidget = (
               family: "Noto Serif",
               size: FONT_SIZE_BY_FAMILY[environment.widgetFamily] ?? 16,
             }),
-            foregroundStyle(ink),
+            foregroundStyle(text),
             multilineTextAlignment("center"),
           ]}
         >

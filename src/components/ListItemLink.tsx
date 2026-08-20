@@ -1,3 +1,4 @@
+import colors from "@/constants/colors";
 import { useLongPressStyle } from "@/hooks/use-long-press-style";
 import { SymbolView } from "expo-symbols";
 import { Pressable, Text, View } from "react-native";
@@ -20,18 +21,23 @@ export function ListItemLink({ text, leftIcon, onPress }: Props) {
     >
       {leftIcon ? (
         <View className="flex-1 flex-row items-center gap-2">
-          <SymbolView name="info.circle" tintColor="black" size={20} />
-          <Text className="flex-1 font-public-sans text-lg leading-6">
+          <SymbolView name="info.circle" tintColor={colors.text[900]} size={20} />
+          <Text className="flex-1 font-public-sans text-lg leading-6 text-text-900">
             {text}
           </Text>
         </View>
       ) : (
-        <Text className="flex-1 font-public-sans text-lg leading-6">
+        <Text className="flex-1 font-public-sans text-lg leading-6 text-text-900">
           {text}
         </Text>
       )}
 
-      <SymbolView name="chevron.forward" tintColor="black" size={16} />
+      <SymbolView
+        size={14}
+        weight="semibold"
+        tintColor={colors.text[900]}
+        name="chevron.forward"
+      />
     </Pressable>
   );
 }

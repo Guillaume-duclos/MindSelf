@@ -13,10 +13,10 @@ export default function Onboarding() {
         <AppIcon style={{ width: 130, height: 130 }} />
 
         <View className="">
-          <Text className="font-noto-serif font-semibold text-6xl leading-[60px] text-center">
+          <Text className="font-noto-serif font-semibold text-6xl leading-[60px] text-center text-text-900">
             MindSelf
           </Text>
-          <Text className="font-public-sans text-xl text-center">
+          <Text className="font-public-sans text-xl text-center text-text-900">
             Bienvenue dans MindSelf
           </Text>
         </View>
@@ -28,7 +28,7 @@ export default function Onboarding() {
           onPress={() => router.push("/onboarding/userName")}
         />
 
-        <Text className="px-8 font-public-sans text-center font-medium text-ink opacity-50 text-sm leading-4">
+        <Text className="px-8 font-public-sans text-center font-medium text-text-900 opacity-50 text-sm leading-4">
           En continuant, vous acceptez les conditions{" "}
           <Text className="underline">d'utilisation</Text> et de{" "}
           <Text className="underline">confidentialité</Text>

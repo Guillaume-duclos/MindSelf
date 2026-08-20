@@ -1,8 +1,9 @@
 import { CustomButton } from "@/components/CustomButton";
+import { ScreenTitle } from "@/components/ScreenTitle";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { getStorageString } from "@/utils/storage";
 import { useRouter } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AboutYou() {
@@ -12,12 +13,10 @@ export default function AboutYou() {
   return (
     <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
       <View className="flex-1 items-center justify-center w-full gap-2">
-        <Text className="font-noto-serif font-semibold text-3xl text-center">
-          Parlons un peu de toi{userName ? `, ${userName}` : ""} !
-        </Text>
-        <Text className="font-public-sans text-xl text-center leading-6">
-          Quelques informations sur toi nous permetera d'affiner ton experience.
-        </Text>
+        <ScreenTitle
+          title={`Parlons un peu de toi${userName ? `, ${userName}` : ""} !`}
+          description="Quelques informations sur toi nous permetera d'affiner ton experience."
+        />
       </View>
 
       <View className="w-full gap-4">

@@ -1,6 +1,6 @@
 import { CustomButton } from "@/components/CustomButton";
 import { CustomTextInput } from "@/components/CustomTextInput";
-import { OnboardingTitle } from "@/components/OnboardingTitle";
+import { ScreenTitle } from "@/components/ScreenTitle";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { getStorageString, setStorageItem } from "@/utils/storage";
@@ -36,7 +36,7 @@ export default function UserName() {
 
       <View className="flex-1 justify-between mt-10 px-5 gap-10">
         <View className="gap-6">
-          <OnboardingTitle title="Quel est ton prénom ?" />
+          <ScreenTitle title="Quel est ton prénom ?" />
           <CustomTextInput
             value={userName}
             placeHolder="Prénom"

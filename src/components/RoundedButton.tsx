@@ -20,7 +20,7 @@ export function RoundedButton({
   onPress,
   iconName,
   iconWeight = "medium",
-  iconTintColor = colors.ink,
+  iconTintColor = colors.text[900],
   iconSize = 30,
   iconClassName,
   buttonSize = 68,
@@ -50,7 +50,7 @@ export function RoundedButton({
       </GlassView>
 
       {label && (
-        <Text className="text-center font-public-sans font-medium text-ink text-sm leading-4">
+        <Text className="text-center font-public-sans font-medium text-text-900 text-sm leading-4">
           {label}
         </Text>
       )}

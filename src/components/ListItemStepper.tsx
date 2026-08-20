@@ -19,10 +19,10 @@ export function ListItemStepper({
 }: Props) {
   return (
     <View className="flex-row items-center justify-between py-4 px-5 rounded-4xl border-continuous gap-5">
-      <Text className="flex-1 font-public-sans text-lg leading-6">{text}</Text>
+      <Text className="flex-1 font-public-sans text-lg leading-6 text-text-900">{text}</Text>
 
       <View className="flex-row items-center gap-3">
-        <Text className="font-public-sans font-semibold text-lg">{value}</Text>
+        <Text className="font-public-sans font-semibold text-lg text-text-900">{value}</Text>
 
         <Host matchContents>
           <Stepper

@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
         showBackButton
         title="Politique de confidentialité"
         showCloseButton={false}
-        className="py-5 px-5"
+        className="p-5"
       />
 
       <ScrollViewContainer contentContainerClassName="px-5 pt-5 gap-10">

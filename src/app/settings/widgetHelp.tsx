@@ -110,10 +110,10 @@ export default function WidgetHelp() {
       </View>
 
       <ScrollViewContainer
-        contentContainerClassName="pt-0"
+        contentContainerClassName="px-5 gap-8 pt-0"
         contentContainerStyle={{ paddingBottom: bottom + 30 }}
       >
-        <Text className="font-public-sans text-xl text-center font-semibold leading-6">
+        <Text className="font-public-sans text-xl text-center font-semibold leading-6 text-text-900">
           {activeTab.description}
         </Text>
 
@@ -123,7 +123,7 @@ export default function WidgetHelp() {
               <Text className="w-12 h-12 rounded-full text-center bg-slate-300 text-slate-600 font-black text-3xl font-noto-serif leading-[40px]">
                 {index + 1}
               </Text>
-              <Text className="flex-1 font-public-sans text-lg leading-6">
+              <Text className="flex-1 font-public-sans text-lg leading-6 text-text-900">
                 {step.description}
               </Text>
             </View>

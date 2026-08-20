@@ -1,7 +1,7 @@
 import NotificationTimeRange from "@/types/notificationTimeRange";
 import option from "@/types/option";
 import { Text, View } from "react-native";
-import { CustomOptionsPicker } from "./CustomOptionsPicker";
+import { CustomOptionsWheelPicker } from "./CustomOptionsWheelPicker";
 
 type Props = {
   value: NotificationTimeRange;
@@ -33,11 +33,11 @@ export function NotificationSetter({ value, onChange, className }: Props) {
   return (
     <View className={`flex-row ${className}`}>
       <View className="flex-1">
-        <Text className="text-center text-xl font-public-sans font-semibold leading-6">
+        <Text className="text-center text-xl font-public-sans font-semibold leading-6 text-text-900">
           Rappels par {"\n"}jour
         </Text>
 
-        <CustomOptionsPicker
+        <CustomOptionsWheelPicker
           options={COUNT_OPTIONS}
           selectedValue={value.count}
           onValueChange={(count) => onChange({ ...value, count })}
@@ -45,11 +45,11 @@ export function NotificationSetter({ value, onChange, className }: Props) {
       </View>
 
       <View className="flex-1">
-        <Text className="text-center text-xl font-public-sans font-semibold leading-6">
+        <Text className="text-center text-xl font-public-sans font-semibold leading-6 text-text-900">
           Heure de {"\n"}début
         </Text>
 
-        <CustomOptionsPicker
+        <CustomOptionsWheelPicker
           options={HOUR_OPTIONS}
           selectedValue={value.startTime}
           onValueChange={handleStartTimeChange}
@@ -58,11 +58,11 @@ export function NotificationSetter({ value, onChange, className }: Props) {
       </View>
 
       <View className="flex-1">
-        <Text className="text-center text-xl font-public-sans font-semibold leading-6">
+        <Text className="text-center text-xl font-public-sans font-semibold leading-6 text-text-900">
           Heure de{"\n"}fin
         </Text>
 
-        <CustomOptionsPicker
+        <CustomOptionsWheelPicker
           options={HOUR_OPTIONS}
           selectedValue={value.endTime}
           onValueChange={(endTime) => onChange({ ...value, endTime })}

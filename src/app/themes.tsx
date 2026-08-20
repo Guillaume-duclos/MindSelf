@@ -219,12 +219,12 @@ export default function Share() {
           <GlassView
             isInteractive
             glassEffectStyle="regular"
-            tintColor={isActive ? colors.ink : undefined}
+            tintColor={isActive ? colors.text[900] : undefined}
             className="h-10 rounded-full justify-center px-5 border-continuous"
           >
             <Text
               className={`text-center font-noto-serif font-bold text-md ${
-                isActive ? "text-white" : "text-ink"
+                isActive ? "text-white" : "text-text-900"
               }`}
             >
               {category.title}
@@ -242,7 +242,7 @@ export default function Share() {
         glassEffectStyle="regular"
         className="items-center w-[80%] h-[75%] rounded-lg justify-center px-2 border-continuous"
       >
-        <Text className="text-center font-noto-serif font-bold text-ink text-md leading-[40px]">
+        <Text className="text-center font-noto-serif font-bold text-text-900 text-md leading-[40px]">
           MindSelf
         </Text>
       </GlassView>
@@ -302,7 +302,7 @@ export default function Share() {
           renderItem={({ item }) => {
             if (item.type === "header") {
               return (
-                <Text className="font-noto-serif font-bold text-ink text-lg px-2 pb-2 pt-4">
+                <Text className="font-noto-serif font-bold text-text-900 text-lg px-2 pb-2 pt-4">
                   {item.title}
                 </Text>
               );
@@ -324,7 +324,7 @@ export default function Share() {
             const borderColor =
               selectedTheme && "colors" in selectedTheme
                 ? darkenColor(selectedTheme.colors[1], 0.3)
-                : colors.ink;
+                : colors.text[900];
 
             return (
               <Pressable onPress={() => handleSelectTheme(theme)}>
@@ -375,7 +375,7 @@ export default function Share() {
                   <SymbolView
                     name="crown"
                     weight="bold"
-                    tintColor={colors.ink}
+                    tintColor={colors.text[900]}
                     className="absolute -top-1 -right-1"
                   />
                 )}

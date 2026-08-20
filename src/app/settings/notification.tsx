@@ -109,15 +109,15 @@ export default function Account() {
             style={[bellAnimatedStyle, { transformOrigin: "50% 0%" }]}
             className="self-center"
           >
-            <SymbolView size={100} name="bell.fill" tintColor={colors.ink} />
+            <SymbolView size={100} name="bell.fill" tintColor={colors.text[900]} />
           </Animated.View>
 
           <View className="gap-4">
-            <Text className="font-noto-serif font-semibold text-center text-3xl">
+            <Text className="font-noto-serif font-semibold text-center text-3xl text-text-900">
               Configure tes notifications
             </Text>
 
-            <Text className="font-public-sans text-center text-xl leading-6">
+            <Text className="font-public-sans text-center text-xl leading-6 text-text-900">
               Sélectionne la plage horaire pendant laquelle tu veux recevoir tes
               affirmations journalières
             </Text>

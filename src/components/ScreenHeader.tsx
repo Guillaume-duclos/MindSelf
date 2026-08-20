@@ -63,7 +63,7 @@ export function ScreenHeader({
             numberOfLines={1}
             adjustsFontSizeToFit
             minimumFontScale={0.1}
-            className="font-noto-serif font-semibold text-ink text-2xl leading-[40px]"
+            className="font-noto-serif font-semibold text-text-900 text-2xl leading-[40px]"
           >
             {title}
           </Text>
@@ -86,7 +86,7 @@ export function ScreenHeader({
             onPress={onSkip}
             className="self-stretch items-center justify-center"
           >
-            <Text className="font-noto-serif font-medium">Passer</Text>
+            <Text className="font-noto-serif font-medium text-text-900">Passer</Text>
           </Pressable>
         )}
       </View>

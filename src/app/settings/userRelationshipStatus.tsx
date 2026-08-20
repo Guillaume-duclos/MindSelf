@@ -1,9 +1,12 @@
 import { CustomButton } from "@/components/CustomButton";
-import { CustomOptionsPicker } from "@/components/CustomOptionsPicker";
-import { OnboardingTitle } from "@/components/OnboardingTitle";
+import { CustomOptionsSelectPicker } from "@/components/CustomOptionsSelectPicker";
+import { ScreenTitle } from "@/components/ScreenTitle";
 import { ScreenHeader } from "@/components/ScreenHeader";
+import { ScrollViewContainer } from "@/components/ScrollViewContainer";
+import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { getStorageString, setStorageItem } from "@/utils/storage";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Keyboard, Pressable, View } from "react-native";
@@ -46,27 +49,34 @@ export default function UserRelationshipStatus() {
   };
 
   return (
-    <Pressable
-      className="flex-1 bg-cream-50 px-5"
-      style={{ paddingBottom: bottom }}
-      onPress={Keyboard.dismiss}
-    >
+    <Pressable className="flex-1 bg-cream-50" onPress={Keyboard.dismiss}>
       <ScreenHeader
         title="Statut relationnel"
         showBackButton
         showCloseButton={false}
+        className="p-5"
       />
 
-      <View className="flex-1 justify-between mt-10 px-5 gap-10">
-        <View className="gap-6">
-          <OnboardingTitle title="Quel est ton statut relationnel ?" />
-          <CustomOptionsPicker
+      <View className="flex-1 gap-6">
+        <ScreenTitle
+          title="Quel est ton statut relationnel ?"
+          className="px-5 mt-10"
+        />
+
+        <ScrollViewContainer contentContainerClassName="px-10">
+          <CustomOptionsSelectPicker
             options={OPTIONS}
             selectedValue={userRelationshipStatus}
             onValueChange={setUserRelationshipStatus}
           />
-        </View>
+        </ScrollViewContainer>
+      </View>
 
+      <View className="px-10" style={{ paddingBottom: bottom }}>
+        <LinearGradient
+          className="absolute -top-10 left-0 right-0 h-10"
+          colors={[`${colors.cream[50]}00`, colors.cream[50]]}
+        />
         <CustomButton label="Sauvegarder" onPress={handleSave} />
       </View>
     </Pressable>

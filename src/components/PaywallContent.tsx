@@ -84,11 +84,11 @@ export default function PaywallContent({
       <View className={`gap-10 flex-1 ${contentClassName}`}>
         {/* TITLE */}
         <View className="gap-3">
-          <Text className="text-center font-noto-serif font-semibold text-ink text-4xl">
+          <Text className="text-center font-noto-serif font-semibold text-text-900 text-4xl">
             Débloquez tout le potentielle
           </Text>
 
-          <Text className="px-5 text-center font-noto-seriffont-medium text-ink text-lg leading-5">
+          <Text className="px-5 text-center font-noto-seriffont-medium text-text-900 text-lg leading-5">
             Découvrez les offres et démarrez votre essaie gratuit aujourd'hui
           </Text>
         </View>
@@ -111,7 +111,7 @@ export default function PaywallContent({
                       <SymbolView
                         size={32}
                         name={item.icon}
-                        tintColor={colors.ink}
+                        tintColor={colors.text[900]}
                         className="left-1"
                         weight="semibold"
                       />
@@ -120,15 +120,15 @@ export default function PaywallContent({
                     {index === 1 && (
                       <>
                         <LinearGradient
-                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-ink"
+                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-text-900"
                           colors={[colors.cream[100], colors.cream[300]]}
                           start={{ x: 0, y: 0 }}
                           end={{ x: 1, y: 1 }}
                         >
-                          <Text className="font-public-sans text-center font-medium text-ink text-xs">
+                          <Text className="font-public-sans text-center font-medium text-text-900 text-xs">
                             {formatShortMonth(reminderDate)}
                           </Text>
-                          <Text className="font-noto-serif text-center font-extrabold text-ink text-xl leading-none">
+                          <Text className="font-noto-serif text-center font-extrabold text-text-900 text-xl leading-none">
                             {reminderDate.getDate()}
                           </Text>
                         </LinearGradient>
@@ -136,7 +136,7 @@ export default function PaywallContent({
                         <SymbolView
                           size={24}
                           name={item.icon}
-                          tintColor={colors.ink}
+                          tintColor={colors.text[900]}
                           className="absolute -bottom-3 -right-2.5"
                         />
                       </>
@@ -145,15 +145,15 @@ export default function PaywallContent({
                     {index === 2 && (
                       <>
                         <LinearGradient
-                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-ink"
+                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-text-900"
                           colors={[colors.cream[100], colors.cream[300]]}
                           start={{ x: 0, y: 0 }}
                           end={{ x: 1, y: 1 }}
                         >
-                          <Text className="font-public-sans text-center font-medium text-ink text-xs">
+                          <Text className="font-public-sans text-center font-medium text-text-900 text-xs">
                             {formatShortMonth(subscriptionDate)}
                           </Text>
-                          <Text className="font-noto-serif text-center font-extrabold text-ink text-xl leading-none">
+                          <Text className="font-noto-serif text-center font-extrabold text-text-900 text-xl leading-none">
                             {subscriptionDate.getDate()}
                           </Text>
                         </LinearGradient>
@@ -161,7 +161,7 @@ export default function PaywallContent({
                         <SymbolView
                           size={26}
                           name={item.icon}
-                          tintColor={colors.ink}
+                          tintColor={colors.text[900]}
                           className="absolute -bottom-3 -right-2.5"
                         />
                       </>
@@ -169,10 +169,10 @@ export default function PaywallContent({
                   </View>
 
                   <View className="flex-1">
-                    <Text className="font-noto-serif font-semibold text-ink text-xl">
+                    <Text className="font-noto-serif font-semibold text-text-900 text-xl">
                       {item.title}
                     </Text>
-                    <Text className="font-public-sans text-ink">
+                    <Text className="font-public-sans text-text-900">
                       {item.description}
                     </Text>
                   </View>
@@ -181,11 +181,11 @@ export default function PaywallContent({
             </View>
 
             <Host matchContents={{ vertical: true }} className="w-full mt-2">
-              <Divider modifiers={[background(colors.ink), opacity(0.2)]} />
+              <Divider modifiers={[background(colors.text[900]), opacity(0.2)]} />
             </Host>
 
             <View className="flex-row items-center justify-between w-full">
-              <Text className="font-noto-serif font-semibold text-ink text-xl">
+              <Text className="font-noto-serif font-semibold text-text-900 text-xl">
                 Activer le rappel
               </Text>
 
@@ -207,7 +207,7 @@ export default function PaywallContent({
           glassEffectStyle="regular"
           className="items-center px-5 py-5 rounded-full border-continuous justify-center"
         >
-          <Text className="font-noto-serif font-semibold text-ink text-xl">
+          <Text className="font-noto-serif font-semibold text-text-900 text-xl">
             Voir toutes les offres
           </Text>
         </GlassView>
@@ -215,7 +215,7 @@ export default function PaywallContent({
         <Pressable onPress={onPressActivateSubscription}>
           <GlassView
             isInteractive
-            tintColor={colors.ink}
+            tintColor={colors.text[900]}
             glassEffectStyle="regular"
             className="items-center px-5 py-5 rounded-full border-continuous justify-center"
           >
@@ -228,15 +228,15 @@ export default function PaywallContent({
 
       <View className="mt-3 gap-5 flex-row justify-center">
         <Pressable onPress={onPressTermsOfUse}>
-          <Text className="font-public-sans font-medium text-ink opacity-50 text-sm">
+          <Text className="font-public-sans font-medium text-text-900 opacity-50 text-sm">
             Conditions d'utilisation
           </Text>
         </Pressable>
-        <Text className="font-public-sans font-medium text-ink opacity-50 text-sm">
+        <Text className="font-public-sans font-medium text-text-900 opacity-50 text-sm">
           -
         </Text>
         <Pressable onPress={onPressPravicyPolicy}>
-          <Text className="font-public-sans font-medium text-ink opacity-50 text-sm">
+          <Text className="font-public-sans font-medium text-text-900 opacity-50 text-sm">
             Politique de confidentialité
           </Text>
         </Pressable>

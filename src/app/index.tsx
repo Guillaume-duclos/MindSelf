@@ -1,5 +1,6 @@
 import { AffirmationCard } from "@/components/AffirmationCard";
 import AnimatedGradientBackground from "@/components/AnimatedGradientBackground";
+import { HeartProgress } from "@/components/HeartProgress";
 import { RoundedButton } from "@/components/RoundedButton";
 import { SwipeUpHint } from "@/components/SwipeUpHint";
 import colors from "@/constants/colors";
@@ -25,7 +26,11 @@ import {
   View,
   type ViewToken,
 } from "react-native";
-import { useMMKVBoolean, useMMKVObject } from "react-native-mmkv";
+import {
+  useMMKVBoolean,
+  useMMKVNumber,
+  useMMKVObject,
+} from "react-native-mmkv";
 import Animated, {
   cancelAnimation,
   Easing,
@@ -118,6 +123,12 @@ export default function HomeScreen() {
   const [hasSeenSecondAffirmation, setHasSeenSecondAffirmation] =
     useMMKVBoolean(StorageKey.HAS_SEEN_SECOND_AFFIRMATION, storage);
 
+  // Grows with every new like today and resets to 0 each day (see
+  // src/utils/dailyLikes.ts) — both keys are reactive, so the ring animates
+  // live as the user likes affirmations without needing a manual refresh.
+  const [dailyLikeCount] = useMMKVNumber(StorageKey.DAILY_LIKE_COUNT, storage);
+  const [dayGoal] = useMMKVNumber(StorageKey.USER_DAY_GOAL, storage);
+
   const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 90 }).current;
   const handleViewableItemsChanged = useRef(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
@@ -199,15 +210,17 @@ export default function HomeScreen() {
       )}
 
       <View
-        className="absolute flex-1 flex-row items-center justify-between px-5 z-10"
+        className="absolute flex-1 flex-row items-center justify-between px-10 z-10 gap-5"
         style={{ top }}
       >
-        <View className="flex-1">
-          <Text className="text-terracotta-500 font-medium font-public-sans uppercase">
-            Bon matin
-          </Text>
-          <Text className="text-ink font-medium font-noto-serif text-3xl">
-            Guillaume
+        <View className="gap-3 flex-1 flex-row items-center">
+          <HeartProgress
+            size={36}
+            goal={dayGoal ?? 0}
+            likeCount={dailyLikeCount ?? 0}
+          />
+          <Text className="flex-1 text-text-900 font-semibold font-public-sans text-md leading-4">
+            Ton objectif aujourd'hui
           </Text>
         </View>
 
@@ -218,13 +231,13 @@ export default function HomeScreen() {
               glassEffectStyle="regular"
               className="items-center rounded-full gap-2 flex-row justify-center px-5 border-continuous"
             >
-              <Text className="text-center font-noto-serif font-bold text-ink text-lg leading-[40px]">
+              <Text className="text-center font-noto-serif font-bold text-text-900 text-lg leading-[40px]">
                 Get Premium
               </Text>
               <SymbolView
                 name={{ ios: "crown" }}
                 weight="medium"
-                tintColor={colors.ink}
+                tintColor={colors.text[900]}
                 size={26}
               />
             </GlassView>

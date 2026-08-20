@@ -26,13 +26,17 @@ export default function HomeScreen() {
     <View className="flex-1 bg-cream-50">
       <ScreenHeader title="Mon profil" className="py-5 px-5" />
 
-      <ScrollViewContainer>
+      <ScrollViewContainer contentContainerClassName="px-5 gap-8">
         <ActivitySummary />
 
         <ListItemContainer title="Mon compte">
           <ListItemLink
             text="Mon compte"
             onPress={() => router.navigate("/settings/account")}
+          />
+          <ListItemLink
+            text="Mes objectifs"
+            onPress={() => router.navigate("/settings/dayGoal")}
           />
           <ListItemLink
             text="Widget"
@@ -44,7 +48,7 @@ export default function HomeScreen() {
           />
         </ListItemContainer>
 
-        <ListItemContainer title="Légale">
+        <ListItemContainer title="Mentions légales">
           <ListItemLink
             text="Conditions d'utilisation"
             onPress={() => router.navigate("/settings/termsOfUse")}

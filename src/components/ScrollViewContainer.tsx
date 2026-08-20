@@ -52,7 +52,7 @@ export function ScrollViewContainer({
         scrollEventThrottle={32}
         onScrollEndDrag={handleScroll}
         onMomentumScrollEnd={handleScroll}
-        contentContainerClassName={`px-5 gap-8 ${contentContainerClassName}`}
+        contentContainerClassName={contentContainerClassName}
         contentContainerStyle={{
           paddingBottom: bottom,
           ...contentContainerStyle,

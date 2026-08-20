@@ -108,12 +108,12 @@ export function SwipeUpHint({ visible }: Props) {
         <SymbolView
           size={42}
           name="hand.point.up.left"
-          tintColor={colors.ink}
+          tintColor={colors.text[900]}
         />
       </Animated.View>
 
       <Animated.View style={hintTextAnimatedStyle}>
-        <Text className="font-public-sans font-medium text-center w-32">
+        <Text className="font-public-sans font-medium text-center w-32 text-text-900">
           Scroller pour en voir plus
         </Text>
       </Animated.View>

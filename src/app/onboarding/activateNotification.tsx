@@ -1,6 +1,6 @@
 import { CustomButton } from "@/components/CustomButton";
 import { NotificationSetter } from "@/components/NotificationSetter";
-import { OnboardingTitle } from "@/components/OnboardingTitle";
+import { ScreenTitle } from "@/components/ScreenTitle";
 import colors from "@/constants/colors";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
@@ -51,7 +51,7 @@ export default function activateNotification() {
   return (
     <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
       <View className="flex-1 items-center justify-center w-full gap-10">
-        <OnboardingTitle title="Reçois des affirmations régulièrement" />
+        <ScreenTitle title="Reçois des affirmations régulièrement" />
 
         <View className="w-full">
           <GlassView
@@ -71,12 +71,12 @@ export default function activateNotification() {
             <View className="gap-2.5 flex-row items-center">
               <GlassView className="w-[38px] h-[38px] rounded-[10px] border-continuous overflow-hidden">
                 <LinearGradient
-                  colors={[colors.cream[100], colors.cream[300]]}
-                  start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
+                  start={{ x: 0, y: 0 }}
+                  colors={[colors.cream[100], colors.cream[300]]}
                   className="w-full h-full items-center justify-center"
                 >
-                  <Text className="font-noto-serif font-semibold text-[5px]">
+                  <Text className="font-noto-serif font-semibold text-[5px] text-text-900">
                     MindSelf
                   </Text>
                 </LinearGradient>
@@ -84,15 +84,15 @@ export default function activateNotification() {
 
               <View className="flex-1">
                 <View className="flex-row justify-between">
-                  <Text className="font-semibold text-[15px] leading-[17px]">
+                  <Text className="font-semibold text-[15px] leading-[17px] text-text-900">
                     MindSelf
                   </Text>
-                  <Text className="text-[15px] leading-[17px]">
+                  <Text className="text-[13px] text-text-900/75">
                     À l'instant
                   </Text>
                 </View>
 
-                <Text className="text-[15px] leading-[18px]">
+                <Text className="text-[15px] leading-[18px] text-text-900">
                   Tout ce que j'entreprend est formidable
                 </Text>
               </View>
@@ -101,7 +101,11 @@ export default function activateNotification() {
         </View>
       </View>
 
-      <NotificationSetter value={timeRange} onChange={setTimeRange} />
+      <NotificationSetter
+        value={timeRange}
+        onChange={setTimeRange}
+        className="flex-1"
+      />
 
       <View className="w-full gap-4">
         <CustomButton
@@ -111,7 +115,7 @@ export default function activateNotification() {
         <CustomButton
           label="Plus tard"
           tintColor={colors.cream[200]}
-          textClassName="text-ink"
+          textClassName="text-text-900"
           onPress={handleSkip}
         />
       </View>
