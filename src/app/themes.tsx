@@ -17,6 +17,7 @@ import { useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  PixelRatio,
   Pressable,
   ScrollView,
   Text,
@@ -123,6 +124,164 @@ const isSameTheme = (a: Theme, b: Theme | undefined): boolean => {
   return false;
 };
 
+// Every stop computed independently (rather than derived by repeatedly
+// adding an interval) so rounding on one stop can never carry into the next.
+const getSnapOffsets = (itemCount: number, cardWidth: number): number[] => {
+  const interval = cardWidth + CARD_GAP;
+
+  return Array.from({ length: itemCount }, (_, index) =>
+    PixelRatio.roundToNearestPixel(index * interval),
+  );
+};
+
+const renderAffirmationCard = () => {
+  return (
+    <GlassView
+      isInteractive={false}
+      glassEffectStyle="regular"
+      className="items-center w-[80%] h-[75%] rounded-lg justify-center px-2 border-continuous"
+    >
+      <Text className="text-center font-noto-serif font-bold text-text-900 text-md leading-[40px]">
+        MindSelf
+      </Text>
+    </GlassView>
+  );
+};
+
+type ThemeCardProps = {
+  categoryValue: string;
+  item: ThemeJsonEntry;
+  cardWidth: number;
+  cardHeight: number;
+  selectedTheme: Theme | undefined;
+  onSelect: (theme: Theme) => void;
+};
+
+function ThemeCard({
+  categoryValue,
+  item,
+  cardWidth,
+  cardHeight,
+  selectedTheme,
+  onSelect,
+}: ThemeCardProps) {
+  const theme = themeFromJsonEntry(categoryValue, item);
+
+  const borderColor =
+    selectedTheme && "colors" in selectedTheme
+      ? darkenColor(selectedTheme.colors[1], 0.3)
+      : colors.text[900];
+
+  return (
+    <Pressable onPress={() => onSelect(theme)}>
+      <View
+        className="border-terracotta-400 border-continuous rounded-xl overflow-hidden"
+        style={{
+          width: cardWidth,
+          height: cardHeight,
+          boxShadow: `0px 4px 7px ${colors.taupe}`,
+        }}
+      >
+        {"image" in theme ? (
+          <View className="flex-1 border-continuous">
+            <Image
+              className="absolute inset-0 w-full h-full"
+              source={THEME_IMAGES[theme.image]}
+              contentFit="cover"
+            />
+            <View className="flex-1 items-center justify-center">
+              {renderAffirmationCard()}
+            </View>
+          </View>
+        ) : theme.category === Category.ANIMATED_GRADIENT ? (
+          <View className="flex-1 border-continuous overflow-hidden">
+            <View className="absolute inset-0">
+              <AnimatedGradientBackground colors={theme.colors} />
+            </View>
+            <View className="flex-1 items-center justify-center">
+              {renderAffirmationCard()}
+            </View>
+          </View>
+        ) : (
+          <LinearGradient
+            className="flex-1 items-center justify-center border-continuous"
+            colors={theme.colors}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          >
+            {renderAffirmationCard()}
+          </LinearGradient>
+        )}
+      </View>
+
+      {isSameTheme(theme, selectedTheme) && (
+        <View
+          className="border-[3px] absolute top-0 left-0 right-0 bottom-0 rounded-[16px] border-continuous"
+          style={{ borderColor }}
+        />
+      )}
+
+      {theme.isPremium && (
+        <SymbolView
+          name="crown"
+          weight="bold"
+          tintColor={colors.text[900]}
+          className="absolute -top-1 -right-1"
+        />
+      )}
+    </Pressable>
+  );
+}
+
+type SubCategoryRowProps = {
+  title: string;
+  categoryValue: string;
+  themes: ThemeJsonEntry[];
+  cardWidth: number;
+  cardHeight: number;
+  selectedTheme: Theme | undefined;
+  onSelectTheme: (theme: Theme) => void;
+};
+
+function SubCategoryRow({
+  title,
+  categoryValue,
+  themes: subThemes,
+  cardWidth,
+  cardHeight,
+  selectedTheme,
+  onSelectTheme,
+}: SubCategoryRowProps) {
+  return (
+    <View className="mt-4">
+      <Text className="font-noto-serif font-semibold text-text-900 text-md px-5">
+        {title}
+      </Text>
+
+      <ScrollView
+        horizontal
+        decelerationRate="fast"
+        snapToOffsets={getSnapOffsets(subThemes.length, cardWidth)}
+        showsHorizontalScrollIndicator={false}
+        contentContainerClassName="gap-4 px-5"
+        className="py-3"
+      >
+        {subThemes.map((themeItem, index) => (
+          <ThemeCard
+            key={index}
+            categoryValue={categoryValue}
+            item={themeItem}
+            cardWidth={cardWidth}
+            cardHeight={cardHeight}
+            selectedTheme={selectedTheme}
+            onSelect={onSelectTheme}
+          />
+        ))}
+      </ScrollView>
+    </View>
+  );
+}
+
 export default function Themes() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
@@ -133,16 +292,17 @@ export default function Themes() {
   );
 
   // Sized so exactly 3 cards are fully visible plus a peek of the 4th,
-  // regardless of screen width.
+  // regardless of screen width. Rounded to the nearest native pixel so the
+  // rendered card width exactly matches the snap offsets computed from it.
   const cardWidth = useMemo(() => {
     const gapsCount = VISIBLE_CARD_COUNT;
 
-    return (
+    return PixelRatio.roundToNearestPixel(
       (screenWidth -
         LIST_LEFT_PADDING -
         gapsCount * CARD_GAP -
         CARD_PEEK_WIDTH) /
-      VISIBLE_CARD_COUNT
+        VISIBLE_CARD_COUNT,
     );
   }, [screenWidth]);
   const cardHeight = cardWidth * CARD_ASPECT_RATIO;
@@ -237,89 +397,6 @@ export default function Themes() {
     });
   };
 
-  const renderAffirmationCard = () => {
-    return (
-      <GlassView
-        isInteractive={false}
-        glassEffectStyle="regular"
-        className="items-center w-[80%] h-[75%] rounded-lg justify-center px-2 border-continuous"
-      >
-        <Text className="text-center font-noto-serif font-bold text-text-900 text-md leading-[40px]">
-          MindSelf
-        </Text>
-      </GlassView>
-    );
-  };
-
-  const renderThemeCard = (categoryValue: string, item: ThemeJsonEntry) => {
-    const theme = themeFromJsonEntry(categoryValue, item);
-
-    const borderColor =
-      selectedTheme && "colors" in selectedTheme
-        ? darkenColor(selectedTheme.colors[1], 0.3)
-        : colors.text[900];
-
-    return (
-      <Pressable onPress={() => handleSelectTheme(theme)}>
-        <View
-          className="border-terracotta-400 border-continuous rounded-xl overflow-hidden"
-          style={{
-            width: cardWidth,
-            height: cardHeight,
-            boxShadow: `0px 4px 7px ${colors.taupe}`,
-          }}
-        >
-          {"image" in theme ? (
-            <View className="flex-1 border-continuous">
-              <Image
-                className="absolute inset-0 w-full h-full"
-                source={THEME_IMAGES[theme.image]}
-                contentFit="cover"
-              />
-              <View className="flex-1 items-center justify-center">
-                {renderAffirmationCard()}
-              </View>
-            </View>
-          ) : theme.category === Category.ANIMATED_GRADIENT ? (
-            <View className="flex-1 border-continuous overflow-hidden">
-              <View className="absolute inset-0">
-                <AnimatedGradientBackground colors={theme.colors} />
-              </View>
-              <View className="flex-1 items-center justify-center">
-                {renderAffirmationCard()}
-              </View>
-            </View>
-          ) : (
-            <LinearGradient
-              className="flex-1 items-center justify-center border-continuous"
-              colors={theme.colors}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            >
-              {renderAffirmationCard()}
-            </LinearGradient>
-          )}
-        </View>
-
-        {isSameTheme(theme, selectedTheme) && (
-          <View
-            className="border-[3px] absolute top-0 left-0 right-0 bottom-0 rounded-[16px] border-continuous"
-            style={{ borderColor }}
-          />
-        )}
-
-        {theme.isPremium && (
-          <SymbolView
-            name="crown"
-            weight="bold"
-            tintColor={colors.text[900]}
-            className="absolute -top-1 -right-1"
-          />
-        )}
-      </Pressable>
-    );
-  };
-
   return (
     <View className="flex-1 bg-cream-50">
       <ScreenHeader title="Thèmes" className="py-5 px-5" />
@@ -368,26 +445,15 @@ export default function Themes() {
             }
 
             return (
-              <View className="mt-4">
-                <Text className="font-noto-serif font-semibold text-text-900 text-md px-5">
-                  {item.title}
-                </Text>
-
-                <ScrollView
-                  horizontal
-                  snapToInterval={cardWidth + CARD_GAP}
-                  decelerationRate="fast"
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerClassName="gap-4 px-5"
-                  className="py-3"
-                >
-                  {item.themes.map((themeItem, index) => (
-                    <View key={index}>
-                      {renderThemeCard(item.categoryValue, themeItem)}
-                    </View>
-                  ))}
-                </ScrollView>
-              </View>
+              <SubCategoryRow
+                title={item.title}
+                categoryValue={item.categoryValue}
+                themes={item.themes}
+                cardWidth={cardWidth}
+                cardHeight={cardHeight}
+                selectedTheme={selectedTheme}
+                onSelectTheme={handleSelectTheme}
+              />
             );
           }}
         />
