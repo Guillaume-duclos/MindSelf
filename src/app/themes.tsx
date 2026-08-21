@@ -8,15 +8,21 @@ import { darkenColor } from "@/utils/color";
 import { setStorageObject, storage } from "@/utils/storage";
 import { THEME_IMAGES } from "@/utils/themeImages";
 import { updateAffirmationWidgetTimeline } from "@/utils/widget";
-import { FlashList, FlashListRef, ViewToken } from "@shopify/flash-list";
+import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { GlassView } from "expo-glass-effect";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
-import { useEffect, useRef, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Pressable,
+  ScrollView,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { useMMKVObject } from "react-native-mmkv";
 import Animated, {
   useAnimatedStyle,
@@ -27,18 +33,52 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import themes from "../data/themes.json";
 import themesCategories from "../data/themesCategories.json";
 
-const NUM_COLUMNS = 3;
+// Matches the horizontal ScrollView's `px-5 gap-4` below — cards are sized
+// so the viewport (screenWidth) cuts into the 4th card at the initial
+// scroll position, creating the "peek" of more content to come.
+const LIST_LEFT_PADDING = 20;
+const CARD_GAP = 16;
+const CARD_PEEK_WIDTH = 12;
+const CARD_ASPECT_RATIO = 176 / 132;
+const VISIBLE_CARD_COUNT = 3;
+
+type ThemeJsonEntry =
+  | { isPremium: string; colors: string[] }
+  | { isPremium: string; image: string };
 
 type SectionEntry =
   | { type: "header"; title: string; value: string }
-  | ({ type: "theme" } & Theme);
+  | {
+      type: "subCategory";
+      categoryValue: string;
+      title: string;
+      themes: ThemeJsonEntry[];
+    };
 
 const categoryTitleByValue = new Map(
   themesCategories.map((category) => [category.value, category.title]),
 );
 
+const themeFromJsonEntry = (
+  categoryValue: string,
+  item: ThemeJsonEntry,
+): Theme => {
+  const isPremium = item.isPremium === "true";
+
+  if ("image" in item) {
+    return { category: Category.IMAGE, image: item.image, isPremium };
+  }
+
+  const category =
+    categoryValue === Category.ANIMATED_GRADIENT
+      ? Category.ANIMATED_GRADIENT
+      : Category.GRADIENT;
+
+  return { category, colors: item.colors as [string, string], isPremium };
+};
+
 const sections: SectionEntry[] = themes.flatMap((categoryGroup) => {
-  if (categoryGroup.themes.length === 0) {
+  if (categoryGroup.subCategories.length === 0) {
     return [];
   }
 
@@ -47,48 +87,25 @@ const sections: SectionEntry[] = themes.flatMap((categoryGroup) => {
 
   return [
     { type: "header", title, value: categoryGroup.category } as const,
-    ...categoryGroup.themes.map((theme) => {
-      const isPremium = theme.isPremium === "true";
-
-      if ("image" in theme) {
-        return {
-          type: "theme",
-          category: Category.IMAGE,
-          image: theme.image,
-          isPremium,
-        } as const;
-      }
-
-      const category =
-        categoryGroup.category === Category.ANIMATED_GRADIENT
-          ? Category.ANIMATED_GRADIENT
-          : Category.GRADIENT;
-
-      return {
-        type: "theme",
-        category,
-        colors: theme.colors as [string, string],
-        isPremium,
-      } as const;
-    }),
+    ...categoryGroup.subCategories.map(
+      (subCategory) =>
+        ({
+          type: "subCategory",
+          categoryValue: categoryGroup.category,
+          title: subCategory.title,
+          themes: subCategory.themes,
+        }) as const,
+    ),
   ];
 });
 
 const categoryHeaderIndex: Record<string, number> = {};
-const categoryByIndex: string[] = [];
 
-{
-  let currentCategory = "";
-
-  sections.forEach((entry, index) => {
-    if (entry.type === "header") {
-      currentCategory = entry.value;
-      categoryHeaderIndex[currentCategory] = index;
-    }
-
-    categoryByIndex[index] = currentCategory;
-  });
-}
+sections.forEach((entry, index) => {
+  if (entry.type === "header") {
+    categoryHeaderIndex[entry.value] = index;
+  }
+});
 
 const isSameTheme = (a: Theme, b: Theme | undefined): boolean => {
   if (!b) {
@@ -106,13 +123,29 @@ const isSameTheme = (a: Theme, b: Theme | undefined): boolean => {
   return false;
 };
 
-export default function Share() {
+export default function Themes() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
+  const { width: screenWidth } = useWindowDimensions();
   const [selectedTheme] = useMMKVObject<Theme>(
     StorageKey.SELECTED_THEME,
     storage,
   );
+
+  // Sized so exactly 3 cards are fully visible plus a peek of the 4th,
+  // regardless of screen width.
+  const cardWidth = useMemo(() => {
+    const gapsCount = VISIBLE_CARD_COUNT;
+
+    return (
+      (screenWidth -
+        LIST_LEFT_PADDING -
+        gapsCount * CARD_GAP -
+        CARD_PEEK_WIDTH) /
+      VISIBLE_CARD_COUNT
+    );
+  }, [screenWidth]);
+  const cardHeight = cardWidth * CARD_ASPECT_RATIO;
   const topFadeOpacity = useSharedValue(0);
   const listRef = useRef<FlashListRef<SectionEntry>>(null);
   const categoryScrollRef = useRef<ScrollView>(null);
@@ -155,8 +188,6 @@ export default function Share() {
     topFadeOpacity.value = withTiming(isScrolled ? 1 : 0, { duration: 200 });
   };
 
-  const isProgrammaticScroll = useRef(false);
-
   const handleSelectTheme = (theme: Theme) => {
     Haptics.selectionAsync();
     setStorageObject(StorageKey.SELECTED_THEME, theme);
@@ -164,44 +195,15 @@ export default function Share() {
     router.back();
   };
 
-  const scrollToCategory = async (categoryValue: string) => {
+  const scrollToCategory = (categoryValue: string) => {
     setActiveCategory(categoryValue);
 
     const index = categoryHeaderIndex[categoryValue];
 
     if (index !== undefined) {
-      isProgrammaticScroll.current = true;
-      await listRef.current?.scrollToIndex({ index, animated: true });
-      isProgrammaticScroll.current = false;
+      listRef.current?.scrollToIndex({ index, animated: true });
     }
   };
-
-  const viewabilityConfig = useRef({
-    itemVisiblePercentThreshold: 0,
-    minimumViewTime: 100,
-  }).current;
-
-  const onViewableItemsChanged = useRef(
-    ({ viewableItems }: { viewableItems: ViewToken<SectionEntry>[] }) => {
-      if (isProgrammaticScroll.current) {
-        return;
-      }
-
-      let minIndex = Infinity;
-
-      for (const token of viewableItems) {
-        if (token.isViewable && token.index != null && token.index < minIndex) {
-          minIndex = token.index;
-        }
-      }
-
-      const category = categoryByIndex[minIndex];
-
-      if (category) {
-        setActiveCategory((prev) => (prev === category ? prev : category));
-      }
-    },
-  ).current;
 
   const renderCategoryItem = () => {
     return themesCategories.map((category, index) => {
@@ -249,6 +251,75 @@ export default function Share() {
     );
   };
 
+  const renderThemeCard = (categoryValue: string, item: ThemeJsonEntry) => {
+    const theme = themeFromJsonEntry(categoryValue, item);
+
+    const borderColor =
+      selectedTheme && "colors" in selectedTheme
+        ? darkenColor(selectedTheme.colors[1], 0.3)
+        : colors.text[900];
+
+    return (
+      <Pressable onPress={() => handleSelectTheme(theme)}>
+        <View
+          className="border-terracotta-400 border-continuous rounded-xl overflow-hidden"
+          style={{
+            width: cardWidth,
+            height: cardHeight,
+            boxShadow: `0px 4px 7px ${colors.taupe}`,
+          }}
+        >
+          {"image" in theme ? (
+            <View className="flex-1 border-continuous">
+              <Image
+                className="absolute inset-0 w-full h-full"
+                source={THEME_IMAGES[theme.image]}
+                contentFit="cover"
+              />
+              <View className="flex-1 items-center justify-center">
+                {renderAffirmationCard()}
+              </View>
+            </View>
+          ) : theme.category === Category.ANIMATED_GRADIENT ? (
+            <View className="flex-1 border-continuous overflow-hidden">
+              <View className="absolute inset-0">
+                <AnimatedGradientBackground colors={theme.colors} />
+              </View>
+              <View className="flex-1 items-center justify-center">
+                {renderAffirmationCard()}
+              </View>
+            </View>
+          ) : (
+            <LinearGradient
+              className="flex-1 items-center justify-center border-continuous"
+              colors={theme.colors}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            >
+              {renderAffirmationCard()}
+            </LinearGradient>
+          )}
+        </View>
+
+        {isSameTheme(theme, selectedTheme) && (
+          <View
+            className="border-[3px] absolute top-0 left-0 right-0 bottom-0 rounded-[16px] border-continuous"
+            style={{ borderColor }}
+          />
+        )}
+
+        {theme.isPremium && (
+          <SymbolView
+            name="crown"
+            weight="bold"
+            tintColor={colors.text[900]}
+            className="absolute -top-1 -right-1"
+          />
+        )}
+      </Pressable>
+    );
+  };
+
   return (
     <View className="flex-1 bg-cream-50">
       <ScreenHeader title="Thèmes" className="py-5 px-5" />
@@ -282,104 +353,41 @@ export default function Share() {
         <FlashList
           ref={listRef}
           data={sections}
-          className="px-3"
-          numColumns={NUM_COLUMNS}
           contentContainerStyle={{ paddingBottom: bottom }}
           keyExtractor={(item, index) => `${item.type}-${index}`}
           getItemType={(item) => item.type}
-          overrideItemLayout={(layout, item) => {
-            if (item.type === "header") {
-              layout.span = NUM_COLUMNS;
-            }
-          }}
           onScroll={handleScroll}
           scrollEventThrottle={32}
-          onScrollBeginDrag={() => {
-            isProgrammaticScroll.current = false;
-          }}
-          viewabilityConfig={viewabilityConfig}
-          onViewableItemsChanged={onViewableItemsChanged}
           renderItem={({ item }) => {
             if (item.type === "header") {
               return (
-                <Text className="font-noto-serif font-bold text-text-900 text-lg px-2 pb-2 pt-4">
+                <Text className="font-noto-serif font-bold text-text-900 text-2xl px-5 pb-2 pt-2">
                   {item.title}
                 </Text>
               );
             }
 
-            const theme: Theme =
-              Category.IMAGE in item
-                ? {
-                    category: item.category,
-                    image: item.image,
-                    isPremium: item.isPremium,
-                  }
-                : {
-                    category: item.category,
-                    colors: item.colors,
-                    isPremium: item.isPremium,
-                  };
-
-            const borderColor =
-              selectedTheme && "colors" in selectedTheme
-                ? darkenColor(selectedTheme.colors[1], 0.3)
-                : colors.text[900];
-
             return (
-              <Pressable onPress={() => handleSelectTheme(theme)}>
-                <View
-                  className={`border-terracotta-400 border-continuous rounded-xl overflow-hidden m-3`}
-                  style={{ boxShadow: `0px 4px 7px ${colors.taupe}` }}
+              <View className="mt-4">
+                <Text className="font-noto-serif font-semibold text-text-900 text-md px-5">
+                  {item.title}
+                </Text>
+
+                <ScrollView
+                  horizontal
+                  snapToInterval={cardWidth + CARD_GAP}
+                  decelerationRate="fast"
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerClassName="gap-4 px-5"
+                  className="py-3"
                 >
-                  {Category.IMAGE in item ? (
-                    <View className="h-48 border-continuous">
-                      <Image
-                        className="absolute inset-0 w-full h-full"
-                        source={THEME_IMAGES[item.image]}
-                        contentFit="cover"
-                      />
-                      <View className="flex-1 items-center justify-center">
-                        {renderAffirmationCard()}
-                      </View>
+                  {item.themes.map((themeItem, index) => (
+                    <View key={index}>
+                      {renderThemeCard(item.categoryValue, themeItem)}
                     </View>
-                  ) : item.category === Category.ANIMATED_GRADIENT ? (
-                    <View className="h-48 border-continuous overflow-hidden">
-                      <View className="absolute inset-0">
-                        <AnimatedGradientBackground colors={item.colors} />
-                      </View>
-                      <View className="flex-1 items-center justify-center">
-                        {renderAffirmationCard()}
-                      </View>
-                    </View>
-                  ) : (
-                    <LinearGradient
-                      className="items-center justify-center h-48 border-continuous"
-                      colors={item.colors}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 1 }}
-                    >
-                      {renderAffirmationCard()}
-                    </LinearGradient>
-                  )}
-                </View>
-
-                {isSameTheme(theme, selectedTheme) && (
-                  <View
-                    className="border-[3px] absolute top-0 left-0 right-0 bottom-0 rounded-[16px] border-continuous"
-                    style={{ borderColor }}
-                  />
-                )}
-
-                {item.isPremium && (
-                  <SymbolView
-                    name="crown"
-                    weight="bold"
-                    tintColor={colors.text[900]}
-                    className="absolute -top-1 -right-1"
-                  />
-                )}
-              </Pressable>
+                  ))}
+                </ScrollView>
+              </View>
             );
           }}
         />

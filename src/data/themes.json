@@ -1,168 +1,220 @@
 [
   {
     "category": "gradient",
-    "themes": [
+    "subCategories": [
       {
-        "isPremium": "false",
-        "colors": ["#FFF4F2", "#EFD5C9"]
+        "title": "Chauds",
+        "themes": [
+          {
+            "isPremium": "false",
+            "colors": ["#FFF4F2", "#EFD5C9"]
+          },
+          {
+            "isPremium": "false",
+            "colors": ["#FDE6E8", "#F6C9CE"]
+          },
+          {
+            "isPremium": "false",
+            "colors": ["#FFE8DD", "#FFC8B0"]
+          },
+          {
+            "isPremium": "false",
+            "colors": ["#FFF4F2", "#EFD5C9"]
+          },
+          {
+            "isPremium": "false",
+            "colors": ["#FDE6E8", "#F6C9CE"]
+          },
+          {
+            "isPremium": "false",
+            "colors": ["#FFE8DD", "#FFC8B0"]
+          }
+        ]
       },
       {
-        "isPremium": "false",
-        "colors": ["#FDE6E8", "#F6C9CE"]
+        "title": "Doux",
+        "themes": [
+          {
+            "isPremium": "false",
+            "colors": ["#FFEEDB", "#FCD9A6"]
+          },
+          {
+            "isPremium": "false",
+            "colors": ["#FFF6DC", "#FBE79A"]
+          }
+        ]
       },
       {
-        "isPremium": "false",
-        "colors": ["#FFE8DD", "#FFC8B0"]
-      },
-      {
-        "isPremium": "false",
-        "colors": ["#FFEEDB", "#FCD9A6"]
-      },
-      {
-        "isPremium": "false",
-        "colors": ["#FFF6DC", "#FBE79A"]
-      },
-      {
-        "isPremium": "false",
-        "colors": ["#F3F8DE", "#E1EDB0"]
-      },
-      {
-        "isPremium": "false",
-        "colors": ["#EAF3E5", "#CFE3C4"]
-      },
-      {
-        "isPremium": "false",
-        "colors": ["#E4F6EE", "#BFE8D4"]
+        "title": "Froids",
+        "themes": [
+          {
+            "isPremium": "false",
+            "colors": ["#F3F8DE", "#E1EDB0"]
+          },
+          {
+            "isPremium": "false",
+            "colors": ["#EAF3E5", "#CFE3C4"]
+          },
+          {
+            "isPremium": "false",
+            "colors": ["#E4F6EE", "#BFE8D4"]
+          }
+        ]
       }
     ]
   },
   {
     "category": "image",
-    "themes": [
+    "subCategories": [
       {
-        "isPremium": "true",
-        "image": "beach-1"
+        "title": "Plage",
+        "themes": [
+          {
+            "isPremium": "true",
+            "image": "beach-1"
+          },
+          {
+            "isPremium": "true",
+            "image": "beach-2"
+          },
+          {
+            "isPremium": "true",
+            "image": "beach-3"
+          },
+          {
+            "isPremium": "false",
+            "image": "beach-4"
+          },
+          {
+            "isPremium": "true",
+            "image": "beach-5"
+          },
+          {
+            "isPremium": "true",
+            "image": "beach-6"
+          },
+          {
+            "isPremium": "true",
+            "image": "beach-7"
+          }
+        ]
       },
       {
-        "isPremium": "true",
-        "image": "beach-2"
-      },
-      {
-        "isPremium": "true",
-        "image": "beach-3"
-      },
-      {
-        "isPremium": "false",
-        "image": "beach-4"
-      },
-      {
-        "isPremium": "true",
-        "image": "beach-5"
-      },
-      {
-        "isPremium": "true",
-        "image": "beach-6"
-      },
-      {
-        "isPremium": "true",
-        "image": "beach-7"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-1"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-2"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-3"
-      },
-      {
-        "isPremium": "false",
-        "image": "mountain-4"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-5"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-6"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-7"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-8"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-9"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-10"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-11"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-12"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-13"
-      },
-      {
-        "isPremium": "true",
-        "image": "mountain-14"
+        "title": "Montagne",
+        "themes": [
+          {
+            "isPremium": "true",
+            "image": "mountain-1"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-2"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-3"
+          },
+          {
+            "isPremium": "false",
+            "image": "mountain-4"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-5"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-6"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-7"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-8"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-9"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-10"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-11"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-12"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-13"
+          },
+          {
+            "isPremium": "true",
+            "image": "mountain-14"
+          }
+        ]
       }
     ]
   },
   {
     "category": "animatedGradient",
-    "themes": [
+    "subCategories": [
       {
-        "isPremium": "true",
-        "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+        "title": "Chauds",
+        "themes": [
+          {
+            "isPremium": "true",
+            "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+          },
+          {
+            "isPremium": "true",
+            "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+          },
+          {
+            "isPremium": "true",
+            "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+          }
+        ]
       },
       {
-        "isPremium": "true",
-        "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+        "title": "Doux",
+        "themes": [
+          {
+            "isPremium": "true",
+            "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+          },
+          {
+            "isPremium": "true",
+            "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+          },
+          {
+            "isPremium": "true",
+            "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+          }
+        ]
       },
       {
-        "isPremium": "true",
-        "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
-      },
-      {
-        "isPremium": "true",
-        "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
-      },
-      {
-        "isPremium": "true",
-        "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
-      },
-      {
-        "isPremium": "true",
-        "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
-      },
-      {
-        "isPremium": "true",
-        "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
-      },
-      {
-        "isPremium": "true",
-        "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
-      },
-      {
-        "isPremium": "true",
-        "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+        "title": "Froids",
+        "themes": [
+          {
+            "isPremium": "true",
+            "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+          },
+          {
+            "isPremium": "true",
+            "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+          },
+          {
+            "isPremium": "true",
+            "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
+          }
+        ]
       }
     ]
   }
