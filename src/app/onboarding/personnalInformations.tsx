@@ -144,7 +144,7 @@ const questions: Question[] = [
     astralSign: true,
     storageKey: StorageKey.USER_ASTRAL_SIGN,
     page: Page.ONBOARDING_USER_ASTRAL_SIGN,
-    nextPage: Page.ACTIVATE_SUBSCRIPTION,
+    nextPage: Page.LOADING_PROFILE,
   },
 ];
 

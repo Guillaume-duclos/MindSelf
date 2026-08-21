@@ -9,7 +9,7 @@ import { background, opacity } from "@expo/ui/swift-ui/modifiers";
 import { GlassView } from "expo-glass-effect";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { SymbolView } from "expo-symbols";
+import { SFSymbol, SymbolView } from "expo-symbols";
 import { useState } from "react";
 import { Pressable, Text, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -65,7 +65,7 @@ export default function PaywallContent({
   const reminderDate = getDateInDays(6);
   const subscriptionDate = getDateInDays(7);
 
-  const items = [
+  const items: { icon: SFSymbol; title: string; description: string }[] = [
     {
       icon: "lock.open.fill",
       title: "Démarrez l'essaie gratuit",

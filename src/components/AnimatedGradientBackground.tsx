@@ -1,6 +1,7 @@
 import { MeshGradientView } from "expo-mesh-gradient";
 import { useEffect } from "react";
 import Animated, {
+  cancelAnimation,
   Easing,
   interpolateColor,
   useAnimatedProps,
@@ -11,6 +12,7 @@ import Animated, {
 
 type Props = {
   colors: string[];
+  animated?: boolean;
 };
 
 const AnimatedMeshGradientView =
@@ -33,7 +35,10 @@ const CYCLE_POSITION = [0, 1, 3, 2];
 // their lowest common multiple — long enough to never read as "looping".
 const CYCLE_DURATIONS = [8000, 8700, 9400, 10100];
 
-export default function AnimatedGradientBackground({ colors }: Props) {
+export default function AnimatedGradientBackground({
+  colors,
+  animated = true,
+}: Props) {
   const progresses = [
     useSharedValue(0),
     useSharedValue(0),
@@ -42,6 +47,14 @@ export default function AnimatedGradientBackground({ colors }: Props) {
   ];
 
   useEffect(() => {
+    if (!animated) {
+      // withRepeat runs indefinitely on the UI thread — dropping this prop
+      // to false doesn't stop it on its own, it just skips starting a new
+      // one, so the in-flight loop needs to be cancelled explicitly here.
+      progresses.forEach((progress) => cancelAnimation(progress));
+      return;
+    }
+
     progresses.forEach((progress, index) => {
       progress.value = withRepeat(
         withTiming(colors.length, {
@@ -53,7 +66,7 @@ export default function AnimatedGradientBackground({ colors }: Props) {
       );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [animated]);
 
   const animatedProps = useAnimatedProps(() => {
     const colorsList = CYCLE_POSITION.map((cyclePosition, index) => {

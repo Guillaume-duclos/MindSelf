@@ -49,4 +49,5 @@ module.exports = {
   androidIconBg: "#E6F4FE", // Android adaptive icon background
   success: "#68D278", // liked/success state icon tint
   placeholder: "#00000088", // text input placeholder (black, ~53% alpha)
+  white: "#FFFFFF",
 };

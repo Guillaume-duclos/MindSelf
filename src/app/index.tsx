@@ -210,7 +210,7 @@ export default function HomeScreen() {
       )}
 
       <View
-        className="absolute flex-1 flex-row items-center justify-between px-10 z-10 gap-5"
+        className="absolute flex-1 flex-row items-center justify-between px-7 z-10 gap-5"
         style={{ top }}
       >
         <View className="gap-3 flex-1 flex-row items-center">
@@ -235,10 +235,10 @@ export default function HomeScreen() {
                 Get Premium
               </Text>
               <SymbolView
-                name={{ ios: "crown" }}
-                weight="medium"
-                tintColor={colors.text[900]}
                 size={26}
+                weight="semibold"
+                name={{ ios: "crown" }}
+                tintColor={colors.text[900]}
               />
             </GlassView>
           </Pressable>

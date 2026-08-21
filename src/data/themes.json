@@ -103,11 +103,11 @@
         "title": "Montagne",
         "themes": [
           {
-            "isPremium": "true",
+            "isPremium": "false",
             "image": "mountain-1"
           },
           {
-            "isPremium": "true",
+            "isPremium": "false",
             "image": "mountain-2"
           },
           {
@@ -169,7 +169,7 @@
         "title": "Chauds",
         "themes": [
           {
-            "isPremium": "true",
+            "isPremium": "false",
             "colors": ["#F07E56", "#68D278", "#4C9AFF", "#F7D34C"]
           },
           {

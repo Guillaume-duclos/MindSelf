@@ -1,14 +1,14 @@
 [
   {
     "value": "gradient",
-    "title": "Gradient"
+    "title": "Dégradés"
   },
   {
     "value": "image",
-    "title": "Image"
+    "title": "Images"
   },
   {
-    "value": "video",
-    "title": "Video"
+    "value": "animatedGradient",
+    "title": "Dégradés animés"
   }
 ]

@@ -1,21 +1,17 @@
-import AnimatedGradientBackground from "@/components/AnimatedGradientBackground";
 import { ScreenHeader } from "@/components/ScreenHeader";
+import { SubCategoryRow } from "@/components/SubCategoryRow";
+import { type ThemeJsonEntry } from "@/components/ThemeCard";
 import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
-import Category from "@/enums/themeCategory.enum";
 import Theme from "@/types/theme";
-import { darkenColor } from "@/utils/color";
 import { setStorageObject, storage } from "@/utils/storage";
-import { THEME_IMAGES } from "@/utils/themeImages";
 import { updateAffirmationWidgetTimeline } from "@/utils/widget";
 import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { GlassView } from "expo-glass-effect";
 import * as Haptics from "expo-haptics";
-import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { SymbolView } from "expo-symbols";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   PixelRatio,
   Pressable,
@@ -43,10 +39,6 @@ const CARD_PEEK_WIDTH = 12;
 const CARD_ASPECT_RATIO = 176 / 132;
 const VISIBLE_CARD_COUNT = 3;
 
-type ThemeJsonEntry =
-  | { isPremium: string; colors: string[] }
-  | { isPremium: string; image: string };
-
 type SectionEntry =
   | { type: "header"; title: string; value: string }
   | {
@@ -54,29 +46,12 @@ type SectionEntry =
       categoryValue: string;
       title: string;
       themes: ThemeJsonEntry[];
-    };
+    }
+  | { type: "divider" };
 
 const categoryTitleByValue = new Map(
   themesCategories.map((category) => [category.value, category.title]),
 );
-
-const themeFromJsonEntry = (
-  categoryValue: string,
-  item: ThemeJsonEntry,
-): Theme => {
-  const isPremium = item.isPremium === "true";
-
-  if ("image" in item) {
-    return { category: Category.IMAGE, image: item.image, isPremium };
-  }
-
-  const category =
-    categoryValue === Category.ANIMATED_GRADIENT
-      ? Category.ANIMATED_GRADIENT
-      : Category.GRADIENT;
-
-  return { category, colors: item.colors as [string, string], isPremium };
-};
 
 const sections: SectionEntry[] = themes.flatMap((categoryGroup) => {
   if (categoryGroup.subCategories.length === 0) {
@@ -88,14 +63,17 @@ const sections: SectionEntry[] = themes.flatMap((categoryGroup) => {
 
   return [
     { type: "header", title, value: categoryGroup.category } as const,
-    ...categoryGroup.subCategories.map(
-      (subCategory) =>
-        ({
-          type: "subCategory",
-          categoryValue: categoryGroup.category,
-          title: subCategory.title,
-          themes: subCategory.themes,
-        }) as const,
+    ...categoryGroup.subCategories.flatMap(
+      (subCategory, index) =>
+        [
+          ...(index > 0 ? [{ type: "divider" } as const] : []),
+          {
+            type: "subCategory",
+            categoryValue: categoryGroup.category,
+            title: subCategory.title,
+            themes: subCategory.themes,
+          } as const,
+        ] as const,
     ),
   ];
 });
@@ -108,180 +86,6 @@ sections.forEach((entry, index) => {
   }
 });
 
-const isSameTheme = (a: Theme, b: Theme | undefined): boolean => {
-  if (!b) {
-    return false;
-  }
-
-  if ("image" in a && "image" in b) {
-    return a.image === b.image;
-  }
-
-  if ("colors" in a && "colors" in b) {
-    return a.colors[0] === b.colors[0] && a.colors[1] === b.colors[1];
-  }
-
-  return false;
-};
-
-// Every stop computed independently (rather than derived by repeatedly
-// adding an interval) so rounding on one stop can never carry into the next.
-const getSnapOffsets = (itemCount: number, cardWidth: number): number[] => {
-  const interval = cardWidth + CARD_GAP;
-
-  return Array.from({ length: itemCount }, (_, index) =>
-    PixelRatio.roundToNearestPixel(index * interval),
-  );
-};
-
-const renderAffirmationCard = () => {
-  return (
-    <GlassView
-      isInteractive={false}
-      glassEffectStyle="regular"
-      className="items-center w-[80%] h-[75%] rounded-lg justify-center px-2 border-continuous"
-    >
-      <Text className="text-center font-noto-serif font-bold text-text-900 text-md leading-[40px]">
-        MindSelf
-      </Text>
-    </GlassView>
-  );
-};
-
-type ThemeCardProps = {
-  categoryValue: string;
-  item: ThemeJsonEntry;
-  cardWidth: number;
-  cardHeight: number;
-  selectedTheme: Theme | undefined;
-  onSelect: (theme: Theme) => void;
-};
-
-function ThemeCard({
-  categoryValue,
-  item,
-  cardWidth,
-  cardHeight,
-  selectedTheme,
-  onSelect,
-}: ThemeCardProps) {
-  const theme = themeFromJsonEntry(categoryValue, item);
-
-  const borderColor =
-    selectedTheme && "colors" in selectedTheme
-      ? darkenColor(selectedTheme.colors[1], 0.3)
-      : colors.text[900];
-
-  return (
-    <Pressable onPress={() => onSelect(theme)}>
-      <View
-        className="border-terracotta-400 border-continuous rounded-xl overflow-hidden"
-        style={{
-          width: cardWidth,
-          height: cardHeight,
-          boxShadow: `0px 4px 7px ${colors.taupe}`,
-        }}
-      >
-        {"image" in theme ? (
-          <View className="flex-1 border-continuous">
-            <Image
-              className="absolute inset-0 w-full h-full"
-              source={THEME_IMAGES[theme.image]}
-              contentFit="cover"
-            />
-            <View className="flex-1 items-center justify-center">
-              {renderAffirmationCard()}
-            </View>
-          </View>
-        ) : theme.category === Category.ANIMATED_GRADIENT ? (
-          <View className="flex-1 border-continuous overflow-hidden">
-            <View className="absolute inset-0">
-              <AnimatedGradientBackground colors={theme.colors} />
-            </View>
-            <View className="flex-1 items-center justify-center">
-              {renderAffirmationCard()}
-            </View>
-          </View>
-        ) : (
-          <LinearGradient
-            className="flex-1 items-center justify-center border-continuous"
-            colors={theme.colors}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-          >
-            {renderAffirmationCard()}
-          </LinearGradient>
-        )}
-      </View>
-
-      {isSameTheme(theme, selectedTheme) && (
-        <View
-          className="border-[3px] absolute top-0 left-0 right-0 bottom-0 rounded-[16px] border-continuous"
-          style={{ borderColor }}
-        />
-      )}
-
-      {theme.isPremium && (
-        <SymbolView
-          name="crown"
-          weight="bold"
-          tintColor={colors.text[900]}
-          className="absolute -top-1 -right-1"
-        />
-      )}
-    </Pressable>
-  );
-}
-
-type SubCategoryRowProps = {
-  title: string;
-  categoryValue: string;
-  themes: ThemeJsonEntry[];
-  cardWidth: number;
-  cardHeight: number;
-  selectedTheme: Theme | undefined;
-  onSelectTheme: (theme: Theme) => void;
-};
-
-function SubCategoryRow({
-  title,
-  categoryValue,
-  themes: subThemes,
-  cardWidth,
-  cardHeight,
-  selectedTheme,
-  onSelectTheme,
-}: SubCategoryRowProps) {
-  return (
-    <View className="mt-4">
-      <Text className="font-noto-serif font-semibold text-text-900 text-md px-5">
-        {title}
-      </Text>
-
-      <ScrollView
-        horizontal
-        decelerationRate="fast"
-        snapToOffsets={getSnapOffsets(subThemes.length, cardWidth)}
-        showsHorizontalScrollIndicator={false}
-        contentContainerClassName="gap-4 px-5"
-        className="py-3"
-      >
-        {subThemes.map((themeItem, index) => (
-          <ThemeCard
-            key={index}
-            categoryValue={categoryValue}
-            item={themeItem}
-            cardWidth={cardWidth}
-            cardHeight={cardHeight}
-            selectedTheme={selectedTheme}
-            onSelect={onSelectTheme}
-          />
-        ))}
-      </ScrollView>
-    </View>
-  );
-}
-
 export default function Themes() {
   const router = useRouter();
   const { bottom } = useSafeAreaInsets();
@@ -290,6 +94,9 @@ export default function Themes() {
     StorageKey.SELECTED_THEME,
     storage,
   );
+  // Only one card's mesh gradient animates at a time, tracked here so
+  // starting a new one can pause whichever card was previously playing.
+  const [playingItem, setPlayingItem] = useState<ThemeJsonEntry | null>(null);
 
   // Sized so exactly 3 cards are fully visible plus a peek of the 4th,
   // regardless of screen width. Rounded to the nearest native pixel so the
@@ -348,12 +155,19 @@ export default function Themes() {
     topFadeOpacity.value = withTiming(isScrolled ? 1 : 0, { duration: 200 });
   };
 
-  const handleSelectTheme = (theme: Theme) => {
-    Haptics.selectionAsync();
-    setStorageObject(StorageKey.SELECTED_THEME, theme);
-    updateAffirmationWidgetTimeline();
-    router.back();
-  };
+  const handleSelectTheme = useCallback(
+    (theme: Theme) => {
+      Haptics.selectionAsync();
+      setStorageObject(StorageKey.SELECTED_THEME, theme);
+      updateAffirmationWidgetTimeline();
+      router.back();
+    },
+    [router],
+  );
+
+  const handleToggleAnimation = useCallback((item: ThemeJsonEntry) => {
+    setPlayingItem((previous) => (previous === item ? null : item));
+  }, []);
 
   const scrollToCategory = (categoryValue: string) => {
     setActiveCategory(categoryValue);
@@ -406,7 +220,7 @@ export default function Themes() {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        contentContainerClassName="gap-3 px-5 pt-2 pb-5"
+        contentContainerClassName="gap-3 px-5 py-2"
         className="grow-0"
         onLayout={(event) => {
           categoryScrollWidth.current = event.nativeEvent.layout.width;
@@ -434,25 +248,32 @@ export default function Themes() {
           keyExtractor={(item, index) => `${item.type}-${index}`}
           getItemType={(item) => item.type}
           onScroll={handleScroll}
-          scrollEventThrottle={32}
           renderItem={({ item }) => {
             if (item.type === "header") {
               return (
-                <Text className="font-noto-serif font-bold text-text-900 text-2xl px-5 pb-2 pt-2">
+                <Text className="font-noto-serif font-bold text-text-900 text-2xl px-5 pb-2 pt-6">
                   {item.title}
                 </Text>
               );
             }
 
+            if (item.type === "divider") {
+              return (
+                <View className="w-full mx-5 my-2 h-[0.5] bg-text-900/25" />
+              );
+            }
+
             return (
               <SubCategoryRow
-                title={item.title}
                 categoryValue={item.categoryValue}
+                subCategoryTitle={item.title}
                 themes={item.themes}
                 cardWidth={cardWidth}
                 cardHeight={cardHeight}
                 selectedTheme={selectedTheme}
                 onSelectTheme={handleSelectTheme}
+                playingItem={playingItem}
+                onToggleAnimation={handleToggleAnimation}
               />
             );
           }}

@@ -16,6 +16,7 @@ const PAGE_ROUTES: Record<Page, Href> = {
   [Page.ONBOARDING_USER_PROFESSIONAL_STATUS]:
     "/onboarding/personnalInformations",
   [Page.ONBOARDING_USER_ASTRAL_SIGN]: "/onboarding/personnalInformations",
+  [Page.LOADING_PROFILE]: "/onboarding/loadingProfile",
   [Page.ACTIVATE_SUBSCRIPTION]: "/onboarding/activateSubscription",
   [Page.PAYWALL]: "/paywall",
   [Page.HOME]: "/",
