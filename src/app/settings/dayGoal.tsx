@@ -7,6 +7,7 @@ import { ScreenTitle } from "@/components/ScreenTitle";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
 import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
+import { useIsDirty } from "@/hooks/use-is-dirty";
 import {
   getStorageBoolean,
   getStorageNumber,
@@ -34,6 +35,17 @@ export default function DayGoal() {
   const [dayGoal, setDayGoal] = useState(
     () => getStorageNumber(StorageKey.USER_DAY_GOAL) ?? DEFAULT_DAY_GOAL,
   );
+  const [isDirty, markDirty] = useIsDirty();
+
+  const handleChangeActiveGoal = (value: boolean) => {
+    setActiveGoal(value);
+    markDirty();
+  };
+
+  const handleChangeDayGoal = (value: number) => {
+    setDayGoal(value);
+    markDirty();
+  };
 
   const handleSave = () => {
     setStorageItem(StorageKey.USER_DAY_GOAL_ENABLED, activeGoal);
@@ -57,7 +69,7 @@ export default function DayGoal() {
           <ListItemContainer>
             <ListItemSwitch
               value={activeGoal}
-              onValueChange={setActiveGoal}
+              onValueChange={handleChangeActiveGoal}
               text="Définir un objectif journalier"
             />
 
@@ -65,7 +77,7 @@ export default function DayGoal() {
               minValue={MIN_DAY_GOAL}
               maxValue={MAX_DAY_GOAL}
               value={dayGoal}
-              onValueChange={setDayGoal}
+              onValueChange={handleChangeDayGoal}
               text="Like(s) par jour"
               className={!activeGoal ? "opacity-40" : undefined}
               disabled={!activeGoal}
@@ -73,7 +85,11 @@ export default function DayGoal() {
           </ListItemContainer>
         </View>
 
-        <CustomButton label="Sauvegarder" onPress={handleSave} />
+        <CustomButton
+          label="Sauvegarder"
+          onPress={handleSave}
+          disabled={!isDirty}
+        />
       </View>
     </View>
   );

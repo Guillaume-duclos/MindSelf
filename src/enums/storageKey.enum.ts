@@ -36,4 +36,6 @@ export enum StorageKey {
   // Widget
   WIDGET_DISPLAY_BUTTONS = "widgetDisplayButtons",
   WIDGET_AFFIRMATIONS_PER_DAY = "widgetAffirmationsPerDay",
+  WIDGET_DISPLAY_ONE_AFFIRMATION = "widgetDisplayOneAffirmation",
+  WIDGET_ONE_AFFIRMATION_TEXT = "widgetOneAffirmationText",
 }

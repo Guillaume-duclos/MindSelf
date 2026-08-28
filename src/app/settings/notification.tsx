@@ -7,6 +7,7 @@ import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
 import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
+import { useIsDirty } from "@/hooks/use-is-dirty";
 import NotificationTimeRange from "@/types/notificationTimeRange";
 import { scheduleDailyAffirmationNotifications } from "@/utils/notifications";
 import {
@@ -19,7 +20,7 @@ import * as Notifications from "expo-notifications";
 import { useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Linking, Text, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -56,6 +57,51 @@ export default function Account() {
   );
   const [timeRange, setTimeRange] =
     useState<NotificationTimeRange>(getStoredTimeRange);
+  const [isDirty, markDirty] = useIsDirty();
+
+  const handleChangeNotificationsEnabled = async (
+    value: boolean,
+  ): Promise<void> => {
+    // Reflects the tap immediately — the native Switch has already
+    // animated itself to this position by the time onValueChange fires, so
+    // without this the JS-side value never actually changes and React has
+    // nothing to push back down to sync it.
+    setNotificationsEnabled(value);
+
+    if (!value) {
+      markDirty();
+      return;
+    }
+
+    // Once the user has explicitly denied the OS permission, re-asking via
+    // requestPermissionsAsync() is a silent no-op on iOS — the only way
+    // back in is the Settings app, hence the redirect here instead.
+    const { status } = await Notifications.getPermissionsAsync();
+
+    if (status === Notifications.PermissionStatus.DENIED) {
+      setNotificationsEnabled(false);
+
+      Alert.alert(
+        "Notifications désactivées",
+        "Active les notifications pour MindSelf dans les réglages de ton iPhone pour recevoir tes affirmations.",
+        [
+          { text: "Annuler", style: "cancel" },
+          {
+            text: "Ouvrir les réglages",
+            onPress: () => Linking.openSettings(),
+          },
+        ],
+      );
+      return;
+    }
+
+    markDirty();
+  };
+
+  const handleChangeTimeRange = (value: NotificationTimeRange) => {
+    setTimeRange(value);
+    markDirty();
+  };
 
   // expo-symbols doesn't expose SF Symbols' native "wiggle" bell-ring effect
   // (it animates the clapper as a separate layer from the bell body, which
@@ -133,13 +179,13 @@ export default function Account() {
             <ListItemSwitch
               value={notificationsEnabled}
               text="Activer les notifications"
-              onValueChange={setNotificationsEnabled}
+              onValueChange={handleChangeNotificationsEnabled}
             />
           </ListItemContainer>
 
           <NotificationSetter
             value={timeRange}
-            onChange={setTimeRange}
+            onChange={handleChangeTimeRange}
             disabled={!notificationsEnabled}
             className={`items-center ${!notificationsEnabled && "opacity-40"}`}
           />
@@ -147,7 +193,11 @@ export default function Account() {
       </View>
 
       <View className="w-full">
-        <CustomButton label="Sauvegarder" onPress={saveChanges} />
+        <CustomButton
+          label="Sauvegarder"
+          onPress={saveChanges}
+          disabled={!isDirty}
+        />
       </View>
     </View>
   );

@@ -15,19 +15,24 @@ export function CustomOptionsSelectPicker({
 }: Props) {
   return (
     <View className="gap-3 w-full">
-      {options.map((item, index) => (
-        <Pressable
-          key={index}
-          onPress={() => onValueChange(item.value)}
-          className={`w-full h-16 items-center px-8 rounded-full border-continuous justify-center border-2 ${selectedValue === item.value ? "border-text-900" : "border-text-100"}`}
-        >
-          <Text
-            className={`text-center font-public-sans text-xl text-text-900 ${selectedValue === item.value && "font-semibold"}`}
+      {options.map((item, index) => {
+        const isSelected = selectedValue === item.value;
+
+        return (
+          <Pressable
+            key={index}
+            disabled={isSelected}
+            onPress={() => onValueChange(item.value)}
+            className={`w-full h-16 items-center px-8 rounded-full border-continuous justify-center border-2 ${isSelected ? "border-text-900" : "border-text-100"}`}
           >
-            {item.label}
-          </Text>
-        </Pressable>
-      ))}
+            <Text
+              className={`text-center font-public-sans text-xl text-text-900 ${isSelected && "font-semibold"}`}
+            >
+              {item.label}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }

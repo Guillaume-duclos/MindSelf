@@ -7,6 +7,7 @@ import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
 import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
+import { useIsDirty } from "@/hooks/use-is-dirty";
 import { getStorageString, setStorageItem } from "@/utils/storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -39,6 +40,12 @@ export default function UserSex() {
   const [userSex, setUserSex] = useState(
     () => getStorageString(StorageKey.USER_SEX) ?? "",
   );
+  const [isDirty, markDirty] = useIsDirty();
+
+  const handleChangeUserSex = (value: string) => {
+    setUserSex(value);
+    markDirty();
+  };
 
   const handleSave = () => {
     setStorageItem(StorageKey.USER_SEX, userSex);
@@ -62,7 +69,7 @@ export default function UserSex() {
           <CustomOptionsSelectPicker
             options={OPTIONS}
             selectedValue={userSex}
-            onValueChange={setUserSex}
+            onValueChange={handleChangeUserSex}
           />
         </ScrollViewContainer>
       </View>
@@ -72,7 +79,11 @@ export default function UserSex() {
           className="absolute -top-10 left-0 right-0 h-10"
           colors={[`${colors.cream[50]}00`, colors.cream[50]]}
         />
-        <CustomButton label="Sauvegarder" onPress={handleSave} />
+        <CustomButton
+          label="Sauvegarder"
+          onPress={handleSave}
+          disabled={!isDirty}
+        />
       </View>
     </Pressable>
   );

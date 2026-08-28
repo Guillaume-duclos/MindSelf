@@ -88,6 +88,8 @@ const STORAGE_KEY_TYPE: Record<StorageKey, "string" | "number" | "boolean"> = {
   [StorageKey.DAILY_LIKE_DATE]: "string",
   [StorageKey.WIDGET_DISPLAY_BUTTONS]: "boolean",
   [StorageKey.WIDGET_AFFIRMATIONS_PER_DAY]: "number",
+  [StorageKey.WIDGET_DISPLAY_ONE_AFFIRMATION]: "boolean",
+  [StorageKey.WIDGET_ONE_AFFIRMATION_TEXT]: "string",
 };
 
 // Get every stored key/value, regardless of its type

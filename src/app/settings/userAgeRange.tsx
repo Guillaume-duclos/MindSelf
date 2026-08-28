@@ -7,6 +7,7 @@ import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
 import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
+import { useIsDirty } from "@/hooks/use-is-dirty";
 import { getStorageString, setStorageItem } from "@/utils/storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -51,6 +52,12 @@ export default function UserAgeRange() {
   const [userAgeRange, setUserAgeRange] = useState(
     () => getStorageString(StorageKey.USER_AGE_RANGE) ?? "",
   );
+  const [isDirty, markDirty] = useIsDirty();
+
+  const handleChangeUserAgeRange = (value: string) => {
+    setUserAgeRange(value);
+    markDirty();
+  };
 
   const handleSave = () => {
     setStorageItem(StorageKey.USER_AGE_RANGE, userAgeRange);
@@ -77,7 +84,7 @@ export default function UserAgeRange() {
           <CustomOptionsSelectPicker
             options={OPTIONS}
             selectedValue={userAgeRange}
-            onValueChange={setUserAgeRange}
+            onValueChange={handleChangeUserAgeRange}
           />
         </ScrollViewContainer>
       </View>
@@ -87,7 +94,11 @@ export default function UserAgeRange() {
           className="absolute -top-10 left-0 right-0 h-10"
           colors={[`${colors.cream[50]}00`, colors.cream[50]]}
         />
-        <CustomButton label="Sauvegarder" onPress={handleSave} />
+        <CustomButton
+          label="Sauvegarder"
+          onPress={handleSave}
+          disabled={!isDirty}
+        />
       </View>
     </Pressable>
   );

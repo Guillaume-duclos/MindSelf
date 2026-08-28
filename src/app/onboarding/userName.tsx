@@ -14,7 +14,7 @@ export default function UserName() {
   const [userName, setUserName] = useState("");
 
   const handleContinue = () => {
-    setStorageItem(StorageKey.USER_NAME, userName);
+    setStorageItem(StorageKey.USER_NAME, userName.trim());
     setStorageItem(
       StorageKey.CURRENT_ONBOARDING_PAGE,
       Page.ONBOARDING_USER_NOTIFICATION_TIME_RANGE,

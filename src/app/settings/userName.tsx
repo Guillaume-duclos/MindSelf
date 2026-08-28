@@ -5,6 +5,7 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
 import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
+import { useIsDirty } from "@/hooks/use-is-dirty";
 import { getStorageString, setStorageItem } from "@/utils/storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -21,6 +22,12 @@ export default function UserName() {
   const [userName, setUserName] = useState(
     () => getStorageString(StorageKey.USER_NAME) ?? "",
   );
+  const [isDirty, markDirty] = useIsDirty();
+
+  const handleChangeUserName = (value: string) => {
+    setUserName(value);
+    markDirty();
+  };
 
   const handleSave = () => {
     setStorageItem(StorageKey.USER_NAME, userName.trim());
@@ -46,11 +53,15 @@ export default function UserName() {
           <CustomTextInput
             value={userName}
             placeHolder="Prénom"
-            onChangeText={setUserName}
+            onChangeText={handleChangeUserName}
           />
         </View>
 
-        <CustomButton label="Sauvegarder" onPress={handleSave} />
+        <CustomButton
+          label="Sauvegarder"
+          onPress={handleSave}
+          disabled={!isDirty || !userName.trim()}
+        />
       </View>
     </Pressable>
   );

@@ -193,8 +193,7 @@ export default function Themes() {
           }}
         >
           <GlassView
-            isInteractive
-            glassEffectStyle="regular"
+            isInteractive={false}
             tintColor={isActive ? colors.text[900] : undefined}
             className="h-10 rounded-full justify-center px-5 border-continuous"
           >
