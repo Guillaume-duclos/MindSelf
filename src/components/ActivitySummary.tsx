@@ -9,8 +9,6 @@ import { SymbolView } from "expo-symbols";
 import { Text, View } from "react-native";
 import { useMMKVNumber, useMMKVObject } from "react-native-mmkv";
 
-// Monday to Sunday, matching the Monday-indexed week used in
-// src/utils/activity.ts.
 const DAY_LABELS = ["l", "m", "m", "j", "v", "s", "d"];
 
 export function ActivitySummary() {
@@ -31,7 +29,7 @@ export function ActivitySummary() {
   return (
     <View className="gap-3 ">
       <Text className="px-5 font-noto-serif font-semibold text-xl text-text-900">
-        Mes objectifs
+        Mes objectifs de la semaine
       </Text>
 
       <View className="bg-primary-100 py-6 rounded-3xl">

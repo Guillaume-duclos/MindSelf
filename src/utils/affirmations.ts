@@ -3,12 +3,24 @@ import {
   type AffirmationStatsMap,
   getAllAffirmationStats,
 } from "@/utils/affirmationStats";
+import { isCategoryEnabled } from "@/utils/categories";
 
-export const affirmations = affirmationCategories.flatMap(
-  (category) => category.affirmations,
-);
+// Recomputed on every call (not a frozen module constant) so it always
+// reflects the user's current category toggles — falls back to every
+// affirmation if somehow none are enabled, so this never returns an empty
+// pool for the home feed, notifications, or widgets to break on.
+const getEligibleAffirmations = (): string[] => {
+  const enabledCategories = affirmationCategories.filter((category) =>
+    isCategoryEnabled(category.category),
+  );
+  const pool =
+    enabledCategories.length > 0 ? enabledCategories : affirmationCategories;
+
+  return pool.flatMap((category) => category.affirmations);
+};
 
 export const pickRandomAffirmationText = (): string => {
+  const affirmations = getEligibleAffirmations();
   const index = Math.floor(Math.random() * affirmations.length);
   return affirmations[index];
 };
@@ -72,6 +84,7 @@ export const pickNextAffirmations = (
   count: number,
   exclude: ReadonlySet<string> = new Set(),
 ): string[] => {
+  const affirmations = getEligibleAffirmations();
   const statsMap = getAllAffirmationStats();
   const eligible = affirmations.filter((text) => !exclude.has(text));
   const source = eligible.length > 0 ? eligible : affirmations;

@@ -1,4 +1,5 @@
 import { ActivitySummary } from "@/components/ActivitySummary";
+import { CategoriesList } from "@/components/CategoriesList";
 import { ListItemContainer } from "@/components/ListItemContainer";
 import { ListItemLink } from "@/components/ListItemLink";
 import { ScreenHeader } from "@/components/ScreenHeader";
@@ -34,6 +35,7 @@ export default function HomeScreen() {
 
       <ScrollViewContainer contentContainerClassName="px-5 gap-8">
         <ActivitySummary />
+        <CategoriesList />
 
         <ListItemContainer title="Mon compte">
           <ListItemLink
@@ -45,11 +47,11 @@ export default function HomeScreen() {
             onPress={() => router.navigate("/settings/dayGoal")}
           />
           <ListItemLink
-            text="Widget"
+            text="Widgets"
             onPress={() => router.navigate("/settings/widget")}
           />
           <ListItemLink
-            text="Notification"
+            text="Notifications"
             onPress={() => router.navigate("/settings/notification")}
           />
         </ListItemContainer>

@@ -25,6 +25,7 @@ export enum StorageKey {
   // Affirmations
   AFFIRMATION_STATS = "affirmationStats",
   HAS_SEEN_SECOND_AFFIRMATION = "hasSeenSecondAffirmation",
+  DISABLED_AFFIRMATION_CATEGORIES = "disabledAffirmationCategories",
 
   // Activity
   ACTIVITY_WEEK_START = "activityWeekStart",
