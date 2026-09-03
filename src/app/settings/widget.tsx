@@ -98,16 +98,17 @@ export default function Widget() {
   };
 
   return (
-    <View className="flex-1 bg-cream-50 px-5">
+    <View className="flex-1 bg-cream-50">
       <ScreenHeader
         title="Widget"
         showBackButton
         showCloseButton
+        className="p-5"
         onClose={closeSettingsModal}
       />
 
-      <ScrollViewContainer contentContainerClassName="flex-1">
-        <View className="flex-1 gap-12">
+      <ScrollViewContainer contentContainerClassName="gap-10 px-5">
+        <View className="gap-12">
           <View
             className="w-[92%] self-center"
             style={{ aspectRatio: getImageAspectRatio(WIDGET_ILLUSTRATION) }}
@@ -218,8 +219,11 @@ export default function Widget() {
 
           <ListItemContainer>
             <ListItemLink
-              leftIcon="info.circle"
-              text="Comment afficher le widget ?"
+              text="Comment afficher le widget sur l'écran vérouillé ?"
+              onPress={() => router.navigate("/settings/widgetHelp")}
+            />
+            <ListItemLink
+              text="Comment afficher le widget sur l'écran d'acceuil ?"
               onPress={() => router.navigate("/settings/widgetHelp")}
             />
           </ListItemContainer>
