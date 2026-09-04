@@ -1,5 +1,6 @@
 import colors from "@/constants/colors";
 import { GlassView } from "expo-glass-effect";
+import { useRef } from "react";
 import { Pressable, Text } from "react-native";
 
 type Props = {
@@ -11,6 +12,8 @@ type Props = {
   tintColor?: string;
 };
 
+const DOUBLE_PRESS_GUARD_MS = 400;
+
 export function CustomButton({
   onPress,
   label,
@@ -19,9 +22,18 @@ export function CustomButton({
   textClassName = "text-cream-200",
   tintColor = colors.text[950],
 }: Props) {
+  const lastPressRef = useRef(0);
+
+  const handlePress = () => {
+    const now = Date.now();
+    if (now - lastPressRef.current < DOUBLE_PRESS_GUARD_MS) return;
+    lastPressRef.current = now;
+    onPress?.();
+  };
+
   return (
     <Pressable
-      onPress={onPress}
+      onPress={handlePress}
       disabled={disabled}
       className={`${disabled && "opacity-50"} ${className}`}
     >
