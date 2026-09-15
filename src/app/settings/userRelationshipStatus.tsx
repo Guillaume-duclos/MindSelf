@@ -61,7 +61,7 @@ export default function UserRelationshipStatus() {
   };
 
   return (
-    <Pressable className="flex-1 bg-cream-50" onPress={Keyboard.dismiss}>
+    <Pressable className="flex-1" onPress={Keyboard.dismiss}>
       <ScreenHeader
         title="Statut relationnel"
         showBackButton

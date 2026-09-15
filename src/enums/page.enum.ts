@@ -9,6 +9,7 @@ export enum Page {
   ONBOARDING_USER_PROFESSIONAL_STATUS = "onboardingUserProfessionalStatus",
   ONBOARDING_USER_ASTRAL_SIGN = "onboardingUserAstralSign",
   LOADING_PROFILE = "loadingProfile",
+  ONBOARDING_CHOSE_CATEGORIES = "onboardingChoseCategories",
   ACTIVATE_SUBSCRIPTION = "activateSubscription",
   PAYWALL = "paywall",
   HOME = "home",

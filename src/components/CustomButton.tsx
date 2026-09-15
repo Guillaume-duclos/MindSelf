@@ -26,7 +26,11 @@ export function CustomButton({
 
   const handlePress = () => {
     const now = Date.now();
-    if (now - lastPressRef.current < DOUBLE_PRESS_GUARD_MS) return;
+
+    if (now - lastPressRef.current < DOUBLE_PRESS_GUARD_MS) {
+      return;
+    }
+
     lastPressRef.current = now;
     onPress?.();
   };

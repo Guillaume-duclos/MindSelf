@@ -6,7 +6,8 @@ import { storage } from "@/utils/storage";
 import { updateAffirmationWidgetTimeline } from "@/utils/widget";
 import * as Haptics from "expo-haptics";
 import { SFSymbol, SymbolView } from "expo-symbols";
-import { Alert, Pressable, Text, useWindowDimensions, View } from "react-native";
+import { useState } from "react";
+import { Alert, LayoutChangeEvent, Pressable, Text, View } from "react-native";
 import { useMMKVObject } from "react-native-mmkv";
 
 // Best-fit SF Symbol per category name from affirmations.json.
@@ -29,12 +30,14 @@ const Categories = affirmationCategories.map(({ category }) => ({
 
 const GAP = 10;
 const COLUMNS = 2;
-const SCREEN_PADDING = 20;
 
 export function CategoriesList() {
-  const { width: screenWidth } = useWindowDimensions();
-  const tileWidth =
-    (screenWidth - SCREEN_PADDING * 2 - GAP * (COLUMNS - 1)) / COLUMNS;
+  const [containerWidth, setContainerWidth] = useState(0);
+  const tileWidth = (containerWidth - GAP * (COLUMNS - 1)) / COLUMNS;
+
+  const handleContainerLayout = (event: LayoutChangeEvent) => {
+    setContainerWidth(event.nativeEvent.layout.width);
+  };
 
   const [disabledCategories] = useMMKVObject<string[]>(
     StorageKey.DISABLED_AFFIRMATION_CATEGORIES,
@@ -65,7 +68,7 @@ export function CategoriesList() {
           key={index}
           style={{ width: tileWidth }}
           onPress={() => handleToggleCategory(category.name)}
-          className="px-3 pt-6 pb-10 gap-2 items-center justify-center rounded-3xl bg-primary-100"
+          className="px-3 pt-6 pb-10 gap-2 items-center justify-center rounded-3xl bg-secondary-50 shadow-sm shadow-secondary-950/10"
         >
           <SymbolView
             size={34}
@@ -93,14 +96,12 @@ export function CategoriesList() {
   };
 
   return (
-    <View className="gap-3 ">
-      <Text className="px-5 font-noto-serif font-semibold text-xl text-text-900">
-        Catégories mises en avant
-      </Text>
-
-      <View style={{ gap: GAP }} className="flex-row flex-wrap">
-        {renderCategories()}
-      </View>
+    <View
+      onLayout={handleContainerLayout}
+      style={{ gap: GAP }}
+      className="flex-row flex-wrap"
+    >
+      {containerWidth > 0 && renderCategories()}
     </View>
   );
 }

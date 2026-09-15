@@ -8,7 +8,7 @@ import { SettingsFooter } from "@/components/SettingsFooter";
 import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
 import { createModifier } from "@expo/ui/swift-ui/modifiers";
 import { useRouter } from "expo-router";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 const plainRowModifiers = [
   createModifier("listRowBackground", { color: "clear" }),
@@ -26,7 +26,7 @@ export default function HomeScreen() {
   const closeSettingsModal = useCloseSettingsModal();
 
   return (
-    <View className="flex-1 bg-cream-50">
+    <View className="flex-1">
       <ScreenHeader
         title="Mon profil"
         className="py-5 px-5"
@@ -35,7 +35,13 @@ export default function HomeScreen() {
 
       <ScrollViewContainer contentContainerClassName="px-5 gap-8">
         <ActivitySummary />
-        <CategoriesList />
+
+        <View className="gap-3">
+          <Text className="px-5 font-noto-serif font-semibold text-xl text-text-900">
+            Catégories mises en avant
+          </Text>
+          <CategoriesList />
+        </View>
 
         <ListItemContainer title="Mon compte">
           <ListItemLink

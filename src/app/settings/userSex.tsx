@@ -53,7 +53,7 @@ export default function UserSex() {
   };
 
   return (
-    <Pressable className="flex-1 bg-cream-50" onPress={Keyboard.dismiss}>
+    <Pressable className="flex-1" onPress={Keyboard.dismiss}>
       <ScreenHeader
         title="Genre"
         showBackButton

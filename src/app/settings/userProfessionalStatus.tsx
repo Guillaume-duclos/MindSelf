@@ -69,7 +69,7 @@ export default function UserProfessionalStatus() {
   };
 
   return (
-    <Pressable className="flex-1 bg-cream-50" onPress={Keyboard.dismiss}>
+    <Pressable className="flex-1" onPress={Keyboard.dismiss}>
       <ScreenHeader
         title="Situation professionnelle"
         showBackButton

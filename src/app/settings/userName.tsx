@@ -36,7 +36,7 @@ export default function UserName() {
 
   return (
     <Pressable
-      className="flex-1 bg-cream-50 px-5"
+      className="flex-1 px-5"
       style={{ paddingBottom: bottom }}
       onPress={Keyboard.dismiss}
     >

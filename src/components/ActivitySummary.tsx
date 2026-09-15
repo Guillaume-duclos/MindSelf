@@ -27,12 +27,12 @@ export function ActivitySummary() {
   }));
 
   return (
-    <View className="gap-3 ">
+    <View className="gap-3">
       <Text className="px-5 font-noto-serif font-semibold text-xl text-text-900">
         Mes objectifs de la semaine
       </Text>
 
-      <View className="bg-primary-100 py-6 rounded-3xl">
+      <View className="bg-secondary-50 py-6 rounded-3xl shadow-sm shadow-secondary-950/10">
         <View className="px-6 flex-row justify-between">
           <Text className="font-noto-serif font-semibold text-4xl text-text-900 pt-0.5">
             <Text className="font-noto-serif text-5xl">
@@ -42,7 +42,7 @@ export function ActivitySummary() {
           </Text>
         </View>
 
-        <Host matchContents={{ vertical: true }} className="w-full mt-2 mb-5">
+        <Host matchContents={{ vertical: true }} className="mx-6 mt-2 mb-5">
           <Divider
             modifiers={[background(colors.primary[900]), opacity(0.2)]}
           />

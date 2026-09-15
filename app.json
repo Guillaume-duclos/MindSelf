@@ -87,6 +87,7 @@
         }
       ],
       "./plugins/withWidgetFonts",
+      "./plugins/withUISceneLifecycle",
       [
         "expo-widgets",
         {
@@ -109,7 +110,9 @@
       ],
       "expo-localization",
       "expo-notifications",
-      "expo-sharing"
+      "expo-sharing",
+      "expo-image",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,

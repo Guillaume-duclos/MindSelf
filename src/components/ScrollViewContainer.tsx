@@ -35,7 +35,7 @@ export function ScrollViewContainer({
   };
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 w-full">
       <Animated.View
         className="h-10 absolute top-0 w-full z-10"
         style={topFadeStyle}

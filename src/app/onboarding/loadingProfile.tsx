@@ -1,3 +1,6 @@
+import { Page } from "@/enums/page.enum";
+import { StorageKey } from "@/enums/storageKey.enum";
+import { setStorageItem } from "@/utils/storage";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
@@ -107,7 +110,11 @@ export default function loadingProfile() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      router.push("/onboarding/activateSubscription");
+      setStorageItem(
+        StorageKey.CURRENT_ONBOARDING_PAGE,
+        Page.ONBOARDING_CHOSE_CATEGORIES,
+      );
+      router.push("/onboarding/choseCategories");
     }, 5000);
 
     return () => clearTimeout(timeout);

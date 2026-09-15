@@ -30,6 +30,7 @@ import {
   useMMKVBoolean,
   useMMKVNumber,
   useMMKVObject,
+  useMMKVString,
 } from "react-native-mmkv";
 import Animated, {
   cancelAnimation,
@@ -128,6 +129,11 @@ export default function HomeScreen() {
   // live as the user likes affirmations without needing a manual refresh.
   const [dailyLikeCount] = useMMKVNumber(StorageKey.DAILY_LIKE_COUNT, storage);
   const [dayGoal] = useMMKVNumber(StorageKey.USER_DAY_GOAL, storage);
+  const [isDayGoalEnabled] = useMMKVBoolean(
+    StorageKey.USER_DAY_GOAL_ENABLED,
+    storage,
+  );
+  const [userName] = useMMKVString(StorageKey.USER_NAME, storage);
 
   const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 90 }).current;
   const handleViewableItemsChanged = useRef(
@@ -214,14 +220,22 @@ export default function HomeScreen() {
         style={{ top }}
       >
         <View className="gap-3 flex-1 flex-row items-center">
-          <HeartProgress
-            size={36}
-            goal={dayGoal ?? 0}
-            likeCount={dailyLikeCount ?? 0}
-          />
-          <Text className="flex-1 text-text-900 font-semibold font-public-sans text-md leading-4">
-            Ton objectif aujourd'hui
-          </Text>
+          {isDayGoalEnabled ? (
+            <>
+              <HeartProgress
+                size={36}
+                goal={dayGoal ?? 0}
+                likeCount={dailyLikeCount ?? 0}
+              />
+              <Text className="flex-1 text-text-900 font-semibold font-public-sans text-md leading-4">
+                Ton objectif aujourd'hui
+              </Text>
+            </>
+          ) : (
+            <Text className="flex-1 text-text-900 font-semibold font-public-sans text-md leading-5">
+              Bon matin{userName ? `,\n${userName}` : ""}
+            </Text>
+          )}
         </View>
 
         <Link asChild href="/paywall">

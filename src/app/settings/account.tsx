@@ -16,7 +16,7 @@ export default function Account() {
   useDisableSwipeDismiss();
 
   return (
-    <View className="flex-1 bg-cream-50" style={{ paddingBottom: bottom }}>
+    <View className="flex-1" style={{ paddingBottom: bottom }}>
       <ScreenHeader
         title="Mon compte"
         showBackButton

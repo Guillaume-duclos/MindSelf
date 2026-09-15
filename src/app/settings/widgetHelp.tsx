@@ -89,7 +89,7 @@ export default function WidgetHelp() {
     WIDGET_HELP_TABS.find((tab) => tab.id === tabId) ?? WIDGET_HELP_TABS[0];
 
   return (
-    <View className="flex-1 bg-cream-50">
+    <View className="flex-1">
       <ScreenHeader
         title="Afficher un widget"
         showCloseButton

@@ -98,7 +98,7 @@ export default function Widget() {
   };
 
   return (
-    <View className="flex-1 bg-cream-50">
+    <View className="flex-1">
       <ScreenHeader
         title="Widget"
         showBackButton
