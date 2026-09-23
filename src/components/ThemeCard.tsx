@@ -1,8 +1,10 @@
 import AnimatedGradientBackground from "@/components/AnimatedGradientBackground";
 import colors from "@/constants/colors";
 import Category from "@/enums/themeCategory.enum";
+import { StorageKey } from "@/enums/storageKey.enum";
 import Theme from "@/types/theme";
 import { darkenColor } from "@/utils/color";
+import { storage } from "@/utils/storage";
 import { THEME_IMAGES } from "@/utils/themeImages";
 import { GlassView } from "expo-glass-effect";
 import { Image } from "expo-image";
@@ -11,6 +13,7 @@ import { useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { memo } from "react";
 import { Pressable, Text, View } from "react-native";
+import { useMMKVBoolean } from "react-native-mmkv";
 
 export type ThemeJsonEntry =
   | { isPremium: string; colors: string[] }
@@ -105,6 +108,7 @@ export const ThemeCard = memo(function ThemeCard({
   // render, so starting a new one pauses whichever card was playing.
   const isAnimating = playingItem === item;
   const router = useRouter();
+  const [isPremiumUser] = useMMKVBoolean(StorageKey.IS_PREMIUM, storage);
 
   const borderColor =
     selectedTheme && "colors" in selectedTheme
@@ -112,7 +116,7 @@ export const ThemeCard = memo(function ThemeCard({
       : colors.text[900];
 
   const handlePress = () => {
-    if (theme.isPremium) {
+    if (theme.isPremium && !isPremiumUser) {
       router.push("/paywall");
       return;
     }

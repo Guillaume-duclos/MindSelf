@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./src/assets/images/app-icon.jpg",
-      "bundleIdentifier": "com.anonymous.MindSelf"
+      "bundleIdentifier": "com.guillaumeduclos.mindself"
     },
     "android": {
       "adaptiveIcon": {

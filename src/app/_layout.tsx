@@ -1,19 +1,12 @@
 import colors from "@/constants/colors";
-import { StorageKey } from "@/enums/storageKey.enum";
+import ColorScheme from "@/enums/colorScheme.enum";
 import { recordAppOpenedToday } from "@/utils/activity";
 import { resetDailyLikesIfNewDay } from "@/utils/dailyLikes";
-import {
-  configureNotificationHandler,
-  scheduleNotification,
-} from "@/utils/notifications";
-import {
-  getAllStorageEntries,
-  removeAllStorage,
-  setStorageItem,
-} from "@/utils/storage";
+import { registerDevMenu } from "@/utils/devMenu";
+import { configureNotificationHandler } from "@/utils/notifications";
+import { configurePurchases } from "@/utils/purchases";
 import { updateAffirmationWidgetTimeline } from "@/utils/widget";
 import { Host } from "@expo/ui";
-import { registerDevMenuItems } from "expo-dev-menu";
 import { GlassView } from "expo-glass-effect";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -25,51 +18,23 @@ import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../global.css";
 
+// SplashScreen
 SplashScreen.preventAutoHideAsync();
+
+// NativeWind
 cssInterop(LinearGradient, { className: "style" });
 cssInterop(SymbolView, { className: "style" });
 cssInterop(GlassView, { className: "style" });
 cssInterop(Image, { className: "style" });
 cssInterop(Host, { className: "style" });
 
+// Divers
 configureNotificationHandler();
+configurePurchases();
 updateAffirmationWidgetTimeline();
 recordAppOpenedToday();
 resetDailyLikesIfNewDay();
-
-if (__DEV__) {
-  registerDevMenuItems([
-    {
-      name: "Vider le storage",
-      callback: () => removeAllStorage(),
-    },
-    {
-      name: "Logger le storage",
-      callback: () => console.log("[Storage]", getAllStorageEntries()),
-    },
-    {
-      name: "Tester une notification",
-      callback: () =>
-        scheduleNotification("Tout ce que j'entreprend est formidable"),
-    },
-    {
-      name: "Rafraîchir le widget",
-      callback: () => updateAffirmationWidgetTimeline(),
-    },
-    {
-      name: "Rejouer les animations d'accueil",
-      callback: () =>
-        setStorageItem(StorageKey.HAS_SEEN_SECOND_AFFIRMATION, false),
-    },
-    {
-      name: "Réinitialiser l'objectif journalier",
-      callback: () => {
-        setStorageItem(StorageKey.DAILY_LIKE_COUNT, 0);
-        setStorageItem(StorageKey.DAILY_LIKE_DATE, "");
-      },
-    },
-  ]);
-}
+registerDevMenu();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -79,7 +44,9 @@ export default function RootLayout() {
       style={{ flex: 1 }}
       onLayout={() => SplashScreen.hideAsync()}
     >
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider
+        value={colorScheme === ColorScheme.DARK ? DarkTheme : DefaultTheme}
+      >
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="onboarding" />
           <Stack.Screen name="index" />
