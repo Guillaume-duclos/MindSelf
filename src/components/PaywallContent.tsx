@@ -189,9 +189,9 @@ export default function PaywallContent({
   const items: { icon: SFSymbol; title: string; description: string }[] = [
     {
       icon: "lock.open.fill",
-      title: "Démarrez l'essaie gratuit",
+      title: "Démarrez l'essai gratuit",
       description:
-        "Activation de votre essaie gratuit, aucun frais ne sera appliquer la première semaine",
+        "Activation de votre essai gratuit, aucun frais ne sera appliqué la première semaine",
     },
     {
       icon: "bell.fill",
@@ -202,8 +202,8 @@ export default function PaywallContent({
       icon: "crown.fill",
       title: "Devenez membre premium",
       description: selectedPackage
-        ? `Activation le ${formatLongDate(subscriptionDate)} à ${selectedPackage.product.priceString} par ${getPackagePeriodLabel(selectedPackage.packageType)}, vous pouvez annuler votre abonement à tout moment`
-        : `Activation le ${formatLongDate(subscriptionDate)}, vous pouvez annuler votre abonement à tout moment`,
+        ? `Activation le ${formatLongDate(subscriptionDate)} à ${selectedPackage.product.priceString} par ${getPackagePeriodLabel(selectedPackage.packageType)}, vous pouvez annuler votre abonnement à tout moment`
+        : `Activation le ${formatLongDate(subscriptionDate)}, vous pouvez annuler votre abonnement à tout moment`,
     },
   ];
 
@@ -220,11 +220,11 @@ export default function PaywallContent({
         {/* TITLE */}
         <View className="gap-3">
           <Text className="text-center font-noto-serif font-semibold text-text-900 text-4xl">
-            Débloquez tout le potentielle
+            Débloquez tout le potentiel
           </Text>
 
-          <Text className="px-5 text-center font-noto-seriffont-medium text-text-900 text-lg leading-6">
-            Découvrez les offres et démarrez votre essaie gratuit aujourd'hui
+          <Text className="px-5 text-center font-noto-serif font-medium text-text-900 text-lg leading-6">
+            Découvrez les offres et démarrez votre essai gratuit aujourd'hui
           </Text>
         </View>
 
@@ -424,7 +424,7 @@ export default function PaywallContent({
               <ActivityIndicator color={colors.cream[200]} />
             ) : (
               <Text className="font-noto-serif font-semibold text-cream-200 text-xl">
-                Démarrez l'essaie
+                Démarrez l'essai
               </Text>
             )}
           </GlassView>

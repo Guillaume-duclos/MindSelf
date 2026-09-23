@@ -219,11 +219,11 @@ export default function Widget() {
 
           <ListItemContainer>
             <ListItemLink
-              text="Comment afficher le widget sur l'écran vérouillé ?"
+              text="Comment afficher le widget sur l'écran verrouillé ?"
               onPress={() => router.navigate("/settings/widgetHelp")}
             />
             <ListItemLink
-              text="Comment afficher le widget sur l'écran d'acceuil ?"
+              text="Comment afficher le widget sur l'écran d'accueil ?"
               onPress={() => router.navigate("/settings/widgetHelp")}
             />
           </ListItemContainer>

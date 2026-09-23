@@ -25,11 +25,11 @@ const OPTIONS = [
     value: "single_open",
   },
   {
-    label: "En court de séparation",
+    label: "En cours de séparation",
     value: "breaking_up",
   },
   {
-    label: "Dans une situation compliqué",
+    label: "Dans une situation compliquée",
     value: "complicated",
   },
   {

@@ -15,7 +15,7 @@ export default function AboutYou() {
       <View className="flex-1 items-center justify-center w-full gap-2">
         <ScreenTitle
           title={`Parlons un peu de toi${userName ? `, ${userName}` : ""} !`}
-          description="Quelques informations sur toi nous permetera d'affiner ton experience."
+          description="Quelques informations sur toi nous permettront d'affiner ton expérience."
         />
       </View>
 

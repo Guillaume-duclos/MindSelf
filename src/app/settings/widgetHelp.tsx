@@ -34,12 +34,12 @@ const WIDGET_HELP_TABS: WidgetHelpTab[] = [
     steps: [
       {
         description:
-          "Effectuez un appuis prolonger sur l'icône de l'application, puis sélectionnez parmis les quatres premières icônes du menu le format souhaité pour le widget.",
+          "Effectuez un appui prolongé sur l'icône de l'application, puis sélectionnez parmi les quatre premières icônes du menu le format souhaité pour le widget.",
         image: require("@/assets/images/widget-help/option-1/widget-help-step-1.webp"),
       },
       {
         description:
-          "L'icône de l'application est ensuite remplacer par une version du widget avec la taille souhaité.",
+          "L'icône de l'application est ensuite remplacée par une version du widget avec la taille souhaitée.",
         image: require("@/assets/images/widget-help/option-1/widget-help-step-2.webp"),
       },
     ],
@@ -52,12 +52,12 @@ const WIDGET_HELP_TABS: WidgetHelpTab[] = [
     steps: [
       {
         description:
-          "Effectuez un appuis prolonger sur l'écran des applications pour faire appaitre plus d'options d'affichage.",
+          "Effectuez un appui prolongé sur l'écran des applications pour faire apparaître plus d'options d'affichage.",
         image: require("@/assets/images/widget-help/option-2/widget-help-step-1.webp"),
       },
       {
         description:
-          "Appuiyer sur l'iône d'ajout edu coin supérieur gauche de l'écran pour ouvrir un menu d'option. Sélectionnez ensuite la première option 'Ajouter un widget'.",
+          "Appuyez sur l'icône d'ajout du coin supérieur gauche de l'écran pour ouvrir un menu d'option. Sélectionnez ensuite la première option 'Ajouter un widget'.",
         image: require("@/assets/images/widget-help/option-2/widget-help-step-2.webp"),
       },
       {
@@ -67,11 +67,11 @@ const WIDGET_HELP_TABS: WidgetHelpTab[] = [
       },
       {
         description:
-          "Sélectionnez enfin un widget parmis les trois tailles proposés.",
+          "Sélectionnez enfin un widget parmi les trois tailles proposées.",
         image: require("@/assets/images/widget-help/option-2/widget-help-step-4.webp"),
       },
       {
-        description: "Le widget apparait ensuite sur l'écran des applications.",
+        description: "Le widget apparaît ensuite sur l'écran des applications.",
         image: require("@/assets/images/widget-help/option-2/widget-help-step-5.webp"),
       },
     ],

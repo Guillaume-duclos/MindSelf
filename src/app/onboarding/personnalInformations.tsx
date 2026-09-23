@@ -22,7 +22,7 @@ import { runOnJS } from "react-native-worklets";
 
 const questions: Question[] = [
   {
-    title: "Dans quelle tranche d'âge te situe tu ?",
+    title: "Dans quelle tranche d'âge te situes-tu ?",
     storageKey: StorageKey.USER_AGE_RANGE,
     page: Page.ONBOARDING_USER_AGE_RANGE,
     nextPage: Page.ONBOARDING_USER_SEX,
@@ -54,7 +54,7 @@ const questions: Question[] = [
     ],
   },
   {
-    title: "De quel côté es tu ?",
+    title: "De quel côté es-tu ?",
     storageKey: StorageKey.USER_SEX,
     page: Page.ONBOARDING_USER_SEX,
     nextPage: Page.ONBOARDING_USER_RELATIONSHIP_STATUS,
@@ -88,11 +88,11 @@ const questions: Question[] = [
         value: "single_open",
       },
       {
-        label: "En court de séparation",
+        label: "En cours de séparation",
         value: "breaking_up",
       },
       {
-        label: "Dans une situation compliqué",
+        label: "Dans une situation compliquée",
         value: "complicated",
       },
       {
@@ -140,7 +140,7 @@ const questions: Question[] = [
   {
     title: "Quel est ton signe astrologique ?",
     description:
-      "Fais pivoter la flèche ou clic sur un signe pour effectuer ta sélection.",
+      "Fais pivoter la flèche ou clique sur un signe pour effectuer ta sélection.",
     astralSign: true,
     storageKey: StorageKey.USER_ASTRAL_SIGN,
     page: Page.ONBOARDING_USER_ASTRAL_SIGN,
