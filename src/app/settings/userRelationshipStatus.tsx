@@ -72,7 +72,7 @@ export default function UserRelationshipStatus() {
 
       <View className="flex-1 gap-6">
         <ScreenTitle
-          title="Quel est ton statut relationnel ?"
+          title="Quel est votre statut relationnel ?"
           className="px-5 mt-10"
         />
 

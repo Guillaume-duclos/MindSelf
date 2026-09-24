@@ -83,7 +83,7 @@ export default function Account() {
 
       Alert.alert(
         "Notifications désactivées",
-        "Active les notifications pour MindSelf dans les réglages de ton iPhone pour recevoir tes affirmations.",
+        "Activez les notifications pour MindSelf dans les réglages de votre iPhone pour recevoir vos affirmations.",
         [
           { text: "Annuler", style: "cancel" },
           {
@@ -164,11 +164,11 @@ export default function Account() {
 
           <View className="gap-4">
             <Text className="font-noto-serif font-semibold text-center text-3xl text-text-900">
-              Configure tes notifications
+              Configurez vos notifications
             </Text>
 
             <Text className="font-public-sans text-center text-xl leading-6 text-text-900">
-              Sélectionne la plage horaire pendant laquelle tu veux recevoir tes
+              Sélectionnez la plage horaire pendant laquelle vous voulez recevoir vos
               affirmations journalières
             </Text>
           </View>

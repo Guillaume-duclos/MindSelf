@@ -63,7 +63,7 @@ export default function UserSex() {
       />
 
       <View className="flex-1 gap-6">
-        <ScreenTitle title="De quel côté es-tu ?" className="px-5 mt-10" />
+        <ScreenTitle title="De quel côté êtes-vous ?" className="px-5 mt-10" />
 
         <ScrollViewContainer contentContainerClassName="px-10">
           <CustomOptionsSelectPicker

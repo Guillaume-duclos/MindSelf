@@ -83,7 +83,7 @@
         "expo-media-library",
         {
           "photosPermission": false,
-          "savePhotosPermission": "L'application a besoin d'accéder à tes photos pour enregistrer l'image de l'affirmation."
+          "savePhotosPermission": "L'application a besoin d'accéder à vos photos pour enregistrer l'image de l'affirmation."
         }
       ],
       "./plugins/withWidgetFonts",

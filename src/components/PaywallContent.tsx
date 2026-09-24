@@ -2,12 +2,7 @@ import colors from "@/constants/colors";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { getRouteForPage } from "@/utils/onboarding";
-import {
-  getCurrentOffering,
-  isPremiumFromCustomerInfo,
-  purchasePackage,
-  restorePurchases,
-} from "@/utils/purchases";
+import { getCurrentOffering, purchasePackage } from "@/utils/purchases";
 import { getStorageBoolean, setStorageItem } from "@/utils/storage";
 import { Host, Switch } from "@expo/ui";
 import { Divider } from "@expo/ui/swift-ui";
@@ -90,7 +85,6 @@ export default function PaywallContent({
     useState<PurchasesPackage | null>(null);
   const [isLoadingOffering, setIsLoadingOffering] = useState(true);
   const [isPurchasing, setIsPurchasing] = useState(false);
-  const [isRestoring, setIsRestoring] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -147,39 +141,11 @@ export default function PaywallContent({
       if (!isPurchaseCancelledError(error)) {
         Alert.alert(
           "Achat impossible",
-          "Une erreur est survenue pendant l'achat. Réessaie plus tard.",
+          "Une erreur est survenue pendant l'achat. Réessayez plus tard.",
         );
       }
     } finally {
       setIsPurchasing(false);
-    }
-  };
-
-  const handleRestore = async (): Promise<void> => {
-    if (isRestoring) {
-      return;
-    }
-
-    setIsRestoring(true);
-
-    try {
-      const customerInfo = await restorePurchases();
-
-      if (isPremiumFromCustomerInfo(customerInfo)) {
-        onPressActivateSubscription?.();
-      } else {
-        Alert.alert(
-          "Aucun abonnement trouvé",
-          "Aucun achat actif n'a été retrouvé pour ce compte.",
-        );
-      }
-    } catch {
-      Alert.alert(
-        "Restauration impossible",
-        "Impossible de restaurer tes achats pour le moment. Réessaie plus tard.",
-      );
-    } finally {
-      setIsRestoring(false);
     }
   };
 
@@ -334,16 +300,6 @@ export default function PaywallContent({
               </Host>
             </View>
           </GlassView>
-
-          <Pressable
-            disabled={isRestoring}
-            onPress={handleRestore}
-            className="self-center opacity-80 px-6 py-3"
-          >
-            <Text className="font-public-sans font-medium text-text-900 text-md">
-              Restaurer un achat
-            </Text>
-          </Pressable>
         </View>
 
         {/* PLAN SELECTOR */}
@@ -398,17 +354,6 @@ export default function PaywallContent({
       </View>
 
       <View className="gap-3">
-        {/* <GlassView
-          isInteractive
-          tintColor={colors.cream[200]}
-          glassEffectStyle="regular"
-          className="items-center px-5 py-5 rounded-full border-continuous justify-center"
-        >
-          <Text className="font-noto-serif font-semibold text-text-900 text-xl">
-            Voir toutes les offres
-          </Text>
-        </GlassView> */}
-
         <Pressable
           disabled={!selectedPackage || isPurchasing}
           onPress={handlePurchase}
@@ -424,7 +369,7 @@ export default function PaywallContent({
               <ActivityIndicator color={colors.cream[200]} />
             ) : (
               <Text className="font-noto-serif font-semibold text-cream-200 text-xl">
-                Démarrez l'essai
+                Démarrer l'essai gratuit
               </Text>
             )}
           </GlassView>

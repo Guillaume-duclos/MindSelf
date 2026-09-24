@@ -80,7 +80,7 @@ export default function UserProfessionalStatus() {
 
       <View className="flex-1 gap-6">
         <ScreenTitle
-          title="Quelle est ta situation professionnelle ?"
+          title="Quelle est votre situation professionnelle ?"
           className="px-5 mt-10"
         />
 

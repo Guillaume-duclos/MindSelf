@@ -1,4 +1,5 @@
 import { useRouter } from "expo-router";
+import { ReactNode } from "react";
 import { Pressable, Text, View } from "react-native";
 import { RoundedButton } from "./RoundedButton";
 
@@ -11,6 +12,7 @@ type Props = {
   onSkip?: () => void;
   onBack?: () => void;
   onClose?: () => void;
+  children?: ReactNode;
 };
 
 export function ScreenHeader({
@@ -22,6 +24,7 @@ export function ScreenHeader({
   onSkip,
   onBack,
   onClose,
+  children,
 }: Props) {
   const router = useRouter();
 
@@ -55,11 +58,10 @@ export function ScreenHeader({
             className="self-start"
           />
         )}
+
+        {children}
       </View>
 
-      {/* Positioned independently of the side buttons (rather than living
-      next to the back button in the left group) so it stays centered in the
-      header no matter which buttons are enabled on either side. */}
       {title && (
         <View
           className="absolute inset-0 items-center justify-center px-14"
@@ -92,7 +94,9 @@ export function ScreenHeader({
             onPress={onSkip}
             className="self-stretch items-center justify-center"
           >
-            <Text className="font-noto-serif font-medium text-text-900">Passer</Text>
+            <Text className="font-noto-serif font-medium text-text-900">
+              Passer
+            </Text>
           </Pressable>
         )}
       </View>

@@ -64,7 +64,7 @@ export default function DayGoal() {
 
       <View className="flex-1 justify-between mt-10 gap-10">
         <View className="gap-6">
-          <ScreenTitle title="Quel est ton objectif journalier ?" />
+          <ScreenTitle title="Quel est votre objectif journalier ?" />
 
           <ListItemContainer>
             <ListItemSwitch

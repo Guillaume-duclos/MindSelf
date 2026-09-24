@@ -1,4 +1,5 @@
 import PaywallContent from "@/components/PaywallContent";
+import { RestorePurchasesButton } from "@/components/RestorePurchasesButton";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
@@ -29,7 +30,9 @@ export default function activateSubscription() {
         className="px-5 py-0"
         showCloseButton={false}
         onSkip={navigateToHomeScreen}
-      />
+      >
+        <RestorePurchasesButton />
+      </ScreenHeader>
       <PaywallContent
         contentClassName="justify-center"
         onPressActivateSubscription={onPressActivateSubscription}

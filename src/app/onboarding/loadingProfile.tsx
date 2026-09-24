@@ -131,7 +131,7 @@ export default function loadingProfile() {
       </View>
 
       <Text className="font-noto-serif font-semibold text-2xl text-text-900">
-        Chargement de ton profil...
+        Chargement de votre profil...
       </Text>
     </SafeAreaView>
   );

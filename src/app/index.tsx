@@ -228,7 +228,7 @@ export default function HomeScreen() {
                 likeCount={dailyLikeCount ?? 0}
               />
               <Text className="flex-1 text-text-900 font-semibold font-public-sans text-md leading-4">
-                Ton objectif aujourd'hui
+                Votre objectif aujourd'hui
               </Text>
             </>
           ) : (

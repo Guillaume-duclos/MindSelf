@@ -49,7 +49,7 @@ export default function UserName() {
 
       <View className="flex-1 justify-between mt-10 px-5 gap-10">
         <View className="gap-6">
-          <ScreenTitle title="Quel est ton prénom ?" />
+          <ScreenTitle title="Quel est votre prénom ?" />
           <CustomTextInput
             value={userName}
             placeHolder="Prénom"

@@ -26,7 +26,7 @@ export default function UserName() {
     <Pressable className="flex-1" onPress={Keyboard.dismiss}>
       <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
         <View className="flex-1 items-center justify-center w-full gap-10">
-          <ScreenTitle title="Quel est ton prénom ?" />
+          <ScreenTitle title="Quel est votre prénom ?" />
 
           <CustomTextInput
             value={userName}

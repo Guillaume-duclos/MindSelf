@@ -76,7 +76,7 @@ export default function UserAgeRange() {
 
       <View className="flex-1 gap-6">
         <ScreenTitle
-          title="Dans quelle tranche d'âge te situes-tu ?"
+          title="Dans quelle tranche d'âge vous situez-vous ?"
           className="px-5 mt-10"
         />
 

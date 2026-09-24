@@ -23,7 +23,7 @@ export default function choseCategories() {
 
   return (
     <SafeAreaView className="flex-1 gap-6 px-10 items-center bg-cream-50">
-      <ScreenTitle title="Sélectionne les catégories pour tes affirmations" />
+      <ScreenTitle title="Sélectionnez les catégories pour vos affirmations" />
 
       <ScrollViewContainer
         contentContainerClassName="flex-grow justify-center"

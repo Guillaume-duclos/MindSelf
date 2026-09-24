@@ -22,7 +22,7 @@ import { runOnJS } from "react-native-worklets";
 
 const questions: Question[] = [
   {
-    title: "Dans quelle tranche d'âge te situes-tu ?",
+    title: "Dans quelle tranche d'âge vous situez-vous ?",
     storageKey: StorageKey.USER_AGE_RANGE,
     page: Page.ONBOARDING_USER_AGE_RANGE,
     nextPage: Page.ONBOARDING_USER_SEX,
@@ -54,7 +54,7 @@ const questions: Question[] = [
     ],
   },
   {
-    title: "De quel côté es-tu ?",
+    title: "De quel côté êtes-vous ?",
     storageKey: StorageKey.USER_SEX,
     page: Page.ONBOARDING_USER_SEX,
     nextPage: Page.ONBOARDING_USER_RELATIONSHIP_STATUS,
@@ -74,7 +74,7 @@ const questions: Question[] = [
     ],
   },
   {
-    title: "Quel est ton statut relationnel ?",
+    title: "Quel est votre statut relationnel ?",
     storageKey: StorageKey.USER_RELATIONSHIP_STATUS,
     page: Page.ONBOARDING_USER_RELATIONSHIP_STATUS,
     nextPage: Page.ONBOARDING_USER_PROFESSIONAL_STATUS,
@@ -102,7 +102,7 @@ const questions: Question[] = [
     ],
   },
   {
-    title: "Quelle est ta situation professionnelle ?",
+    title: "Quelle est votre situation professionnelle ?",
     storageKey: StorageKey.USER_PROFESSIONAL_STATUS,
     page: Page.ONBOARDING_USER_PROFESSIONAL_STATUS,
     nextPage: Page.ONBOARDING_USER_ASTRAL_SIGN,
@@ -138,9 +138,9 @@ const questions: Question[] = [
     ],
   },
   {
-    title: "Quel est ton signe astrologique ?",
+    title: "Quel est votre signe astrologique ?",
     description:
-      "Fais pivoter la flèche ou clique sur un signe pour effectuer ta sélection.",
+      "Faites pivoter la flèche ou cliquez sur un signe pour effectuer votre sélection.",
     astralSign: true,
     storageKey: StorageKey.USER_ASTRAL_SIGN,
     page: Page.ONBOARDING_USER_ASTRAL_SIGN,

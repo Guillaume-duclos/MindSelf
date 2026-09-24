@@ -11,7 +11,7 @@ export default function choseTheme() {
   return (
     <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
       <View className="flex-1 items-center justify-center w-full gap-10">
-        <ScreenTitle title="Reçois des affirmations régulièrement" />
+        <ScreenTitle title="Recevez des affirmations régulièrement" />
 
         <View className="w-full gap-4">
           <CustomButton

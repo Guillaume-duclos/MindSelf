@@ -14,8 +14,8 @@ export default function AboutYou() {
     <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
       <View className="flex-1 items-center justify-center w-full gap-2">
         <ScreenTitle
-          title={`Parlons un peu de toi${userName ? `, ${userName}` : ""} !`}
-          description="Quelques informations sur toi nous permettront d'affiner ton expérience."
+          title={`Parlons un peu de vous${userName ? `, ${userName}` : ""} !`}
+          description="Quelques informations sur vous nous permettront d'affiner votre expérience."
         />
       </View>
 
