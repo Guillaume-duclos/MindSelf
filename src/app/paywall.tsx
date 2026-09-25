@@ -9,7 +9,7 @@ export default function Paywall() {
 
   return (
     <View className="flex-1">
-      <ScreenHeader className="px-5 pt-5">
+      <ScreenHeader className="p-5">
         <RestorePurchasesButton />
       </ScreenHeader>
       <PaywallContent onPressActivateSubscription={() => router.back()} />

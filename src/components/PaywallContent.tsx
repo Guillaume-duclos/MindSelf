@@ -302,6 +302,47 @@ export default function PaywallContent({
           </GlassView>
         </View>
 
+        <View className="flex-row gap-6 justify-evenly">
+          <GlassView
+            glassEffectStyle="regular"
+            tintColor={colors.cream[200]}
+            className="flex-1 gap-4 p-6 rounded-3xl border-continuous"
+          >
+            <View className="flex-row justify-between items-center">
+              <Text className="font-public-sans font-medium text-xl color-text-900">
+                Mensuel
+              </Text>
+              <SymbolView
+                name="checkmark.circle.fill"
+                tintColor={colors.text[900]}
+              />
+            </View>
+
+            <Text className="font-public-sans font-bold text-4xl color-text-900">
+              6${" "}
+              <Text className="text-xl font-medium color-text-500">/ mois</Text>
+            </Text>
+          </GlassView>
+
+          <GlassView
+            glassEffectStyle="regular"
+            tintColor={colors.cream[200]}
+            className="flex-1 gap-4 p-6 rounded-3xl border-continuous"
+          >
+            <View className="flex-row items-center justify-between">
+              <Text className="font-public-sans font-medium text-xl color-text-900">
+                Annuel <Text className="font-normal">-25%</Text>
+              </Text>
+              <SymbolView name="circle" tintColor={colors.text[900]} />
+            </View>
+
+            <Text className="font-public-sans font-bold text-4xl color-text-900">
+              36${" "}
+              <Text className="text-xl font-medium color-text-500">/ an</Text>
+            </Text>
+          </GlassView>
+        </View>
+
         {/* PLAN SELECTOR */}
         {isLoadingOffering ? (
           <ActivityIndicator color={colors.text[900]} />
