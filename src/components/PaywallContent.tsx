@@ -2,7 +2,12 @@ import colors from "@/constants/colors";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { getRouteForPage } from "@/utils/onboarding";
-import { getCurrentOffering, purchasePackage } from "@/utils/purchases";
+import {
+  getCurrentOffering,
+  isPremiumFromCustomerInfo,
+  purchasePackage,
+  restorePurchases,
+} from "@/utils/purchases";
 import { getStorageBoolean, setStorageItem } from "@/utils/storage";
 import { Host, Switch } from "@expo/ui";
 import { Divider } from "@expo/ui/swift-ui";
@@ -67,6 +72,19 @@ const isPurchaseCancelledError = (error: unknown): boolean =>
   (error as { code: unknown }).code ===
     PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR;
 
+const plans = [
+  {
+    title: "Mensuel",
+    price: "6,99$",
+    frequencyLabel: "mois",
+  },
+  {
+    title: "Annuel",
+    price: "36,99$",
+    frequencyLabel: "an",
+  },
+];
+
 export default function PaywallContent({
   style,
   className,
@@ -85,6 +103,8 @@ export default function PaywallContent({
     useState<PurchasesPackage | null>(null);
   const [isLoadingOffering, setIsLoadingOffering] = useState(true);
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -149,6 +169,34 @@ export default function PaywallContent({
     }
   };
 
+  const handleRestore = async (): Promise<void> => {
+    if (isRestoring) {
+      return;
+    }
+
+    setIsRestoring(true);
+
+    try {
+      const customerInfo = await restorePurchases();
+
+      if (isPremiumFromCustomerInfo(customerInfo)) {
+        onPressActivateSubscription?.();
+      } else {
+        Alert.alert(
+          "Aucun abonnement trouvé",
+          "Aucun achat actif n'a été retrouvé pour ce compte.",
+        );
+      }
+    } catch {
+      Alert.alert(
+        "Restauration impossible",
+        "Impossible de restaurer vos achats pour le moment. Réessayez plus tard.",
+      );
+    } finally {
+      setIsRestoring(false);
+    }
+  };
+
   const reminderDate = getDateInDays(6);
   const subscriptionDate = getDateInDays(7);
 
@@ -173,10 +221,6 @@ export default function PaywallContent({
     },
   ];
 
-  const packageOptions = [offering?.monthly, offering?.annual].filter(
-    (option): option is PurchasesPackage => option != null,
-  );
-
   return (
     <View
       className={`px-5 flex-1 ${className}`}
@@ -195,20 +239,15 @@ export default function PaywallContent({
         </View>
 
         {/* TIMELINE CARD */}
-        <View className="gap-3">
-          <GlassView
-            tintColor={colors.cream[200]}
-            glassEffectStyle="regular"
-            className="items-center px-5 py-7 gap-6 rounded-3xl border-continuous justify-center"
-          >
-            <View className="gap-10">
-              {items.map((item, index) => (
-                <View
-                  className="flex-row w-full items-center gap-5"
-                  key={index}
-                >
-                  <View className="w-12 h-12 items-center justify-center">
-                    {index === 0 && (
+        <View className="items-center px-5 py-7 gap-6 rounded-3xl border-continuous justify-center">
+          <View className="gap-10 border">
+            <View className="w-1 top-5 bottom-5 bg-text-900 absolute left-[19px] h-auto rounded-full" />
+
+            {items.map((item, index) => (
+              <View key={index} className="flex-row w-full items-center gap-5">
+                <View className="w-12 h-12 items-center justify-center">
+                  {index === 0 && (
+                    <View className="border bg-cream-50">
                       <SymbolView
                         size={32}
                         name={item.icon}
@@ -216,218 +255,184 @@ export default function PaywallContent({
                         className="left-1"
                         weight="semibold"
                       />
-                    )}
+                    </View>
+                  )}
 
-                    {index === 1 && (
-                      <>
-                        <LinearGradient
-                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-text-900"
-                          colors={[colors.cream[100], colors.cream[300]]}
-                          start={{ x: 0, y: 0 }}
-                          end={{ x: 1, y: 1 }}
-                        >
-                          <Text className="font-public-sans text-center font-medium text-text-900 text-xs">
-                            {formatShortMonth(reminderDate)}
-                          </Text>
-                          <Text className="font-noto-serif text-center font-extrabold text-text-900 text-xl leading-none">
-                            {reminderDate.getDate()}
-                          </Text>
-                        </LinearGradient>
+                  {index === 1 && (
+                    <>
+                      <LinearGradient
+                        className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-text-900"
+                        colors={[colors.cream[100], colors.cream[300]]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                      >
+                        <Text className="font-public-sans text-center font-medium text-text-900 text-xs">
+                          {formatShortMonth(reminderDate)}
+                        </Text>
+                        <Text className="font-noto-serif text-center font-extrabold text-text-900 text-xl leading-none">
+                          {reminderDate.getDate()}
+                        </Text>
+                      </LinearGradient>
 
-                        <SymbolView
-                          size={24}
-                          name={item.icon}
-                          tintColor={colors.text[900]}
-                          className="absolute -bottom-3 -right-2.5"
-                        />
-                      </>
-                    )}
+                      <SymbolView
+                        size={24}
+                        name={item.icon}
+                        tintColor={colors.text[900]}
+                        className="absolute -bottom-3 -right-2.5"
+                      />
+                    </>
+                  )}
 
-                    {index === 2 && (
-                      <>
-                        <LinearGradient
-                          className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-text-900"
-                          colors={[colors.cream[100], colors.cream[300]]}
-                          start={{ x: 0, y: 0 }}
-                          end={{ x: 1, y: 1 }}
-                        >
-                          <Text className="font-public-sans text-center font-medium text-text-900 text-xs">
-                            {formatShortMonth(subscriptionDate)}
-                          </Text>
-                          <Text className="font-noto-serif text-center font-extrabold text-text-900 text-xl leading-none">
-                            {subscriptionDate.getDate()}
-                          </Text>
-                        </LinearGradient>
+                  {index === 2 && (
+                    <>
+                      <LinearGradient
+                        className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-text-900"
+                        colors={[colors.cream[100], colors.cream[300]]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                      >
+                        <Text className="font-public-sans text-center font-medium text-text-900 text-xs">
+                          {formatShortMonth(subscriptionDate)}
+                        </Text>
+                        <Text className="font-noto-serif text-center font-extrabold text-text-900 text-xl leading-none">
+                          {subscriptionDate.getDate()}
+                        </Text>
+                      </LinearGradient>
 
-                        <SymbolView
-                          size={26}
-                          name={item.icon}
-                          tintColor={colors.text[900]}
-                          className="absolute -bottom-3 -right-2.5"
-                        />
-                      </>
-                    )}
-                  </View>
-
-                  <View className="flex-1">
-                    <Text className="font-noto-serif font-semibold text-text-900 text-xl">
-                      {item.title}
-                    </Text>
-                    <Text className="font-public-sans text-text-900">
-                      {item.description}
-                    </Text>
-                  </View>
+                      <SymbolView
+                        size={26}
+                        name={item.icon}
+                        tintColor={colors.text[900]}
+                        className="absolute -bottom-3 -right-2.5"
+                      />
+                    </>
+                  )}
                 </View>
-              ))}
-            </View>
 
-            <Host matchContents={{ vertical: true }} className="w-full mt-2">
-              <Divider
-                modifiers={[background(colors.text[900]), opacity(0.2)]}
+                <View className="flex-1">
+                  <Text className="font-noto-serif font-semibold text-text-900 text-xl">
+                    {item.title}
+                  </Text>
+                  <Text className="font-public-sans text-text-900">
+                    {item.description}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
+
+          <Host matchContents={{ vertical: true }} className="w-full mt-2">
+            <Divider modifiers={[background(colors.text[900]), opacity(0.2)]} />
+          </Host>
+
+          <View className="flex-row items-center justify-between w-full">
+            <Text className="font-noto-serif font-semibold text-text-900 text-xl">
+              Activer le rappel
+            </Text>
+
+            <Host matchContents={{ vertical: true, horizontal: true }}>
+              <Switch
+                value={isReminderEnabled}
+                onValueChange={handleReminderChange}
               />
             </Host>
-
-            <View className="flex-row items-center justify-between w-full">
-              <Text className="font-noto-serif font-semibold text-text-900 text-xl">
-                Activer le rappel
-              </Text>
-
-              <Host matchContents={{ vertical: true, horizontal: true }}>
-                <Switch
-                  value={isReminderEnabled}
-                  onValueChange={handleReminderChange}
-                />
-              </Host>
-            </View>
-          </GlassView>
+          </View>
         </View>
-
-        <View className="flex-row gap-6 justify-evenly">
-          <GlassView
-            glassEffectStyle="regular"
-            tintColor={colors.cream[200]}
-            className="flex-1 gap-4 p-6 rounded-3xl border-continuous"
-          >
-            <View className="flex-row justify-between items-center">
-              <Text className="font-public-sans font-medium text-xl color-text-900">
-                Mensuel
-              </Text>
-              <SymbolView
-                name="checkmark.circle.fill"
-                tintColor={colors.text[900]}
-              />
-            </View>
-
-            <Text className="font-public-sans font-bold text-4xl color-text-900">
-              6${" "}
-              <Text className="text-xl font-medium color-text-500">/ mois</Text>
-            </Text>
-          </GlassView>
-
-          <GlassView
-            glassEffectStyle="regular"
-            tintColor={colors.cream[200]}
-            className="flex-1 gap-4 p-6 rounded-3xl border-continuous"
-          >
-            <View className="flex-row items-center justify-between">
-              <Text className="font-public-sans font-medium text-xl color-text-900">
-                Annuel <Text className="font-normal">-25%</Text>
-              </Text>
-              <SymbolView name="circle" tintColor={colors.text[900]} />
-            </View>
-
-            <Text className="font-public-sans font-bold text-4xl color-text-900">
-              36${" "}
-              <Text className="text-xl font-medium color-text-500">/ an</Text>
-            </Text>
-          </GlassView>
-        </View>
-
-        {/* PLAN SELECTOR */}
-        {isLoadingOffering ? (
-          <ActivityIndicator color={colors.text[900]} />
-        ) : (
-          packageOptions.length > 0 && (
-            <View className="flex-row gap-3">
-              {packageOptions.map((option) => {
-                const isSelected =
-                  selectedPackage?.identifier === option.identifier;
-                const periodLabel = getPackagePeriodLabel(option.packageType);
-                const monthlyEquivalent =
-                  option.packageType === PACKAGE_TYPE.ANNUAL
-                    ? option.product.pricePerMonthString
-                    : null;
-
-                return (
-                  <Pressable
-                    key={option.identifier}
-                    className="flex-1"
-                    disabled={isSelected}
-                    onPress={() => setSelectedPackage(option)}
-                  >
-                    <GlassView
-                      tintColor={colors.cream[200]}
-                      glassEffectStyle="regular"
-                      className={`items-center px-4 py-4 gap-1 rounded-2xl border-continuous border-2 ${
-                        isSelected ? "border-text-900" : "border-text-100"
-                      }`}
-                    >
-                      <Text
-                        className={`font-noto-serif text-text-900 text-lg ${isSelected ? "font-semibold" : ""}`}
-                      >
-                        {periodLabel === "an" ? "Annuel" : "Mensuel"}
-                      </Text>
-                      <Text className="font-public-sans font-medium text-text-900">
-                        {option.product.priceString} / {periodLabel}
-                      </Text>
-                      {monthlyEquivalent && (
-                        <Text className="font-public-sans text-text-900 opacity-60 text-xs">
-                          soit {monthlyEquivalent} / mois
-                        </Text>
-                      )}
-                    </GlassView>
-                  </Pressable>
-                );
-              })}
-            </View>
-          )
-        )}
       </View>
 
-      <View className="gap-3">
-        <Pressable
-          disabled={!selectedPackage || isPurchasing}
-          onPress={handlePurchase}
-        >
-          <GlassView
-            isInteractive
-            tintColor={colors.text[900]}
-            glassEffectStyle="regular"
-            className="items-center px-5 py-5 rounded-full border-continuous justify-center"
-            style={{ opacity: !selectedPackage || isPurchasing ? 0.6 : 1 }}
-          >
-            {isPurchasing ? (
-              <ActivityIndicator color={colors.cream[200]} />
-            ) : (
-              <Text className="font-noto-serif font-semibold text-cream-200 text-xl">
-                Démarrer l'essai gratuit
-              </Text>
-            )}
-          </GlassView>
-        </Pressable>
-      </View>
+      {/* PLAN SELECTOR */}
+      <GlassView
+        glassEffectStyle="regular"
+        tintColor={colors.cream[200]}
+        className="gap-5 p-6 pb-4 rounded-3xl border-continuous"
+      >
+        <View className="flex-row gap-4 justify-evenly">
+          {plans.map((plan, index) => {
+            const [integerPart, decimalPart] = plan.price.split(",");
+            const isSelected = selectedPlan === index;
 
-      <View className="mt-3 gap-5 flex-row justify-center">
+            return (
+              <Pressable
+                key={index}
+                className="flex-1"
+                onPress={() => setSelectedPlan(index)}
+              >
+                <View
+                  className={`gap-3 px-5 py-4 rounded-3xl border-continuous border-2 ${
+                    isSelected ? "border-text-900" : "border-text-200"
+                  }`}
+                >
+                  <View className="flex-row justify-between items-center">
+                    <Text className="font-public-sans font-medium text-xl text-text-900">
+                      {plan.title}
+                    </Text>
+                    <SymbolView
+                      name={isSelected ? "checkmark.circle.fill" : "circle"}
+                      tintColor={
+                        isSelected ? colors.text[900] : colors.text[200]
+                      }
+                    />
+                  </View>
+
+                  <Text className="font-public-sans font-bold text-text-900">
+                    <Text className="text-4xl">{integerPart}</Text>
+                    <Text className="text-lg">,{decimalPart}</Text>
+                    <Text className="text-lg font-medium text-text-500">
+                      {" "}
+                      / {plan.frequencyLabel}
+                    </Text>
+                  </Text>
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        <View className="gap-3">
+          <Pressable
+            disabled={!selectedPackage || isPurchasing}
+            onPress={handlePurchase}
+          >
+            <GlassView
+              isInteractive
+              glassEffectStyle="regular"
+              tintColor={colors.text[900]}
+              className="items-center px-5 py-5 rounded-full border-continuous justify-center"
+              style={{ opacity: !selectedPackage || isPurchasing ? 0.6 : 1 }}
+            >
+              {isPurchasing ? (
+                <ActivityIndicator color={colors.cream[200]} />
+              ) : (
+                <Text className="font-noto-serif font-semibold text-cream-200 text-xl">
+                  Démarrer l'essai gratuit
+                </Text>
+              )}
+            </GlassView>
+          </Pressable>
+
+          <Pressable
+            className="items-center self-center px-5"
+            onPress={handleRestore}
+          >
+            <Text className="text-center font-public-sans text-text-900 text-lg">
+              Restaurer un achat
+            </Text>
+          </Pressable>
+        </View>
+      </GlassView>
+
+      {/* LEGALS PAGES LINKS */}
+      <View className="mt-5 gap-5 flex-row justify-center">
         <Pressable onPress={onPressTermsOfUse}>
-          <Text className="font-public-sans font-medium text-text-900 opacity-50 text-sm">
+          <Text className="font-public-sans font-medium text-text-900 opacity-50 text-[13px]">
             Conditions d'utilisation
           </Text>
         </Pressable>
-        <Text className="font-public-sans font-medium text-text-900 opacity-50 text-sm">
+        <Text className="font-public-sans font-medium text-text-900 opacity-50 text-[13px]">
           -
         </Text>
         <Pressable onPress={onPressPravicyPolicy}>
-          <Text className="font-public-sans font-medium text-text-900 opacity-50 text-sm">
+          <Text className="font-public-sans font-medium text-text-900 opacity-50 text-[13px]">
             Politique de confidentialité
           </Text>
         </Pressable>

@@ -1,5 +1,4 @@
 import PaywallContent from "@/components/PaywallContent";
-import { RestorePurchasesButton } from "@/components/RestorePurchasesButton";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
@@ -9,9 +8,7 @@ export default function Paywall() {
 
   return (
     <View className="flex-1">
-      <ScreenHeader className="p-5">
-        <RestorePurchasesButton />
-      </ScreenHeader>
+      <ScreenHeader className="p-5" />
       <PaywallContent onPressActivateSubscription={() => router.back()} />
     </View>
   );

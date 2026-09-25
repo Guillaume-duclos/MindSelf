@@ -41,7 +41,7 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView
-      style={{ flex: 1 }}
+      className="flex-1"
       onLayout={() => SplashScreen.hideAsync()}
     >
       <ThemeProvider
