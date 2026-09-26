@@ -3,6 +3,7 @@ import { ListItemContainer } from "@/components/ListItemContainer";
 import { ListItemLink } from "@/components/ListItemLink";
 import { ListItemStepper } from "@/components/ListItemStepper";
 import { ListItemSwitch } from "@/components/ListItemSwitch";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScrollViewContainer } from "@/components/ScrollViewContainer";
 import colors from "@/constants/colors";
@@ -31,13 +32,11 @@ import { SymbolView } from "expo-symbols";
 import { useMemo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useMMKVObject } from "react-native-mmkv";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const WIDGET_ILLUSTRATION = require("@/assets/images/widget-help/widget-illustration.webp");
 
 export default function Widget() {
   const router = useRouter();
-  const { bottom } = useSafeAreaInsets();
   const closeSettingsModal = useCloseSettingsModal();
 
   useDisableSwipeDismiss();
@@ -98,7 +97,7 @@ export default function Widget() {
   };
 
   return (
-    <View className="flex-1">
+    <SafeAreaViewContainer className="flex-1">
       <ScreenHeader
         title="Widget"
         showBackButton
@@ -237,6 +236,6 @@ export default function Widget() {
           />
         </View>
       </ScrollViewContainer>
-    </View>
+    </SafeAreaViewContainer>
   );
 }

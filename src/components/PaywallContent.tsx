@@ -13,10 +13,10 @@ import { Host, Switch } from "@expo/ui";
 import { Divider } from "@expo/ui/swift-ui";
 import { background, opacity } from "@expo/ui/swift-ui/modifiers";
 import { GlassView } from "expo-glass-effect";
-import { LinearGradient } from "expo-linear-gradient";
+import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { SFSymbol, SymbolView } from "expo-symbols";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -50,9 +50,6 @@ const formatLongDate = (date: Date): string =>
   new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" }).format(
     date,
   );
-
-const formatShortMonth = (date: Date): string =>
-  new Intl.DateTimeFormat("fr-FR", { month: "short" }).format(date);
 
 const getPackagePeriodLabel = (packageType: PACKAGE_TYPE): string => {
   switch (packageType) {
@@ -88,7 +85,6 @@ const plans = [
 export default function PaywallContent({
   style,
   className,
-  contentClassName,
   onPressActivateSubscription,
 }: Props) {
   const router = useRouter();
@@ -200,144 +196,107 @@ export default function PaywallContent({
   const reminderDate = getDateInDays(6);
   const subscriptionDate = getDateInDays(7);
 
-  const items: { icon: SFSymbol; title: string; description: string }[] = [
+  const items: { icon: SFSymbol; title: string; description: ReactNode }[] = [
     {
       icon: "lock.open.fill",
-      title: "Démarrez l'essai gratuit",
+      title: "Obtenez un accès complet",
       description:
         "Activation de votre essai gratuit, aucun frais ne sera appliqué la première semaine",
     },
     {
       icon: "bell.fill",
       title: "Recevez un rappel",
-      description: `Recevez un rappel le ${formatLongDate(reminderDate)}`,
+      description: (
+        <>
+          Recevez un rappel le{" "}
+          <Text className="font-bold">{formatLongDate(reminderDate)}</Text>
+        </>
+      ),
     },
     {
       icon: "crown.fill",
       title: "Devenez membre premium",
-      description: selectedPackage
-        ? `Activation le ${formatLongDate(subscriptionDate)} à ${selectedPackage.product.priceString} par ${getPackagePeriodLabel(selectedPackage.packageType)}, vous pouvez annuler votre abonnement à tout moment`
-        : `Activation le ${formatLongDate(subscriptionDate)}, vous pouvez annuler votre abonnement à tout moment`,
+      description: selectedPackage ? (
+        <>
+          Activation le{" "}
+          <Text className="font-bold">{formatLongDate(subscriptionDate)}</Text>{" "}
+          à {selectedPackage.product.priceString} par{" "}
+          {getPackagePeriodLabel(selectedPackage.packageType)}, vous pouvez
+          annuler votre abonnement à tout moment
+        </>
+      ) : (
+        <>
+          Activation le{" "}
+          <Text className="font-bold">{formatLongDate(subscriptionDate)}</Text>,
+          vous pouvez annuler votre abonnement à tout moment
+        </>
+      ),
     },
   ];
 
   return (
     <View
-      className={`px-5 flex-1 ${className}`}
+      className={`px-5 flex-1 justify-between ${className}`}
       style={{ paddingBottom: bottom, ...style }}
     >
-      <View className={`gap-10 flex-1 pb-5 justify-center ${contentClassName}`}>
-        {/* TITLE */}
-        <View className="gap-3">
-          <Text className="text-center font-noto-serif font-semibold text-text-900 text-4xl">
-            Débloquez tout le potentiel
-          </Text>
+      {/* TITLE */}
+      <View className="gap-3">
+        <Text className="text-center font-noto-serif font-semibold text-text-900 text-4xl">
+          Débloquez tout le potentiel
+        </Text>
 
-          <Text className="px-5 text-center font-noto-serif font-medium text-text-900 text-lg leading-6">
-            Découvrez les offres et démarrez votre essai gratuit aujourd'hui
-          </Text>
-        </View>
+        <Text className="px-5 text-center font-noto-serif font-medium text-text-900 text-lg leading-6">
+          Découvrez les offres et démarrez votre essai gratuit aujourd'hui
+        </Text>
+      </View>
 
-        {/* TIMELINE CARD */}
-        <View className="items-center px-5 py-7 gap-6 rounded-3xl border-continuous justify-center">
-          <View className="gap-10 border">
-            <View className="w-1 top-5 bottom-5 bg-text-900 absolute left-[19px] h-auto rounded-full" />
+      {/* TIMELINE CARD */}
+      <View className="flex-1 items-center px-5 gap-4 justify-center">
+        <View className="gap-10">
+          <View className="w-1 -top-1 -bottom-1 bg-text-900 absolute left-[19px] h-auto rounded-full" />
 
-            {items.map((item, index) => (
-              <View key={index} className="flex-row w-full items-center gap-5">
-                <View className="w-12 h-12 items-center justify-center">
-                  {index === 0 && (
-                    <View className="border bg-cream-50">
-                      <SymbolView
-                        size={32}
-                        name={item.icon}
-                        tintColor={colors.text[900]}
-                        className="left-1"
-                        weight="semibold"
-                      />
-                    </View>
-                  )}
-
-                  {index === 1 && (
-                    <>
-                      <LinearGradient
-                        className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-text-900"
-                        colors={[colors.cream[100], colors.cream[300]]}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                      >
-                        <Text className="font-public-sans text-center font-medium text-text-900 text-xs">
-                          {formatShortMonth(reminderDate)}
-                        </Text>
-                        <Text className="font-noto-serif text-center font-extrabold text-text-900 text-xl leading-none">
-                          {reminderDate.getDate()}
-                        </Text>
-                      </LinearGradient>
-
-                      <SymbolView
-                        size={24}
-                        name={item.icon}
-                        tintColor={colors.text[900]}
-                        className="absolute -bottom-3 -right-2.5"
-                      />
-                    </>
-                  )}
-
-                  {index === 2 && (
-                    <>
-                      <LinearGradient
-                        className="w-full h-full justify-center gap-1 rounded-lg border-continuous border border-text-900"
-                        colors={[colors.cream[100], colors.cream[300]]}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                      >
-                        <Text className="font-public-sans text-center font-medium text-text-900 text-xs">
-                          {formatShortMonth(subscriptionDate)}
-                        </Text>
-                        <Text className="font-noto-serif text-center font-extrabold text-text-900 text-xl leading-none">
-                          {subscriptionDate.getDate()}
-                        </Text>
-                      </LinearGradient>
-
-                      <SymbolView
-                        size={26}
-                        name={item.icon}
-                        tintColor={colors.text[900]}
-                        className="absolute -bottom-3 -right-2.5"
-                      />
-                    </>
-                  )}
-                </View>
-
-                <View className="flex-1">
-                  <Text className="font-noto-serif font-semibold text-text-900 text-xl">
-                    {item.title}
-                  </Text>
-                  <Text className="font-public-sans text-text-900">
-                    {item.description}
-                  </Text>
+          {items.map((item, index) => (
+            <View key={index} className="flex-row w-full items-center gap-5">
+              <View className="w-12 h-12 items-center justify-center bg-cream-50 rounded-full">
+                <View className="w-10 h-10 items-center justify-center bg-text-900 rounded-full">
+                  <SymbolView
+                    size={22}
+                    name={item.icon}
+                    weight="semibold"
+                    tintColor={colors.cream[50]}
+                    className={index === 0 ? "left-0.5" : undefined}
+                  />
                 </View>
               </View>
-            ))}
-          </View>
 
-          <Host matchContents={{ vertical: true }} className="w-full mt-2">
-            <Divider modifiers={[background(colors.text[900]), opacity(0.2)]} />
-          </Host>
-
-          <View className="flex-row items-center justify-between w-full">
-            <Text className="font-noto-serif font-semibold text-text-900 text-xl">
-              Activer le rappel
-            </Text>
-
-            <Host matchContents={{ vertical: true, horizontal: true }}>
-              <Switch
-                value={isReminderEnabled}
-                onValueChange={handleReminderChange}
-              />
-            </Host>
-          </View>
+              <View className="flex-1">
+                <Text className="font-noto-serif font-semibold text-text-900 text-xl">
+                  {item.title}
+                </Text>
+                <Text className="font-public-sans text-text-900">
+                  {item.description}
+                </Text>
+              </View>
+            </View>
+          ))}
         </View>
+
+        <View className="flex-row items-center justify-between w-full top-2 px-4">
+          <Text className="font-noto-serif font-semibold text-text-900 text-xl">
+            Activer le rappel
+          </Text>
+
+          <Host matchContents={{ vertical: true, horizontal: true }}>
+            <Switch
+              value={isReminderEnabled}
+              onValueChange={handleReminderChange}
+            />
+          </Host>
+        </View>
+
+        <Host matchContents={{ vertical: true }} className="w-full mt-2">
+          <Divider modifiers={[background(colors.text[900]), opacity(0.2)]} />
+        </Host>
       </View>
 
       {/* PLAN SELECTOR */}
@@ -355,7 +314,12 @@ export default function PaywallContent({
               <Pressable
                 key={index}
                 className="flex-1"
-                onPress={() => setSelectedPlan(index)}
+                onPress={() => {
+                  if (!isSelected) {
+                    Haptics.selectionAsync();
+                    setSelectedPlan(index);
+                  }
+                }}
               >
                 <View
                   className={`gap-3 px-5 py-4 rounded-3xl border-continuous border-2 ${

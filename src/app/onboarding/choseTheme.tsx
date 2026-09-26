@@ -1,15 +1,15 @@
 import { CustomButton } from "@/components/CustomButton";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenTitle } from "@/components/ScreenTitle";
 import colors from "@/constants/colors";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function choseTheme() {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
+    <SafeAreaViewContainer className="flex-1 px-10 items-center bg-cream-50">
       <View className="flex-1 items-center justify-center w-full gap-10">
         <ScreenTitle title="Recevez des affirmations régulièrement" />
 
@@ -22,6 +22,6 @@ export default function choseTheme() {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaViewContainer>
   );
 }

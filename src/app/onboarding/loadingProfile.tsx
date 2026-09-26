@@ -1,3 +1,4 @@
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
 import { setStorageItem } from "@/utils/storage";
@@ -12,7 +13,6 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const BALL_SIZE = 40;
 const PIVOT_OFFSET = 64;
@@ -121,7 +121,7 @@ export default function loadingProfile() {
   }, [router]);
 
   return (
-    <SafeAreaView className="flex-1 px-10 items-center bg-cream-50 justify-center w-full gap-10">
+    <SafeAreaViewContainer className="flex-1 px-10 items-center bg-cream-50 justify-center w-full gap-10">
       <View className="flex-row" style={{ width: rowWidth }}>
         <EndBall direction="left" />
         <MiddleBall />
@@ -133,6 +133,6 @@ export default function loadingProfile() {
       <Text className="font-noto-serif font-semibold text-2xl text-text-900">
         Chargement de votre profil...
       </Text>
-    </SafeAreaView>
+    </SafeAreaViewContainer>
   );
 }

@@ -2,6 +2,7 @@ import { CustomButton } from "@/components/CustomButton";
 import { ListItemContainer } from "@/components/ListItemContainer";
 import { ListItemStepper } from "@/components/ListItemStepper";
 import { ListItemSwitch } from "@/components/ListItemSwitch";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScreenTitle } from "@/components/ScreenTitle";
 import { StorageKey } from "@/enums/storageKey.enum";
@@ -16,7 +17,6 @@ import {
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const MIN_DAY_GOAL = 1;
 const MAX_DAY_GOAL = 24;
@@ -24,7 +24,6 @@ const DEFAULT_DAY_GOAL = 3;
 
 export default function DayGoal() {
   const router = useRouter();
-  const { bottom } = useSafeAreaInsets();
   const closeSettingsModal = useCloseSettingsModal();
 
   useDisableSwipeDismiss();
@@ -54,7 +53,7 @@ export default function DayGoal() {
   };
 
   return (
-    <View className="flex-1 px-5" style={{ paddingBottom: bottom }}>
+    <SafeAreaViewContainer className="flex-1 px-5">
       <ScreenHeader
         title="Mes objectifs"
         showBackButton
@@ -91,6 +90,6 @@ export default function DayGoal() {
           disabled={!isDirty}
         />
       </View>
-    </View>
+    </SafeAreaViewContainer>
   );
 }

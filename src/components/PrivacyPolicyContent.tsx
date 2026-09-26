@@ -1,7 +1,6 @@
-import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LastUpdate } from "./LastUpdate";
 import { ParagraphSection } from "./ParagraphSection";
+import { SafeAreaViewContainer } from "./SafeAreaViewContainer";
 import { ScreenHeader } from "./ScreenHeader";
 import { ScrollViewContainer } from "./ScrollViewContainer";
 
@@ -16,10 +15,8 @@ export default function PrivacyPolicyContent({
   showExitButton,
   onExit,
 }: Props) {
-  const { bottom } = useSafeAreaInsets();
-
   return (
-    <View className="flex-1">
+    <SafeAreaViewContainer className="flex-1">
       <ScreenHeader
         className="p-5"
         showBackButton={showBackButton}
@@ -30,7 +27,7 @@ export default function PrivacyPolicyContent({
 
       <ScrollViewContainer
         contentContainerClassName="px-5 pt-5 gap-10"
-        contentContainerStyle={{ paddingBottom: bottom + 24 }}
+        contentContainerStyle={{ paddingBottom: 24 }}
       >
         <ParagraphSection
           title="Introduction"
@@ -64,6 +61,6 @@ export default function PrivacyPolicyContent({
 
         <LastUpdate date="28/08/2026" />
       </ScrollViewContainer>
-    </View>
+    </SafeAreaViewContainer>
   );
 }

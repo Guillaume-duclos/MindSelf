@@ -1,3 +1,4 @@
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScrollViewContainer } from "@/components/ScrollViewContainer";
 import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
@@ -8,7 +9,6 @@ import { Image } from "expo-image";
 import { SymbolView } from "expo-symbols";
 import { useState } from "react";
 import { Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type WidgetHelpStep = {
   description: string;
@@ -79,8 +79,6 @@ const WIDGET_HELP_TABS: WidgetHelpTab[] = [
 ];
 
 export default function WidgetHelp() {
-  const { bottom } = useSafeAreaInsets();
-
   useDisableSwipeDismiss(true);
 
   const [tabId, setTabId] = useState(WIDGET_HELP_TABS[0].id);
@@ -89,7 +87,7 @@ export default function WidgetHelp() {
     WIDGET_HELP_TABS.find((tab) => tab.id === tabId) ?? WIDGET_HELP_TABS[0];
 
   return (
-    <View className="flex-1">
+    <SafeAreaViewContainer className="flex-1">
       <ScreenHeader
         title="Afficher un widget"
         showCloseButton
@@ -114,7 +112,7 @@ export default function WidgetHelp() {
 
       <ScrollViewContainer
         contentContainerClassName="px-5 gap-8 pt-0"
-        contentContainerStyle={{ paddingBottom: bottom + 30 }}
+        contentContainerStyle={{ paddingBottom: 30 }}
       >
         <Text className="font-public-sans text-xl text-center font-semibold leading-6 text-text-900">
           {activeTab.description}
@@ -152,6 +150,6 @@ export default function WidgetHelp() {
           </View>
         ))}
       </ScrollViewContainer>
-    </View>
+    </SafeAreaViewContainer>
   );
 }

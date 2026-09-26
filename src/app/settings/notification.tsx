@@ -2,6 +2,7 @@ import { CustomButton } from "@/components/CustomButton";
 import { ListItemContainer } from "@/components/ListItemContainer";
 import { ListItemSwitch } from "@/components/ListItemSwitch";
 import { NotificationSetter } from "@/components/NotificationSetter";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import colors from "@/constants/colors";
 import { StorageKey } from "@/enums/storageKey.enum";
@@ -29,7 +30,6 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const DEFAULT_TIME_RANGE: NotificationTimeRange = {
   count: "3",
@@ -44,7 +44,6 @@ const getStoredTimeRange = (): NotificationTimeRange =>
 
 export default function Account() {
   const router = useRouter();
-  const { bottom } = useSafeAreaInsets();
   const closeSettingsModal = useCloseSettingsModal();
 
   useDisableSwipeDismiss();
@@ -141,7 +140,7 @@ export default function Account() {
   };
 
   return (
-    <View className="flex-1 px-5" style={{ paddingBottom: bottom }}>
+    <SafeAreaViewContainer className="flex-1 px-5">
       <ScreenHeader
         showBackButton
         title="Notification"
@@ -199,6 +198,6 @@ export default function Account() {
           disabled={!isDirty}
         />
       </View>
-    </View>
+    </SafeAreaViewContainer>
   );
 }

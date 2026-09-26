@@ -1,7 +1,7 @@
 import colors from "@/constants/colors";
-import { GlassView } from "expo-glass-effect";
 import { useRef } from "react";
 import { Pressable, Text } from "react-native";
+import { GlassViewContainer } from "./GlassViewContainer";
 
 type Props = {
   onPress?: () => void;
@@ -41,18 +41,20 @@ export function CustomButton({
       disabled={disabled}
       className={`${disabled && "opacity-50"} ${className}`}
     >
-      <GlassView
-        tintColor={tintColor}
-        isInteractive={!disabled}
-        glassEffectStyle="regular"
-        className="items-center px-8 py-5 rounded-full border-continuous justify-center"
-      >
-        <Text
-          className={`font-noto-serif font-semibold text-xl ${textClassName}`}
+      {({ pressed }) => (
+        <GlassViewContainer
+          tintColor={tintColor}
+          isInteractive={!disabled}
+          isPressed={pressed}
+          className="items-center px-8 py-5 rounded-full border-continuous justify-center"
         >
-          {label}
-        </Text>
-      </GlassView>
+          <Text
+            className={`font-noto-serif font-semibold text-xl ${textClassName}`}
+          >
+            {label}
+          </Text>
+        </GlassViewContainer>
+      )}
     </Pressable>
   );
 }

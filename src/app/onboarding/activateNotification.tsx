@@ -1,5 +1,6 @@
 import { CustomButton } from "@/components/CustomButton";
 import { NotificationSetter } from "@/components/NotificationSetter";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenTitle } from "@/components/ScreenTitle";
 import colors from "@/constants/colors";
 import { Page } from "@/enums/page.enum";
@@ -12,7 +13,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const DEFAULT_TIME_RANGE: NotificationTimeRange = {
   count: "3",
@@ -52,7 +52,7 @@ export default function activateNotification() {
   };
 
   return (
-    <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
+    <SafeAreaViewContainer className="flex-1 px-10 items-center bg-cream-50">
       <View className="flex-1 items-center justify-center w-full gap-10">
         <ScreenTitle title="Recevez des affirmations régulièrement" />
 
@@ -122,6 +122,6 @@ export default function activateNotification() {
           onPress={handleSkip}
         />
       </View>
-    </SafeAreaView>
+    </SafeAreaViewContainer>
   );
 }

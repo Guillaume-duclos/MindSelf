@@ -1,22 +1,20 @@
 import { ListItemContainer } from "@/components/ListItemContainer";
 import { ListItemLink } from "@/components/ListItemLink";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScrollViewContainer } from "@/components/ScrollViewContainer";
 import { useCloseSettingsModal } from "@/hooks/use-close-settings-modal";
 import { useDisableSwipeDismiss } from "@/hooks/use-disable-swipe-dismiss";
 import { useRouter } from "expo-router";
-import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Account() {
   const router = useRouter();
-  const { bottom } = useSafeAreaInsets();
   const closeSettingsModal = useCloseSettingsModal();
 
   useDisableSwipeDismiss();
 
   return (
-    <View className="flex-1" style={{ paddingBottom: bottom }}>
+    <SafeAreaViewContainer className="flex-1">
       <ScreenHeader
         title="Mon compte"
         showBackButton
@@ -49,6 +47,6 @@ export default function Account() {
           />
         </ListItemContainer>
       </ScrollViewContainer>
-    </View>
+    </SafeAreaViewContainer>
   );
 }

@@ -2,6 +2,7 @@ import { AstralSignPicker, ZODIAC_SIGNS } from "@/components/AstralSignPicker";
 import { CustomButton } from "@/components/CustomButton";
 import { CustomOptionsSelectPicker } from "@/components/CustomOptionsSelectPicker";
 import { OnboardingContentContainer } from "@/components/OnboardingContentContainer";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScreenTitle } from "@/components/ScreenTitle";
 import { Page } from "@/enums/page.enum";
@@ -17,7 +18,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { runOnJS } from "react-native-worklets";
 
 const questions: Question[] = [
@@ -252,7 +252,7 @@ export default function PersonnalInformations() {
   };
 
   return (
-    <SafeAreaView className="flex-1 px-5 items-center bg-cream-50">
+    <SafeAreaViewContainer className="flex-1 px-5 items-center bg-cream-50">
       <ScreenHeader
         showBackButton={currentIndex > 0}
         showCloseButton={false}
@@ -295,6 +295,6 @@ export default function PersonnalInformations() {
           />
         </View>
       </OnboardingContentContainer>
-    </SafeAreaView>
+    </SafeAreaViewContainer>
   );
 }

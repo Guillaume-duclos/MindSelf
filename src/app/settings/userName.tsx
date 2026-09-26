@@ -1,5 +1,6 @@
 import { CustomButton } from "@/components/CustomButton";
 import { CustomTextInput } from "@/components/CustomTextInput";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenTitle } from "@/components/ScreenTitle";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { StorageKey } from "@/enums/storageKey.enum";
@@ -10,11 +11,9 @@ import { getStorageString, setStorageItem } from "@/utils/storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Keyboard, Pressable, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function UserName() {
   const router = useRouter();
-  const { bottom } = useSafeAreaInsets();
   const closeSettingsModal = useCloseSettingsModal();
 
   useDisableSwipeDismiss();
@@ -35,34 +34,32 @@ export default function UserName() {
   };
 
   return (
-    <Pressable
-      className="flex-1 px-5"
-      style={{ paddingBottom: bottom }}
-      onPress={Keyboard.dismiss}
-    >
-      <ScreenHeader
-        title="Nom d'utilisateur"
-        showBackButton
-        showCloseButton
-        onClose={closeSettingsModal}
-      />
+    <Pressable className="flex-1" onPress={Keyboard.dismiss}>
+      <SafeAreaViewContainer className="flex-1 px-5">
+        <ScreenHeader
+          title="Nom d'utilisateur"
+          showBackButton
+          showCloseButton
+          onClose={closeSettingsModal}
+        />
 
-      <View className="flex-1 justify-between mt-10 px-5 gap-10">
-        <View className="gap-6">
-          <ScreenTitle title="Quel est votre prénom ?" />
-          <CustomTextInput
-            value={userName}
-            placeHolder="Prénom"
-            onChangeText={handleChangeUserName}
+        <View className="flex-1 justify-between mt-10 px-5 gap-10">
+          <View className="gap-6">
+            <ScreenTitle title="Quel est votre prénom ?" />
+            <CustomTextInput
+              value={userName}
+              placeHolder="Prénom"
+              onChangeText={handleChangeUserName}
+            />
+          </View>
+
+          <CustomButton
+            label="Sauvegarder"
+            onPress={handleSave}
+            disabled={!isDirty || !userName.trim()}
           />
         </View>
-
-        <CustomButton
-          label="Sauvegarder"
-          onPress={handleSave}
-          disabled={!isDirty || !userName.trim()}
-        />
-      </View>
+      </SafeAreaViewContainer>
     </Pressable>
   );
 }

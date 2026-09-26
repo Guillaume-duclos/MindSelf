@@ -1,5 +1,6 @@
 import { CustomButton } from "@/components/CustomButton";
 import { CustomTextInput } from "@/components/CustomTextInput";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenTitle } from "@/components/ScreenTitle";
 import { Page } from "@/enums/page.enum";
 import { StorageKey } from "@/enums/storageKey.enum";
@@ -7,7 +8,6 @@ import { setStorageItem } from "@/utils/storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Keyboard, Pressable, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function UserName() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function UserName() {
 
   return (
     <Pressable className="flex-1" onPress={Keyboard.dismiss}>
-      <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
+      <SafeAreaViewContainer className="flex-1 px-10 items-center bg-cream-50">
         <View className="flex-1 items-center justify-center w-full gap-10">
           <ScreenTitle title="Quel est votre prénom ?" />
 
@@ -42,7 +42,7 @@ export default function UserName() {
             onPress={handleContinue}
           />
         </View>
-      </SafeAreaView>
+      </SafeAreaViewContainer>
     </Pressable>
   );
 }

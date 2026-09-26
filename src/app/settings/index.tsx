@@ -2,6 +2,7 @@ import { ActivitySummary } from "@/components/ActivitySummary";
 import { CategoriesList } from "@/components/CategoriesList";
 import { ListItemContainer } from "@/components/ListItemContainer";
 import { ListItemLink } from "@/components/ListItemLink";
+import { SafeAreaViewContainer } from "@/components/SafeAreaViewContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScrollViewContainer } from "@/components/ScrollViewContainer";
 import { SettingsFooter } from "@/components/SettingsFooter";
@@ -26,7 +27,7 @@ export default function HomeScreen() {
   const closeSettingsModal = useCloseSettingsModal();
 
   return (
-    <View className="flex-1">
+    <SafeAreaViewContainer className="flex-1">
       <ScreenHeader
         title="Mon profil"
         className="py-5 px-5"
@@ -75,6 +76,6 @@ export default function HomeScreen() {
 
         <SettingsFooter />
       </ScrollViewContainer>
-    </View>
+    </SafeAreaViewContainer>
   );
 }

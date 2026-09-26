@@ -2,13 +2,17 @@ import AppIcon from "@/assets/svg/AppIcon";
 import { CustomButton } from "@/components/CustomButton";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Onboarding() {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 px-10 items-center bg-cream-50">
+    <View
+      className="flex-1 px-10 items-center bg-cream-50"
+      style={{ paddingBottom: insets.bottom || 20 }}
+    >
       <View className="flex-1 items-center justify-center w-full gap-20">
         <AppIcon style={{ width: 130, height: 130 }} />
 
@@ -34,6 +38,6 @@ export default function Onboarding() {
           <Text className="underline">confidentialité</Text>
         </Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

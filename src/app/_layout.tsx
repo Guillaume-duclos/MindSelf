@@ -47,25 +47,18 @@ export default function RootLayout() {
       <ThemeProvider
         value={colorScheme === ColorScheme.DARK ? DarkTheme : DefaultTheme}
       >
-        <Stack screenOptions={{ headerShown: false }}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: colors.secondary[50] },
+          }}
+        >
           <Stack.Screen name="onboarding" />
           <Stack.Screen name="index" />
           <Stack.Screen name="settings" options={{ presentation: "modal" }} />
-          <Stack.Screen
-            name="share"
-            options={{
-              presentation: "modal",
-              contentStyle: { backgroundColor: colors.cream[50] },
-            }}
-          />
+          <Stack.Screen name="share" options={{ presentation: "modal" }} />
           <Stack.Screen name="themes" options={{ presentation: "modal" }} />
-          <Stack.Screen
-            name="paywall"
-            options={{
-              presentation: "modal",
-              contentStyle: { backgroundColor: colors.cream[50] },
-            }}
-          />
+          <Stack.Screen name="paywall" options={{ presentation: "modal" }} />
         </Stack>
       </ThemeProvider>
     </GestureHandlerRootView>
